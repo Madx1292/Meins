@@ -24,7 +24,7 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 /* ===== Wurzel ===== */
 #awa-lernziele{
   --ink:#384654;--muted:#5a7077;--head:#075b66;--deep:#0c5469;--petrol:#13808c;--navy:#0C2630;
-  --gold:#fec70b;--sky:#a6c5c9;--line:#dce5e7;--line2:#c4d8dc;
+  --gold:#fec70b;--sky:#a6c5c9;--line:#dce5e7;--line2:#c4d8dc;--red:#d7382c;
   --ease:cubic-bezier(.2,.7,.25,1);--soft:cubic-bezier(.33,1,.68,1);
   position:relative;box-sizing:border-box;max-width:1180px;margin:0 auto;padding:10px 16px 14px;
   color:var(--ink);font:400 17px/1.55 "Be Vietnam Pro","BeVietnamLocal",Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -39,7 +39,11 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele .awa-stage.drag{cursor:grabbing}
 #awa-lernziele .awa-stage:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 #awa-lernziele .awa-scene{position:absolute;left:0;top:0;will-change:transform}
-#awa-lernziele .awa-hall,#awa-lernziele .awa-world{position:absolute;left:0;top:0;width:100%;height:100%}
+#awa-lernziele .awa-hall,#awa-lernziele .awa-ray,#awa-lernziele .awa-world{position:absolute;left:0;top:0;width:100%;height:100%}
+#awa-lernziele .awa-ray{pointer-events:none;opacity:.5;background-repeat:no-repeat;background-size:100% 240%;
+  background-image:linear-gradient(180deg,#fec70b00 0%,#fec70b00 36%,#fec70b99 45%,#fffdf2e6 50%,#fec70b99 55%,#fec70b00 64%,#fec70b00 100%);
+  animation:awa-ray 7s cubic-bezier(.52,0,.86,.42) infinite}
+@keyframes awa-ray{0%{background-position:0 0}100%{background-position:0 100%}}
 #awa-lernziele .awa-world>*{position:absolute;left:0;top:0;transform-origin:0 0}
 
 /* ===== Hallen-Elemente ===== */
@@ -60,42 +64,77 @@ html,body{margin:0;padding:0;background:#FFFFFF}
   background:radial-gradient(ellipse 34% 46% at 50% 50%,#0c263030 0%,transparent 72%),
              radial-gradient(ellipse 50% 50% at 50% 50%,var(--w1) 0%,transparent 70%)}
 
-/* ===== Lernziel-Tafel ===== */
-#awa-lernziele .awa-plate{display:flex;flex-direction:column;visibility:hidden;will-change:transform;
+/* ===== Lernziel-Tafel: erst Gemälde, dann Inhalt ===== */
+#awa-lernziele .awa-plate{display:flex;flex-direction:column;visibility:hidden;will-change:transform;cursor:pointer;
   padding:calc(24px*var(--sp,1)) calc(26px*var(--sp,1)) calc(22px*var(--sp,1));
   border-radius:calc(18px*var(--sp,1));
   background:linear-gradient(168deg,#ffffff 0%,#fdfefe 46%,#f0f7f9 100%);
   box-shadow:0 0 0 1px #d6e4e6,0 1px 0 #ffffff inset,0 34px 60px -26px #0c263052,0 10px 22px -14px #0c263026;
   overflow:hidden}
-#awa-lernziele .awa-plate::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+#awa-lernziele .awa-plate::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;z-index:3;
   background:linear-gradient(90deg,var(--a1),var(--a2) 55%,#ffffff00)}
-#awa-lernziele .awa-plate::after{content:"";position:absolute;inset:0;pointer-events:none;
+#awa-lernziele .awa-plate::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
   background:#ffffff;opacity:var(--veil,0)}
-#awa-lernziele .awa-sheen{position:absolute;top:0;bottom:0;left:-45%;width:34%;pointer-events:none;
+#awa-lernziele .awa-plate>*{position:relative;z-index:2}
+/* Passepartout und Prägesiegel */
+#awa-lernziele .awa-mat{position:absolute;z-index:0;inset:calc(9px*var(--sp,1));
+  border:1px solid #e3ecee;border-radius:calc(10px*var(--sp,1));pointer-events:none}
+#awa-lernziele .awa-seal{position:absolute;z-index:1;right:calc(13px*var(--sp,1));bottom:calc(12px*var(--sp,1));
+  width:calc(86px*var(--k,1));height:calc(86px*var(--k,1));opacity:.11;pointer-events:none}
+#awa-lernziele .awa-seal svg{width:100%;height:100%;overflow:visible}
+#awa-lernziele .awa-sheen{position:absolute;z-index:5;top:0;bottom:0;left:-45%;width:34%;pointer-events:none;
   background:linear-gradient(100deg,#ffffff00,#ffffffe6,#ffffff00);transform:skewX(-16deg);opacity:0}
-#awa-lernziele .awa-plate.live .awa-sheen{animation:awa-sheen 1.3s .1s var(--soft) 1}
+#awa-lernziele .awa-plate.open .awa-sheen{animation:awa-sheen 1.3s .05s var(--soft) 1}
 @keyframes awa-sheen{0%{left:-45%;opacity:.9}100%{left:120%;opacity:0}}
+/* Die große Zahl: das Bild, solange es geschlossen ist */
+#awa-lernziele .awa-big{position:absolute;z-index:2;left:50%;top:45%;
+  transform:translate(-50%,-50%);font-size:calc(152px*var(--k,1));line-height:.78;font-weight:500;
+  letter-spacing:-.045em;color:transparent;-webkit-text-fill-color:transparent;
+  -webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(102deg,#d3e2e4 0%,var(--a2) 26%,var(--gold) 45%,var(--a2) 62%,#d3e2e4 100%);
+  background-size:300% 100%;animation:awa-shine 7.5s linear infinite;
+  transition:opacity .5s var(--ease),transform .75s var(--soft);pointer-events:none}
+@keyframes awa-shine{0%{background-position:170% 0}100%{background-position:-130% 0}}
+#awa-lernziele .awa-plate.open .awa-big{opacity:0;transform:translate(-50%,-50%) scale(1.3)}
+#awa-lernziele .awa-hang{position:absolute;z-index:2;left:50%;bottom:calc(20px*var(--sp,1));
+  transform:translateX(-50%);display:flex;align-items:center;gap:7px;white-space:nowrap;
+  color:var(--muted);font-size:calc(12.5px*var(--k,1));letter-spacing:.14em;
+  transition:opacity .4s var(--ease)}
+#awa-lernziele .awa-hang i{display:block;width:5px;height:5px;border-radius:50%;background:var(--gold);
+  animation:awa-beat 2.1s ease-in-out infinite}
+@keyframes awa-beat{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+#awa-lernziele .awa-plate.open .awa-hang{opacity:0}
+/* Kopfzeile */
 #awa-lernziele .awa-ptop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-#awa-lernziele .awa-plab{display:inline-flex;align-items:center;gap:7px;color:var(--petrol);
-  font-size:calc(12.5px*var(--k,1));letter-spacing:.22em}
+#awa-lernziele .awa-plab{display:inline-flex;align-items:center;gap:7px;color:var(--petrol);opacity:.6;
+  font-size:calc(12.5px*var(--k,1));letter-spacing:.22em;transition:opacity .5s var(--ease)}
+#awa-lernziele .awa-plate.open .awa-plab{opacity:1}
 #awa-lernziele .awa-plab svg{width:calc(14px*var(--k,1));height:calc(14px*var(--k,1));flex:none;
   fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-#awa-lernziele .awa-pno{margin-top:calc(-7px*var(--k,1));font-size:calc(46px*var(--k,1));line-height:1;
+#awa-lernziele .awa-pno{margin-top:calc(-7px*var(--k,1));font-size:calc(44px*var(--k,1));line-height:1;
   font-weight:500;letter-spacing:-.03em;color:transparent;-webkit-text-fill-color:transparent;
-  -webkit-background-clip:text;background-clip:text;
-  background-image:linear-gradient(170deg,var(--a2) 0%,#cfe2e4 92%)}
+  -webkit-background-clip:text;background-clip:text;opacity:0;transform:scale(.72);transform-origin:100% 0;
+  background-image:linear-gradient(170deg,var(--a2) 0%,#cfe2e4 92%);
+  transition:opacity .5s .15s var(--ease),transform .6s .15s var(--soft)}
+#awa-lernziele .awa-plate.open .awa-pno{opacity:1;transform:none}
+/* Motiv */
 #awa-lernziele .awa-pill{position:relative;flex:1;min-height:0;margin:calc(4px*var(--sp,1)) 0 calc(10px*var(--sp,1))}
-#awa-lernziele .awa-pill svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#awa-lernziele .awa-pill svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;
+  opacity:.17;transition:opacity .8s var(--ease)}
+#awa-lernziele .awa-plate.open .awa-pill svg{opacity:1}
+/* Titel und Schlagworte */
 #awa-lernziele .awa-pt{position:relative;margin:0 0 calc(11px*var(--sp,1));padding-bottom:calc(9px*var(--sp,1));
-  color:var(--head);font-size:calc(25px*var(--k,1));line-height:1.18;font-weight:500;letter-spacing:-.005em}
+  color:var(--head);font-size:calc(25px*var(--k,1));line-height:1.18;font-weight:500;letter-spacing:-.005em;
+  opacity:0;transform:translateY(9px);transition:opacity .5s .1s var(--ease),transform .6s .1s var(--soft)}
+#awa-lernziele .awa-plate.open .awa-pt{opacity:1;transform:none}
 #awa-lernziele .awa-pt::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;
-  background:linear-gradient(90deg,var(--gold),#fec70b33);transition:width .9s .25s var(--soft)}
-#awa-lernziele .awa-plate.live .awa-pt::after{width:calc(62px*var(--k,1))}
+  background:linear-gradient(90deg,var(--a1),#ffffff00);transition:width .9s .35s var(--soft)}
+#awa-lernziele .awa-plate.open .awa-pt::after{width:calc(62px*var(--k,1))}
 #awa-lernziele .awa-pc{display:flex;flex-wrap:wrap;gap:calc(7px*var(--sp,1))}
 #awa-lernziele .awa-pc span{padding:calc(5px*var(--sp,1)) calc(11px*var(--sp,1));border-radius:13px;
   border:1px solid var(--line2);background:linear-gradient(180deg,#ffffff,#f3f9fa);color:var(--deep);
   font-size:calc(13.5px*var(--k,1));line-height:1.25;opacity:0;transform:translateY(6px)}
-#awa-lernziele .awa-plate.live .awa-pc span{animation:awa-rise .5s var(--soft) both;animation-delay:calc(.3s + var(--d,0ms))}
+#awa-lernziele .awa-plate.open .awa-pc span{animation:awa-rise .5s var(--soft) both;animation-delay:calc(.34s + var(--d,0ms))}
 @keyframes awa-rise{to{opacity:1;transform:none}}
 
 /* ===== Bildmotive ===== */
@@ -104,10 +143,12 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele .s3{fill:none;stroke:#13808c;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #awa-lernziele .gd{fill:#fec70b}
 #awa-lernziele .gs{fill:none;stroke:#fec70b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+#awa-lernziele .rd{fill:#d7382c}
+#awa-lernziele .rs{fill:none;stroke:#d7382c;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #awa-lernziele .lb{fill:#0c5469;font:500 12px "Be Vietnam Pro","BeVietnamLocal",Arial,sans-serif;letter-spacing:.1em}
 #awa-lernziele .lbg{fill:#9a7200;font:500 12px "Be Vietnam Pro","BeVietnamLocal",Arial,sans-serif;letter-spacing:.1em}
 #awa-lernziele .awa-pill svg *{animation-play-state:paused}
-#awa-lernziele .awa-plate.live .awa-pill svg *{animation-play-state:running}
+#awa-lernziele .awa-plate.open .awa-pill svg *{animation-play-state:running}
 #awa-lernziele .mer{transform-box:fill-box;transform-origin:center;animation:awa-mer 7s linear infinite}
 #awa-lernziele .mer.b{animation-delay:-2.33s}
 #awa-lernziele .mer.c{animation-delay:-4.66s}
@@ -115,7 +156,7 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele .dash{stroke-dasharray:4 6;animation:awa-dash 9s linear infinite}
 @keyframes awa-dash{to{stroke-dashoffset:-100}}
 #awa-lernziele .draw{stroke-dasharray:var(--len,200);stroke-dashoffset:var(--len,200)}
-#awa-lernziele .awa-plate.live .draw{animation:awa-draw 1.2s .3s var(--soft) forwards}
+#awa-lernziele .awa-plate.open .draw{animation:awa-draw 1.2s .25s var(--soft) forwards}
 @keyframes awa-draw{to{stroke-dashoffset:0}}
 #awa-lernziele .scan{animation:awa-scan 3.4s ease-in-out infinite}
 @keyframes awa-scan{0%,100%{transform:translateY(0)}50%{transform:translateY(74px)}}
@@ -224,6 +265,15 @@ html,body{margin:0;padding:0;background:#FFFFFF}
   padding-bottom:1px;color:var(--deep);transition:background-size 1s .45s var(--ease)}
 #awa-lernziele .awa-cap.on .awa-key{background-size:100% 2px}
 
+/* ===== Hinweis am geschlossenen Bild ===== */
+#awa-lernziele .awa-tip{position:absolute;left:50%;bottom:66px;transform:translate(-50%,10px);
+  display:inline-flex;align-items:center;gap:10px;padding:7px 15px 7px 11px;border-radius:21px;
+  background:#ffffffd9;box-shadow:0 0 0 1px #e4ecee,0 10px 24px -14px #0c263066;
+  color:var(--deep);font-size:14.5px;white-space:nowrap;pointer-events:none;opacity:0;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:opacity .45s var(--ease),transform .5s var(--ease)}
+#awa-lernziele .awa-tip.on{opacity:1;transform:translate(-50%,0)}
+
 /* ===== Start ===== */
 #awa-lernziele .awa-intro{position:absolute;left:0;right:0;bottom:62px;display:grid;justify-items:center;
   gap:9px;padding:0 24px;text-align:center;pointer-events:none;
@@ -303,10 +353,13 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele [data-l="S"] .awa-ct{font-size:14px;line-height:1.45;padding:11px 13px 12px 15px}
 #awa-lernziele [data-l="S"] .awa-cl{font-size:12px;letter-spacing:.15em}
 #awa-lernziele [data-l="S"] .awa-intro{bottom:54px;gap:6px}
+#awa-lernziele [data-l="S"] .awa-tip{font-size:13px;bottom:62px;white-space:normal;max-width:calc(100% - 26px)}
 #awa-lernziele [data-l="S"] .awa-intro h2{font-size:22px}
 #awa-lernziele [data-l="S"] .awa-intro p{font-size:14.5px}
 #awa-lernziele [data-l="S"] .awa-brand{top:12px;left:13px;font-size:11.5px}
 #awa-lernziele [data-l="S"] .awa-top{top:10px;right:11px}
+#awa-lernziele [data-l="S"] #awa-all{width:36px;padding:0;justify-content:center}
+#awa-lernziele [data-l="S"] #awa-all span{display:none}
 #awa-lernziele [data-l="S"] .awa-rail{right:9px;gap:9px}
 #awa-lernziele [data-l="S"] .awa-prog{left:13px;bottom:16px;gap:9px;font-size:12px}
 #awa-lernziele [data-l="S"] .awa-prog i{width:40px}
@@ -328,9 +381,9 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 }
 @media(prefers-reduced-motion:reduce){
   #awa-lernziele *,#awa-lernziele *::before,#awa-lernziele *::after{animation:none!important;transition:none!important}
-  #awa-lernziele .awa-mote,#awa-lernziele .awa-beam{display:none}
-  #awa-lernziele .awa-plate .awa-pt::after{width:calc(62px*var(--k,1))}
-  #awa-lernziele .awa-plate .awa-pc span{opacity:1;transform:none}
+  #awa-lernziele .awa-mote,#awa-lernziele .awa-beam,#awa-lernziele .awa-ray{display:none}
+  #awa-lernziele .awa-plate.open .awa-pt::after{width:calc(62px*var(--k,1))}
+  #awa-lernziele .awa-plate.open .awa-pc span{opacity:1;transform:none}
   #awa-lernziele .draw{stroke-dashoffset:0}
   #awa-lernziele .mer.b{transform:scaleX(.62)}
   #awa-lernziele .mer.c{transform:scaleX(.24)}
@@ -343,6 +396,7 @@ html,body{margin:0;padding:0;background:#FFFFFF}
        aria-label="Rundgang durch die vier Lernziele. Mit den Pfeiltasten oder dem Mausrad vorwärts bewegen.">
     <div class="awa-scene" id="awa-sc" aria-hidden="true">
       <div class="awa-hall" id="awa-hall"></div>
+      <div class="awa-ray" id="awa-ray"></div>
       <div class="awa-world" id="awa-wd"></div>
     </div>
     <div class="awa-haze" aria-hidden="true"></div>
@@ -360,6 +414,7 @@ html,body{margin:0;padding:0;background:#FFFFFF}
         <p>Vier Stationen zeigen, was du danach kannst.</p>
         <span class="awa-hint" id="awa-hint"></span>
       </div>
+      <div class="awa-tip" id="awa-tip" aria-hidden="true"></div>
       <div class="awa-prog" aria-hidden="true">
         <b id="awa-no">00</b><span>/ 04</span><i><u id="awa-bar"></u></i><span class="awa-pnm" id="awa-nm">Start</span>
       </div>
@@ -419,7 +474,7 @@ var G=[
   chips:['Wohin?','Wer?','Wofür?'],
   t:'die wichtigsten Prüffragen zu stellen und zu erkennen, wann eine vertiefte Prüfung nötig ist',
   k:'vertiefte Prüfung'},
- {n:'Red Flags',ic:'flag',a1:'#fec70b',a2:'#0c5469',w1:'#fec70b38',w2:'#ffe9a824',
+ {n:'Red Flags',ic:'flag',a1:'#d7382c',a2:'#0c5469',w1:'#d7382c26',w2:'#ffdcd726',
   chips:['Erkennen','Handeln','Dokumentieren'],
   t:'typische Warnsignale (Red Flags) zu erkennen, geeignete Maßnahmen zu ergreifen und die Bedeutung von Dokumentation und Nachweisführung zu erfassen',
   k:'Warnsignale (Red Flags)'}
@@ -466,17 +521,19 @@ var ILL=[
 '</svg>',
 /* 4 Red Flags: erkennen, handeln, dokumentieren */
 '<svg viewBox="0 0 200 176" aria-hidden="true">'+
- '<defs><linearGradient id="awa-sw1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#13808c" stop-opacity=".45"/><stop offset="1" stop-color="#13808c" stop-opacity="0"/></linearGradient></defs>'+
+ '<defs><linearGradient id="awa-sw1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#13808c" stop-opacity=".4"/><stop offset="1" stop-color="#13808c" stop-opacity="0"/></linearGradient></defs>'+
  '<circle class="s2" cx="86" cy="96" r="24"/><circle class="s2" cx="86" cy="96" r="44"/><circle class="s2 dash" cx="86" cy="96" r="64"/>'+
  '<path class="s2" d="M22 96h128M86 32v128"/>'+
  '<path class="sweep" style="transform-origin:86px 96px" d="M86 96V32a64 64 0 0 1 45 19z" fill="url(#awa-sw1)"/>'+
- '<circle class="blink b" cx="124" cy="62" r="4.4" fill="#13808c"/>'+
- '<circle class="blink c" cx="62" cy="134" r="4.4" fill="#13808c"/>'+
- '<g><path class="s1" d="M52 56v46" stroke-width="2.6"/><path class="wave" d="M53 58c14-6 24 5 38 1v22c-14 4-24-7-38-1z" fill="#fec70b"/>'+
- '<circle class="gd ping" cx="52" cy="56" r="9" opacity=".5"/></g>'+
+ '<circle class="blink b" cx="124" cy="62" r="4.2" fill="#13808c"/>'+
+ '<circle class="blink c" cx="62" cy="134" r="4.2" fill="#13808c"/>'+
+ '<circle class="rs ping" cx="52" cy="56" r="11" opacity=".55"/>'+
+ '<path class="s1" d="M52 56v46" stroke-width="2.6"/>'+
+ '<path class="wave" d="M53 58c14-6 24 5 38 1v22c-14 4-24-7-38-1z" fill="#d7382c"/>'+
  '<g class="s1"><path d="M146 118h18l10 10v30a3 3 0 0 1-3 3h-25a3 3 0 0 1-3-3v-37a3 3 0 0 1 3-3z"/><path d="M164 118v10h10"/></g>'+
  '<path class="s2" d="M151 140h10M151 148h14"/>'+
- '<circle class="gd" cx="170" cy="152" r="11"/><path d="m165 152 4 4 6-7" fill="none" stroke="#0C2630" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'+
+ '<circle cx="170" cy="152" r="11" fill="#13808c"/>'+
+ '<path d="m165 152 4 4 6-7" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'+
 '</svg>'
 ];
 
@@ -486,9 +543,38 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 function ico(n,c){return '<svg class="'+(c===undefined?'awa-i':c)+'" viewBox="0 0 24 24" aria-hidden="true">'+I[n]+'</svg>';}
 function mark(t,k){var s=esc(t);if(!k)return s;var e=esc(k);return s.replace(e,'<span class="awa-key">'+e+'</span>');}
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+/* Gravur-Rosette wie auf einer Urkunde (Hypotrochoide) */
+function rosette(k,d,R,N,rot){
+ var p=[],i,t,a=R-R/(k+1),c=Math.cos(rot||0),s=Math.sin(rot||0),x,y;
+ for(i=0;i<=N;i++){t=2*Math.PI*i/N;
+  x=a*Math.cos(t)+d*Math.cos(k*t);y=a*Math.sin(t)-d*Math.sin(k*t);
+  p.push((x*c-y*s).toFixed(2)+','+(x*s+y*c).toFixed(2));}
+ return 'M'+p.join('L')+'Z';
+}
+/* Prägesiegel auf jedem Bild */
+function starPath(cx,cy,R,r,n){
+ var p=[],i,a;
+ for(i=0;i<n*2;i++){a=-Math.PI/2+i*Math.PI/n;
+  p.push((cx+Math.cos(a)*(i%2?r:R)).toFixed(2)+','+(cy+Math.sin(a)*(i%2?r:R)).toFixed(2));}
+ return 'M'+p.join('L')+'Z';
+}
+function seal(n){
+ var t='',i,a;
+ for(i=0;i<24;i++){a=i*Math.PI/12;
+  t+=(i?'M':'M')+(50+Math.cos(a)*33.5).toFixed(1)+' '+(50+Math.sin(a)*33.5).toFixed(1)+
+     'L'+(50+Math.cos(a)*39.5).toFixed(1)+' '+(50+Math.sin(a)*39.5).toFixed(1);}
+ return '<svg viewBox="0 0 100 100" aria-hidden="true">'+
+  '<g fill="none" stroke="#0c5469">'+
+  '<circle cx="50" cy="50" r="47" stroke-width="1.6"/><circle cx="50" cy="50" r="42.5" stroke-width=".7"/>'+
+  '<circle cx="50" cy="50" r="27" stroke-width=".7" stroke-dasharray="1.2 2.6"/>'+
+  '<path d="'+t+'" stroke-width="1.1"/></g>'+
+  '<path d="'+starPath(50,44,13,5.6,5)+'" fill="#0c5469"/>'+
+  '<text x="50" y="72" text-anchor="middle" fill="#0c5469" font-size="12" font-weight="500" '+
+  'font-family="Be Vietnam Pro,BeVietnamLocal,Arial">'+pad(n)+'</text></svg>';
+}
 function pad(n){return n<10?'0'+n:''+n;}
 
-var root=$('awa-lernziele'),stage=$('awa-st'),scene=$('awa-sc'),hall=$('awa-hall'),world=$('awa-wd');
+var root=$('awa-lernziele'),stage=$('awa-st'),scene=$('awa-sc'),hall=$('awa-hall'),world=$('awa-wd'),ray=$('awa-ray'),tipEl=$('awa-tip');
 var nextB=$('awa-next'),prevB=$('awa-prev'),allB=$('awa-all'),listEl=$('awa-list');
 var capEl=$('awa-cap'),outEl=$('awa-out'),introEl=$('awa-intro');
 
@@ -498,6 +584,9 @@ $('awa-close').innerHTML=ico('x')+'<span>Schließen</span>';
 $('awa-read').innerHTML=ico('list')+'<span>Alle Lernziele lesen</span>';
 $('awa-again').innerHTML=ico('replay')+'<span>Von vorn</span>';
 prevB.innerHTML=ico('arrow');
+tipEl.innerHTML=coarse
+ ?'<span class="awa-swipe">'+ico('hand','awa-i')+'</span>Tippe auf das Bild, um es zu \u00f6ffnen'
+ :'<span class="awa-mouse"></span>Scrolle weiter \u2013 das Bild \u00f6ffnet sich';
 $('awa-hint').innerHTML=coarse
  ?'<span class="awa-swipe">'+ico('hand','awa-i')+'</span>Wische durch die Galerie'
  :'<span class="awa-mouse"></span>Scrolle durch die Galerie';
@@ -518,15 +607,15 @@ var dots=[].slice.call(root.querySelectorAll('.awa-dot'));
 
 /* ===== Raummaße je Breite ===== */
 var CFG={
- L:{f:880,HW:330,CH:235,FH:215,gap:940,pw:342,ph:384,ox:158,top:38,vy:.47,rib:235,cel:235,flr:470,k:1,p:.95,nm:20},
- M:{f:700,HW:258,CH:190,FH:174,gap:760,pw:300,ph:272,ox:0,top:52,vy:.42,rib:190,cel:190,flr:380,k:.92,p:.8,nm:16},
- S:{f:560,HW:202,CH:164,FH:150,gap:600,pw:248,ph:248,ox:0,top:52,vy:.42,rib:150,cel:150,flr:300,k:.86,p:.68,nm:12}
+ L:{f:880,HW:330,CH:235,FH:215,gap:940,pw:342,ph:384,ox:158,top:38,za:1.58,vy:.47,rib:235,cel:235,flr:470,k:1,p:.95,nm:20},
+ M:{f:700,HW:258,CH:190,FH:174,gap:760,pw:300,ph:272,ox:0,top:52,za:1.5,vy:.42,rib:190,cel:190,flr:380,k:.92,p:.8,nm:16},
+ S:{f:560,HW:202,CH:164,FH:150,gap:600,pw:248,ph:248,ox:0,top:52,za:1.4,vy:.42,rib:150,cel:150,flr:300,k:.86,p:.68,nm:12}
 };
-var BLEED=22;
+var BLEED=22,RAIL=[0,2,4,6,8,9],GW=6;
 var C=null,bk='',W=0,H=0,SH=0,cx=0,cy=0,oy=0,zFar=0,zNear=0,stops=[],maxZ=0;
 var ribL=[],ribR=[],cels=[],fbars=[],motes=[],plates=[],washes=[],pools=[];
 var camZ=0,tgt=0,panX=0,panY=0,tpx=0,tpy=0,raf=0,last=0;
-var seen=[false,false,false,false,false,false],lastIdx=-1,lastNear=null,lastLb='',lastEnd=null;
+var seen=[false,false,false,false,false,false],lastIdx=-1,lastNear=null,lastLb='',lastEnd=null,lastTip=null;
 
 function mk(cls,w,h,inner){var e=document.createElement('div');e.className=cls;
  e.style.width=w.toFixed(1)+'px';e.style.height=h.toFixed(1)+'px';
@@ -546,7 +635,7 @@ function hallSVG(){
  var V=[cx,cy],lc=[cx-R,cy-R*kC],rc=[cx+R,cy-R*kC],lf=[cx-R,cy+R*kF],rf=[cx+R,cy+R*kF];
  function P(a){var o=[],i;for(i=0;i<a.length;i++)o.push(a[i][0].toFixed(1)+','+a[i][1].toFixed(1));return o.join(' ');}
  var sT=cy/C.CH,hwT=C.HW*.46*sT;
- var sB=(H-cy)/C.FH,gw=Math.max(3,5*sB),lx=C.HW*.54*sB;
+ var sB=(H-cy)/C.FH,gw=Math.max(3,5*sB),lx=C.HW*.54*sB;GW=gw;
  return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" aria-hidden="true" focusable="false">'+
  '<defs>'+
  '<radialGradient id="awa-gw" cx="'+cx+'" cy="'+cy+'" r="'+RR+'" gradientUnits="userSpaceOnUse">'+
@@ -581,6 +670,11 @@ function hallSVG(){
  '<g stroke="#9cbfc5" stroke-width="1" stroke-opacity=".4" fill="none">'+
  '<path d="M'+P([V,lc])+'"/><path d="M'+P([V,rc])+'"/><path d="M'+P([V,lf])+'"/><path d="M'+P([V,rf])+'"/>'+
  '<path d="M'+P([V,[cx-R,cy-R*kC*.44]])+'"/><path d="M'+P([V,[cx+R,cy-R*kC*.44]])+'"/></g>'+
+ '<g transform="translate('+cx.toFixed(1)+','+cy.toFixed(1)+') scale('+(RR*.00115).toFixed(4)+')" '+
+ 'fill="none" stroke="#0c5469" stroke-opacity=".07" stroke-width="1.6">'+
+ '<path d="'+rosette(7,44,100,340,0)+'"/><path d="'+rosette(11,30,78,340,.28)+'"/>'+
+ '<path d="'+rosette(5,52,116,300,.6)+'"/>'+
+ '<circle r="118" stroke-width=".9"/><circle r="124" stroke-width=".6"/></g>'+
  '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+(RR*.4).toFixed(1)+'" ry="'+(RR*.29).toFixed(1)+'" fill="url(#awa-gv)"/>'+
  '<polygon points="'+P([V,[cx-gw,H],[cx+gw,H]])+'" fill="url(#awa-gg)"/>'+
  '</svg>';
@@ -608,13 +702,18 @@ function buildWorld(){
   var g=G[i],o=mk('awa-plate',C.pw,C.ph);
   o.el.style.setProperty('--a1',g.a1);o.el.style.setProperty('--a2',g.a2);
   o.el.style.setProperty('--k',C.k);o.el.style.setProperty('--sp',C.p);
-  o.el.innerHTML='<span class="awa-sheen"></span>'+
+  o.el.setAttribute('data-i',i);
+  o.el.innerHTML='<span class="awa-mat"></span><span class="awa-seal">'+seal(i+1)+'</span>'+
+   '<span class="awa-sheen"></span>'+
    '<div class="awa-ptop"><span class="awa-plab">'+ico(g.ic,'')+'LERNZIEL</span>'+
    '<span class="awa-pno">'+pad(i+1)+'</span></div>'+
    '<div class="awa-pill">'+ILL[i]+'</div>'+
    '<h3 class="awa-pt">'+esc(g.n)+'</h3>'+
    '<div class="awa-pc">'+g.chips.map(function(t,j){
-     return '<span style="--d:'+(j*95)+'ms">'+esc(t)+'</span>';}).join('')+'</div>';
+     return '<span style="--d:'+(j*95)+'ms">'+esc(t)+'</span>';}).join('')+'</div>'+
+   '<span class="awa-big">'+pad(i+1)+'</span>'+
+   '<span class="awa-hang"><i></i>'+(coarse?'ANTIPPEN':'N\u00c4HER TRETEN')+'</span>';
+  o.open=false;
   plates[i]=o;
  }
 }
@@ -636,9 +735,12 @@ function build(){
  oy=C.top+C.ph*.5-cy+BLEED;
  capEl.style.width=k==='L'?Math.round(clamp(sw*.5+C.ox-C.pw*.5-76,280,430))+'px':'';
  zNear=C.f*.3;zFar=C.f*2.8;
- stops=[0];for(var i=1;i<=4;i++)stops.push(i*C.gap);
- stops.push(4*C.gap+Math.round(C.gap*1.05));maxZ=stops[5];
+ stops=[0];
+ for(var i=1;i<=4;i++){var zw=C.f+i*C.gap;stops.push(Math.round(zw-C.f*C.za));stops.push(zw-C.f);}
+ stops.push(stops[8]+Math.round(C.gap*.9));maxZ=stops[9];
  hall.innerHTML=hallSVG();
+ if(ray)ray.style.clipPath='polygon('+cx.toFixed(1)+'px '+cy.toFixed(1)+'px,'+
+  (cx-GW*1.9).toFixed(1)+'px '+H+'px,'+(cx+GW*1.9).toFixed(1)+'px '+H+'px)';
  buildWorld();
  camZ=clamp(camZ,0,maxZ);tgt=clamp(tgt,0,maxZ);
  lastIdx=-1;lastNear=null;
@@ -662,47 +764,57 @@ function render(){
   put(m.o,m.X,m.Y,z,clamp((zFar-z)/fo,0,1)*.7);}
  for(i=0;i<4;i++){
   var p=plates[i],zw=C.f+(i+1)*C.gap,sg=i%2===0?1:-1;z=zw-camZ;
-  if(z<C.f*.18||z>zFar){show(p,0);show(washes[i],0);show(pools[i],0);
-   if(p.live){p.live=false;p.el.classList.remove('live');}continue;}
+  /* Das Bild öffnet sich, sobald man beim Herangehen die Schwelle überschreitet */
+  var A=stops[2*i+1],B=stops[2*i+2],opn=camZ>=A+(B-A)*.42;
+  if(opn!==p.open){p.open=opn;p.el.classList.toggle('open',opn);}
+  /* Beim Weitergehen löst sich das Bild auf, statt an der Kamera vorbeizuschrammen */
+  if(z<C.f*.6||z>zFar){show(p,0);show(washes[i],0);show(pools[i],0);continue;}
   show(p,1);show(washes[i],1);show(pools[i],1);
-  op=clamp((zFar-z)/fo,0,1)*clamp((z-C.f*.2)/(C.f*.42),0,1);
+  op=clamp((zFar-z)/fo,0,1)*clamp((z-C.f*.62)/(C.f*.34),0,1);
   put(p,sg*C.ox,oy,z,op);
-  put(washes[i],sg*C.HW*.76,oy,z+C.gap*.12,op*.9);
-  put(pools[i],sg*C.ox,C.FH-8,z+12,op*.8);
+  put(washes[i],sg*C.HW*.76,oy,z+C.gap*.12,op*(opn?1:.45));
+  put(pools[i],sg*C.ox,C.FH-8,z+12,op*(opn?.85:.4));
   var vl=Math.round(clamp((z-C.f)/(zFar-C.f),0,1)*34)/50;
   if(vl!==p.vl){p.vl=vl;p.el.style.setProperty('--veil',vl);}
-  var lv=Math.abs(camZ-stops[i+1])<C.gap*.45;
-  if(lv!==p.live){p.live=lv;p.el.classList.toggle('live',lv);}
  }
 }
 function nearest(v){var b=0,bd=1e9,i,d;for(i=0;i<stops.length;i++){d=Math.abs(v-stops[i]);if(d<bd){bd=d;b=i;}}return b;}
 function ui(){
- var idx=nearest(camZ),d=Math.abs(camZ-stops[idx]),i;
- if(d<70&&!seen[idx]){seen[idx]=true;if(dots[idx])dots[idx].classList.add('seen');}
- var ti=nearest(tgt);
- for(i=0;i<dots.length;i++)dots[i].classList.toggle('cur',i===ti);
+ var si=nearest(camZ),st=station(si),i,p;
+ for(i=0;i<4;i++)if(plates[i]&&plates[i].open&&!seen[i+1]){seen[i+1]=true;if(dots[i+1])dots[i+1].classList.add('seen');}
+ if(camZ<70&&!seen[0]){seen[0]=true;if(dots[0])dots[0].classList.add('seen');}
+ if(camZ>maxZ-90&&!seen[5]){seen[5]=true;if(dots[5])dots[5].classList.add('seen');}
+ var ts=station(nearest(tgt));
+ for(i=0;i<dots.length;i++)dots[i].classList.toggle('cur',i===ts);
  $('awa-bar').style.setProperty('--p',(camZ/maxZ).toFixed(3));
- var ing=idx>=1&&idx<=4&&d<C.gap*.34;
- if(idx!==lastIdx||ing!==lastNear){
-  lastIdx=idx;lastNear=ing;
-  if(ing){var g=G[idx-1];
+ /* Text erscheint erst, wenn sich das Bild geöffnet hat */
+ var ing=false,tip=false;
+ if(st>=1&&st<=4){
+  var A=stops[2*st-1],B=stops[2*st],sp=B-A;p=plates[st-1];
+  ing=!!(p&&p.open)&&camZ<B+sp*1.3;
+  tip=!!(p&&!p.open)&&camZ>A-sp*.8;
+ }
+ if(st!==lastIdx||ing!==lastNear){
+  lastIdx=st;lastNear=ing;
+  if(ing){var g=G[st-1];
    capEl.classList.remove('on','l','r');
-   capEl.classList.add((idx-1)%2===0?'l':'r');
+   capEl.classList.add((st-1)%2===0?'l':'r');
    $('awa-cx').innerHTML=mark(g.t,g.k);
    void capEl.offsetWidth;capEl.classList.add('on');
   }else capEl.classList.remove('on');
-  $('awa-no').textContent=pad(idx===5?4:idx);
-  $('awa-nm').textContent=NAMES[idx];
+  $('awa-no').textContent=pad(st===5?4:st);
+  $('awa-nm').textContent=NAMES[st];
  }
- introEl.classList.toggle('off',camZ>C.gap*.34);
+ if(tip!==lastTip){lastTip=tip;tipEl.classList.toggle('on',tip);}
+ introEl.classList.toggle('off',camZ>stops[1]*.5);
  outEl.classList.toggle('on',camZ>maxZ-C.gap*.42);
- prevB.disabled=ti===0;
+ var t=nearest(tgt);
+ prevB.disabled=t===0;
  var end=camZ>maxZ-C.gap*.42;
  if(end!==lastEnd){lastEnd=end;nextB.style.display=end?'none':'';}
- var lb=ti===0?'Rundgang starten':(ti===4?'Zum Überblick':'Weiter');
+ var lb=t===0?'Rundgang starten':(t%2===1?'Lernziel zeigen':(t===8?'Zum \u00dcberblick':'Weiter'));
  if(lb!==lastLb){lastLb=lb;nextB.innerHTML=ico('arrow')+'<span>'+lb+'</span>';}
 }
-
 /* ===== Schleife ===== */
 function loop(now){
  var dt=Math.min(64,now-(last||now));last=now;
@@ -715,7 +827,8 @@ function loop(now){
  else{raf=0;last=0;}
 }
 function kick(){if(!raf){last=0;raf=requestAnimationFrame(loop);}}
-function goTo(i){tgt=stops[clamp(i,0,5)];kick();}
+function goTo(i){tgt=stops[clamp(i,0,9)];kick();}
+function station(s){return s<=0?0:(s>=9?5:Math.ceil(s/2));}
 var snapT=0;
 function snapSoon(ms){clearTimeout(snapT);snapT=setTimeout(function(){tgt=stops[nearest(tgt)];kick();},ms);}
 
@@ -730,7 +843,7 @@ stage.addEventListener('wheel',function(e){
 var drag=null;
 stage.addEventListener('pointerdown',function(e){
  if(e.target.closest&&e.target.closest('button,.awa-list,.awa-out'))return;
- drag={x:e.clientX,y:e.clientY,t:tgt,ms:performance.now(),on:false,id:e.pointerId};
+ drag={x:e.clientX,y:e.clientY,t:tgt,ms:performance.now(),on:false,id:e.pointerId,el:e.target};
 });
 stage.addEventListener('pointermove',function(e){
  if(e.pointerType==='mouse'&&!reduce){var r=stage.getBoundingClientRect();
@@ -745,7 +858,12 @@ stage.addEventListener('pointermove',function(e){
  if(drag.on){tgt=clamp(drag.t-dx*C.gap/(stage.clientWidth*.62),0,maxZ);kick();}
 });
 function endDrag(e){
- if(!drag)return;var o=drag;drag=null;stage.classList.remove('drag');if(!o.on)return;
+ if(!drag)return;var o=drag;drag=null;stage.classList.remove('drag');
+ if(!o.on){
+  var pl=o.el&&o.el.closest?o.el.closest('.awa-plate'):null;
+  if(pl){var k=+pl.getAttribute('data-i');goTo(plates[k]&&plates[k].open?2*k+3:2*k+2);}
+  return;
+ }
  var dx=e.clientX-o.x,v=dx/Math.max(1,performance.now()-o.ms),from=nearest(o.t);
  if(Math.abs(v)>.33||Math.abs(dx)>stage.clientWidth*.17)goTo(from+(dx<0?1:-1));
  else{tgt=stops[nearest(tgt)];kick();}
@@ -757,16 +875,16 @@ stage.addEventListener('keydown',function(e){
  if(listEl.classList.contains('on')){if(e.key==='Escape')closeList();return;}
  if(e.target!==stage)return;
  var t=nearest(tgt);
- if(['ArrowDown','ArrowRight','PageDown',' '].indexOf(e.key)>=0){if(t<5){e.preventDefault();goTo(t+1);}}
+ if(['ArrowDown','ArrowRight','PageDown',' '].indexOf(e.key)>=0){if(t<9){e.preventDefault();goTo(t+1);}}
  else if(['ArrowUp','ArrowLeft','PageUp'].indexOf(e.key)>=0){if(t>0){e.preventDefault();goTo(t-1);}}
  else if(e.key==='Home'){e.preventDefault();goTo(0);}
- else if(e.key==='End'){e.preventDefault();goTo(5);}
+ else if(e.key==='End'){e.preventDefault();goTo(9);}
 });
-nextB.addEventListener('click',function(){var t=nearest(tgt);goTo(t===5?0:t+1);});
+nextB.addEventListener('click',function(){var t=nearest(tgt);goTo(t===9?0:t+1);});
 prevB.addEventListener('click',function(){goTo(nearest(tgt)-1);});
-dots.forEach(function(b,i){b.addEventListener('click',function(){goTo(i);});});
+dots.forEach(function(b,i){b.addEventListener('click',function(){goTo(RAIL[i]);});});
 [].slice.call(root.querySelectorAll('.awa-mini')).forEach(function(b){
- b.addEventListener('click',function(){goTo(+b.getAttribute('data-i'));});
+ b.addEventListener('click',function(){goTo(RAIL[+b.getAttribute('data-i')]);});
 });
 function openList(){listEl.classList.add('on');
  for(var i=1;i<=4;i++){seen[i]=true;if(dots[i])dots[i].classList.add('seen');}

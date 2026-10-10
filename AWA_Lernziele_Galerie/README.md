@@ -7,6 +7,35 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
 `AWA_Lernziele_01c_Kurs_Galerie_Rise.zip` (im Wurzelverzeichnis) enthält
 `index.html` + `OFL.txt` und wird in Rise 360 als Code-Block hochgeladen.
 
+## Dramaturgie: erst Gemälde, dann Lernziel
+Jede Station hat zwei Haltepunkte:
+
+1. **Geschlossen** – das Bild hängt ruhig im Gang. Zu sehen sind nur die große,
+   schimmernde Nummer, ein blasser Umriss des Motivs, das Prägesiegel und
+   „Näher treten“.
+2. **Offen** – beim Weiterscrollen (oder Tippen/Klicken auf das Bild) tritt die
+   Kamera heran und das Bild öffnet sich: die Nummer verblasst, das Motiv
+   zeichnet sich fertig und nimmt Farbe an, Titel, Schlagworte und der
+   Lernzieltext erscheinen.
+
+Dadurch gibt es zehn Haltepunkte (Start, 4 × zu/offen, Überblick); die
+Punkteleiste rechts zeigt weiterhin nur die sechs Stationen (`RAIL`).
+Der Knopf unten rechts beschriftet sich mit: „Rundgang starten“ →
+„Lernziel zeigen“ → „Weiter“ → „Zum Überblick“.
+
+## US-Bezug: Gravur statt Flagge
+Der Bezug zum US-Regelwerk liegt in der Papier- und Urkundenwelt, nicht in
+nationaler Symbolik:
+- eine feine **Guilloche-Rosette** (Wertpapierstich) ganz hinten im Gang – man
+  geht auf das Regelwerk zu,
+- ein **Prägesiegel mit Stern** auf jedem Bild,
+- im Motiv von Lernziel 1 die beschrifteten Rechtsräume **US** und **EU**.
+
+## Rot bei Red Flags
+Rot (`#d7382c`) steht hier für den Fachbegriff „Red Flag“, nicht als
+Bewertungsfarbe. Erledigt/dokumentiert bleibt petrol, Hinweise bleiben gold –
+die Kursregel gilt unverändert.
+
 ## Aufbau
 - **Halle**: ein statisches SVG mit exakter Fluchtpunkt-Geometrie
   (Decke, Boden, zwei Wände, Sockelleiste, Bilderschiene, Lichtvoute).
@@ -19,7 +48,8 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
   Kein CSS-3D, keine gedrehten Ebenen, kein globales `scale` auf der Bühne –
   deshalb steht das Bild im Ruhezustand absolut still und Text bleibt scharf.
 - **Bedienung**: Mausrad, Ziehen/Wischen, Pfeiltasten, Pos1/Ende, Punkteleiste,
-  Weiter/Zurück. Am Anfang und Ende gibt der Block das Scrollen an die Seite ab.
+  Klick/Tipp auf ein Bild, Weiter/Zurück. Am Anfang und Ende gibt der Block
+  das Scrollen an die Seite ab.
 - **Barrierefreiheit**: Die Szene ist `aria-hidden`; der Lernziel-Text steht in
   der Bildunterschrift (`aria-live`) und vollständig im Dialog „Alle Lernziele“.
   `prefers-reduced-motion` wird respektiert.
