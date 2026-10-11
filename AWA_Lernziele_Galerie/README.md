@@ -10,10 +10,23 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
 ## Vorspann: Trailer, Titel, dann der Gang
 Der Block beginnt wie ein Filmvorspann:
 
-1. **Schnittfolge** – sechs schnelle Schnitte aus der Welt des Kurses, jeder
-   mit einem Wort unten links: OFAC · BIS · EXPORT ENFORCEMENT ·
-   COMMERCE CONTROL LIST · SANCTIONS LISTS · 15 CFR 730–774. Die Standzeiten
-   werden kürzer (620 → 400 ms), das zieht an.
+1. **Schnittfolge** – acht Schnitte mit einem Bogen vom Welthandel bis zur
+   Warnung, jeder mit einem Wort unten links:
+
+   | # | Bild | Standzeit | Wort |
+   |---|------|-----------|------|
+   | 1 | Containerhafen | 1500 ms | GLOBALER HANDEL |
+   | 2 | ofac.treasury.gov | 560 ms | OFAC |
+   | 3 | bis.gov, EAR-Inhaltsverzeichnis | 520 ms | BIS |
+   | 4 | ECCN 3B001, License Requirements | 470 ms | COMMERCE CONTROL LIST |
+   | 5 | Denied Persons List | 430 ms | DENIED PERSONS LIST |
+   | 6 | BIS-Pressemitteilung Applied Materials | 400 ms | ENFORCEMENT |
+   | 7 | BIS-Pressemitteilung Robert Bosch | 380 ms | KONSEQUENZEN |
+   | 8 | BIS-Heft „Don’t Let This Happen To You!“ | 640 ms | DON’T LET THIS HAPPEN TO YOU |
+
+   Der erste Schnitt steht lange und atmet, danach werden die Standzeiten
+   kürzer – das zieht an. Der letzte Schnitt steht wieder länger und
+   bereitet die Titelkarte vor.
 2. **Titelkarte** – **US-Exportkontrolle** fährt aus der Unschärfe heran,
    ein Lichtstreifen läuft darüber, darunter eine Gold-Petrol-Linie und
    „In diesem Kurs lernst du …".
@@ -29,18 +42,45 @@ die Titelkarte steht sofort da.
 **Noch einmal ansehen:** der runde Knopf mit dem Abspielsymbol oben rechts
 startet den Vorspann neu und setzt den Rundgang auf den Anfang zurück.
 
+### Die Kräne arbeiten
+Im ersten Schnitt hängen an zwei Kränen Container – und die bewegen sich:
+der mittlere wird gehoben, der rechte gefiert. Dafür sind die beiden
+Spreader aus dem Bild **freigestellt** worden; im Hintergrundbild (`port`)
+sind sie wegretuschiert, die Hubseile enden sauber an der Stelle, an der
+der Spreader in Ruhelage hängt. Die zwei Freisteller liegen als
+`IMG.cmid` / `IMG.crgt` daneben und werden als eigene Ebene im Bild
+platziert – in Prozent, also bei jeder Blockbreite passgenau:
+
+```css
+.awa-cz.a{left:52.47%;top:59.49%;width:5.34%;height:4.15%}
+```
+
+Beide bewegen sich nur **nach oben aus der Ruhelage heraus** bzw. in sie
+hinein. So bleibt das Seil immer richtig lang: der Spreader verdeckt den
+Teil des Seils, den er beim Heben aufwickeln würde. Gezeichnet werden muss
+nichts nach. Bei `prefers-reduced-motion` wird die Ebene gar nicht erst
+eingehängt.
+
 Die Schnitte stehen im Array `TR`:
 
 ```js
-{k:'ofac', c:[0,0,1,1], d:620, t:'OFAC', fx:.22}
+{k:'port', c:[0,0,1,1], d:1500, t:'GLOBALER HANDEL', fy:.66, hz:1, slow:1}
 ```
 
 - `k` Schlüssel aus `IMG`, `c` Ausschnitt, `d` Standzeit in Millisekunden
 - `t` das Wort unten links
-- `fx` waagerechter Bildausschnitt beim formatfüllenden Schnitt (0 = links,
-  .5 = Mitte, 1 = rechts) – wichtig auf schmalen Blöcken
+- `fx` / `fy` waagerechter bzw. senkrechter Bildausschnitt beim
+  formatfüllenden Schnitt (0 = links/oben, .5 = Mitte, 1 = rechts/unten) –
+  wichtig auf schmalen Blöcken
 - `f:1` zeigt den Ausschnitt ganz, gerahmt auf hellem Grund, statt
   formatfüllend. Für hochformatige Ausschnitte wie das Heft oder die Sidebar.
+- `hz:1` hängt die beiden Kran-Container ein (nur beim Hafenbild sinnvoll)
+- `slow:1` nimmt die Kamerafahrt zurück: statt eines Zooms eine ruhige
+  Fahrt mit leichtem Schwenk
+
+Die Kamerafahrt ist eine **Heranfahrt** (`scale(1) → scale(1.045)`). Sie
+beginnt also beim vollen Bildausschnitt – der erste Moment jedes Schnitts,
+auf den das Auge springt, ist vollständig zu sehen – und zieht dann an.
 
 ## Der Gang selbst bleibt leer
 Im Gang hängen **keine** Bilder – er gehört allein den Lernzielen
@@ -48,21 +88,43 @@ Im Gang hängen **keine** Bilder – er gehört allein den Lernzielen
 `'leise'` oder `'voll'` zuschaltbar; platziert werden sie im Array `EX`.
 
 ## Bilder austauschen
-Die Bilddaten stehen als Base64-WebP im Objekt `IMG` (`ear`, `ofac`, `post`)
-direkt in der index.html – keine externen Dateien, nichts kann beim Upload
-verloren gehen. Sie liegen in **voller Auflösung** (1873 bzw. 1872 px breit,
-Qualität 88), damit die Schnitte auf großen Bildschirmen scharf bleiben.
+Die Bilddaten stehen als Base64-WebP im Objekt `IMG` direkt in der
+index.html – keine externen Dateien, nichts kann beim Upload verloren gehen.
+
+| Schlüssel | Motiv | Größe |
+|-----------|-------|--------|
+| `port`  | Containerhafen (retuschiert, ohne die beiden Spreader) | 1254 × 1254 |
+| `ofac`  | ofac.treasury.gov | 1700 × 877 |
+| `ear`   | bis.gov, EAR Table of Contents | 1700 × 833 |
+| `eccn`  | ECCN 3B001, License Requirements | 1360 × 913 |
+| `dpl`   | Denied Persons List | 1460 × 868 |
+| `amat`  | BIS-Pressemitteilung Applied Materials | 1480 × 840 |
+| `bosch` | BIS-Pressemitteilung Robert Bosch | 1480 × 874 |
+| `post`  | BIS-Heft „Don’t Let This Happen To You!“ | 270 × 703 |
+| `cmid`  | Freisteller: Spreader am mittleren Kran | 67 × 52 |
+| `crgt`  | Freisteller: Spreader am rechten Kran | 69 × 57 |
+
+Zusammen rund 970 KB Base64; die fertige index.html wiegt etwa 1,1 MB.
+Bei der Denied Persons List ist oben und links ein weißer Rand angesetzt,
+damit die Überschrift während der Heranfahrt nicht an den Rand stößt.
 
 Ein neues Bild: als WebP in Base64 umwandeln, in `IMG` eintragen, dann in
 `TR` und/oder `EX` verwenden. Quellbilder sollten mindestens 1400 px breit
 sein; alles darunter wird im formatfüllenden Schnitt sichtbar weich.
 
 ### Rechtlicher Hinweis
-Die Bilder sind Screenshots von bis.gov und ofac.treasury.gov. Inhalte von
+Die Screenshots stammen von bis.gov und ofac.treasury.gov. Inhalte von
 US-Bundesbehörden sind in der Regel gemeinfrei; die **Dienstsiegel** darauf
 sind es nicht in gleicher Weise. Für einen internen Schulungskurs über genau
 diese Behörden ist die illustrative Verwendung üblich – bitte trotzdem
-einmal mit eurer Rechtsabteilung abklopfen.
+einmal mit eurer Rechtsabteilung abklopfen. Das Gleiche gilt für die
+**Hafen-Illustration**, die nicht von einer Behörde stammt: hier bitte die
+Lizenz der Bildquelle prüfen.
+
+Die beiden Pressemitteilungen nennen **Firmennamen und Bußgeldsummen**
+(Applied Materials, Robert Bosch GmbH). Das ist eine redaktionelle
+Entscheidung – inhaltlich stark, aber bitte bewusst getroffen. Datum und
+Wortlaut bitte an der Quelle gegenprüfen.
 
 ## Sprache und Satzzeichen
 - Bildunterschrift je Station: Rahmenzeile „DU LERNST …", darunter der
@@ -133,6 +195,13 @@ sich daraus automatisch. Die Beschriftung „/ 04“ im Fortschritt und die
 Rahmenzeile der Bildunterschrift stehen im HTML.
 
 ## Prüfung
-Mit Playwright bei 1000, 700 und 375 px geprüft: keine Konsolenfehler, kein
-horizontales Scrollen, im Ruhezustand genau ein Transform-Wert über 36 Bilder
-(kein Wackeln), Rad / Ziehen / Tastatur / Punkteleiste / Mini-Karten getestet.
+Mit Playwright bei 1000, 700 und 375 px sowie mit `prefers-reduced-motion`
+geprüft: keine Konsolenfehler, kein horizontales Scrollen, im Ruhezustand
+genau ein Transform-Wert über 40 Bilder (kein Wackeln), Rad / Ziehen /
+Tastatur / Punkteleiste / Mini-Karten getestet.
+
+Für den Vorspann zusätzlich: jeder der acht Schnitte im ersten Moment
+abfotografiert (nichts Wichtiges liegt am Rand), die beiden Kran-Container
+über eine Sekunde vermessen (sie laufen gegenläufig und ruckeln nicht),
+und „noch einmal ansehen" geprüft – der Vorspann startet neu, der Rundgang
+springt auf Anfang.
