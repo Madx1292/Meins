@@ -7,49 +7,54 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
 `AWA_Lernziele_01c_Kurs_Galerie_Rise.zip` (im Wurzelverzeichnis) enthält
 `index.html` + `OFL.txt` und wird in Rise 360 als Code-Block hochgeladen.
 
-## Dramaturgie: erst der Gang, dann die Lernziele
-Der Rundgang hat zwei Ebenen.
+## Der Schalter für die Wanddekoration
+Ganz oben im Skript steht eine Zeile:
 
-**Dekor an den Wänden** – links und rechts hängen echte Seiten aus der Welt
-des Kurses, flach auf der Wandebene, so wie Bilder in einem Ausstellungsgang:
-die OFAC-Startseite, die EAR Table of Contents von bis.gov, das Heft
-„Don't Let This Happen To You!" der Export Enforcement. Dazu Ausschnitte
-daraus (Sanctions Lists, die interaktiven Listen, der Aufbau der EAR). Sie
-sind bewusst leicht entsättigt und aufgehellt – sie tragen die Atmosphäre,
-treten aber hinter die Lernziele zurück.
+```js
+var DEKOR='leise';
+```
 
-**Lernziele** – die vier Stationen in der Mitte des Gangs sind der
-immersive Teil (siehe unten).
+- **`'leise'`** (Standard) – die echten Seiten liegen als sehr blasse,
+  fast einfarbige Projektion auf den Wänden. Kein Rahmen, kein Wandschild,
+  nicht zum Lesen gedacht. Man nimmt wahr: amtliche Dokumente, amerikanische
+  Behörden – aber die Lernziele bleiben die einzige scharfe Ebene im Raum.
+- **`'aus'`** – gar keine Bilder. Der Gang ist leer, der Auftakt dauert nur
+  einen Schritt, das erste Lernziel kommt sofort.
+- **`'voll'`** – die Seiten in Originalfarben, mit Rahmen und Wandschild.
+  Schön anzusehen, zieht aber Aufmerksamkeit von den Lernzielen ab.
+
+Warum das ein Schalter und keine feste Entscheidung ist: Die Screenshots
+gehören semantisch nicht zu einem bestimmten Lernziel. Sie gehören zum
+**Thema**. In diesem Block können sie nur Atmosphäre sein – ihren
+eigentlichen Platz haben sie in den Lektionen, wo sie etwas erklären.
 
 ### Wandbilder austauschen
 Die Bilddaten stehen als Base64-WebP im Objekt `IMG` (`ear`, `ofac`, `post`)
-direkt in der index.html – keine externen Dateien, nichts kann verloren
-gehen. Platziert werden sie im Array `EX`:
+direkt in der index.html – keine externen Dateien, nichts kann beim Upload
+verloren gehen. Platziert werden sie im Array `EX`:
 
 ```js
 {p:1, s:1, k:'ear', c:[0,0,1,1], ar:.490, hf:.72,
  t:'Export Administration Regulations', u:'bis.gov · Table of Contents'}
 ```
 
-- `p:0…3` Platz im Auftakt, `m:0…2` Platz zwischen Lernziel 1/2, 2/3, 3/4
+- `p:0…1` Platz im Auftakt, `m:0…2` Platz zwischen Lernziel 1/2, 2/3, 3/4
 - `s:-1` linke Wand, `s:1` rechte Wand
-- `k` Schlüssel aus `IMG` – oder `i:'img/datei.png'` für eine Datei neben
-  der index.html
+- `k` Schlüssel aus `IMG` – oder `i:'img/datei.png'` für eine Datei daneben
 - `c:[x, y, Breite, Höhe]` Ausschnitt als Anteil des Bildes (`[0,0,1,1]` = ganz)
 - `ar` Höhe/Breite **des Ausschnitts**, `hf` Höhe als Anteil der Raumhöhe
-- `t` / `u` Wandschild
+- `t` / `u` Wandschild (nur bei `DEKOR='voll'` sichtbar)
 
-Ein neues Bild einbauen: als WebP (etwa 1300 px breit, Qualität 80) in
-Base64 umwandeln, in `IMG` eintragen, Eintrag in `EX` ergänzen. `ar` muss
-zum Ausschnitt passen, sonst wird das Bild gestaucht.
+Ein neues Bild: als WebP (etwa 1300 px breit, Qualität 80) in Base64
+umwandeln, in `IMG` eintragen, Eintrag in `EX` ergänzen. `ar` muss zum
+Ausschnitt passen, sonst wird das Bild gestaucht.
 
 ### Rechtlicher Hinweis
-Die Wandbilder sind Screenshots von bis.gov und ofac.treasury.gov, die ihr
-geliefert habt. Inhalte von US-Bundesbehörden sind in der Regel
-gemeinfrei; die **Dienstsiegel** darauf sind es nicht in gleicher Weise.
-Für einen internen Schulungskurs über genau diese Behörden ist die
-illustrative Verwendung üblich – bitte trotzdem einmal mit eurer
-Rechtsabteilung abklopfen, bevor der Kurs breit ausgerollt wird.
+Die Wandbilder sind Screenshots von bis.gov und ofac.treasury.gov. Inhalte
+von US-Bundesbehörden sind in der Regel gemeinfrei; die **Dienstsiegel**
+darauf sind es nicht in gleicher Weise. Für einen internen Schulungskurs
+über genau diese Behörden ist die illustrative Verwendung üblich – bitte
+trotzdem einmal mit eurer Rechtsabteilung abklopfen.
 
 ## Dramaturgie der Stationen: erst Gemälde, dann Lernziel
 Jede Station hat zwei Haltepunkte:
