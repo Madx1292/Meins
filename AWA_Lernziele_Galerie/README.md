@@ -7,54 +7,68 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
 `AWA_Lernziele_01c_Kurs_Galerie_Rise.zip` (im Wurzelverzeichnis) enthält
 `index.html` + `OFL.txt` und wird in Rise 360 als Code-Block hochgeladen.
 
-## Der Schalter für die Wanddekoration
-Ganz oben im Skript steht eine Zeile:
+## Vorspann: Trailer, Titel, dann der Gang
+Der Block beginnt wie ein Filmvorspann:
+
+1. **Schnittfolge** – sechs schnelle Schnitte aus der Welt des Kurses, jeder
+   mit einem Wort unten links: OFAC · BIS · EXPORT ENFORCEMENT ·
+   COMMERCE CONTROL LIST · SANCTIONS LISTS · 15 CFR 730–774. Die Standzeiten
+   werden kürzer (620 → 400 ms), das zieht an.
+2. **Titelkarte** – alles klart auf, **US-Exportkontrolle** steht allein und
+   groß auf hellem Grund, darunter eine Gold-Petrol-Linie und
+   „Nach diesem Kurs bist du in der Lage …".
+3. **Übergang** – der Vorspann blendet ab, man steht am Anfang des Gangs.
+
+Dauer rund 6,5 Sekunden. Unten rechts gibt es jederzeit **„Überspringen"**,
+und jedes Scrollen, Tippen oder Tastendrücken bricht ebenfalls sofort ab.
+Der Vorspann startet erst, wenn der Block im Bild ist (IntersectionObserver),
+nicht schon beim Laden der Rise-Seite. Bei `prefers-reduced-motion` entfällt
+er ganz.
+
+Die Schnitte stehen im Array `TR`:
 
 ```js
-var DEKOR='leise';
+{k:'ofac', c:[0,0,1,1], d:620, t:'OFAC', fx:.22}
 ```
 
-- **`'leise'`** (Standard) – die echten Seiten liegen als sehr blasse,
-  fast einfarbige Projektion auf den Wänden. Kein Rahmen, kein Wandschild,
-  nicht zum Lesen gedacht. Man nimmt wahr: amtliche Dokumente, amerikanische
-  Behörden – aber die Lernziele bleiben die einzige scharfe Ebene im Raum.
-- **`'aus'`** – gar keine Bilder. Der Gang ist leer, der Auftakt dauert nur
-  einen Schritt, das erste Lernziel kommt sofort.
-- **`'voll'`** – die Seiten in Originalfarben, mit Rahmen und Wandschild.
-  Schön anzusehen, zieht aber Aufmerksamkeit von den Lernzielen ab.
+- `k` Schlüssel aus `IMG`, `c` Ausschnitt, `d` Standzeit in Millisekunden
+- `t` das Wort unten links
+- `fx` waagerechter Bildausschnitt beim formatfüllenden Schnitt (0 = links,
+  .5 = Mitte, 1 = rechts) – wichtig auf schmalen Blöcken
+- `f:1` zeigt den Ausschnitt ganz, gerahmt auf hellem Grund, statt
+  formatfüllend. Für hochformatige Ausschnitte wie das Heft oder die
+  Sidebar.
 
-Warum das ein Schalter und keine feste Entscheidung ist: Die Screenshots
-gehören semantisch nicht zu einem bestimmten Lernziel. Sie gehören zum
-**Thema**. In diesem Block können sie nur Atmosphäre sein – ihren
-eigentlichen Platz haben sie in den Lektionen, wo sie etwas erklären.
+## Der Gang selbst bleibt leer
+Im Gang hängen **keine** Bilder mehr – er gehört allein den Lernzielen.
+Die Wandbilder sind weiterhin eingebaut, aber abgeschaltet:
 
-### Wandbilder austauschen
+```js
+var DEKOR='aus';
+```
+
+- `'aus'` (Standard) – leerer Gang, nur die Lernziele
+- `'leise'` – die Seiten als sehr blasse, fast einfarbige Projektion auf den
+  Wänden, ohne Rahmen und Schild
+- `'voll'` – Originalfarben mit Wandschild
+
+Platziert werden sie im Array `EX` (`p` = Platz im Auftakt, `m` = Platz
+zwischen zwei Lernzielen, `s` = Wandseite, `c` = Ausschnitt, `ar` =
+Höhe/Breite des Ausschnitts, `hf` = Höhe als Anteil der Raumhöhe).
+
+## Bilder austauschen
 Die Bilddaten stehen als Base64-WebP im Objekt `IMG` (`ear`, `ofac`, `post`)
 direkt in der index.html – keine externen Dateien, nichts kann beim Upload
-verloren gehen. Platziert werden sie im Array `EX`:
-
-```js
-{p:1, s:1, k:'ear', c:[0,0,1,1], ar:.490, hf:.72,
- t:'Export Administration Regulations', u:'bis.gov · Table of Contents'}
-```
-
-- `p:0…1` Platz im Auftakt, `m:0…2` Platz zwischen Lernziel 1/2, 2/3, 3/4
-- `s:-1` linke Wand, `s:1` rechte Wand
-- `k` Schlüssel aus `IMG` – oder `i:'img/datei.png'` für eine Datei daneben
-- `c:[x, y, Breite, Höhe]` Ausschnitt als Anteil des Bildes (`[0,0,1,1]` = ganz)
-- `ar` Höhe/Breite **des Ausschnitts**, `hf` Höhe als Anteil der Raumhöhe
-- `t` / `u` Wandschild (nur bei `DEKOR='voll'` sichtbar)
-
-Ein neues Bild: als WebP (etwa 1300 px breit, Qualität 80) in Base64
-umwandeln, in `IMG` eintragen, Eintrag in `EX` ergänzen. `ar` muss zum
-Ausschnitt passen, sonst wird das Bild gestaucht.
+verloren gehen. Ein neues Bild: als WebP (etwa 1300 px breit, Qualität 80)
+in Base64 umwandeln, in `IMG` eintragen, dann in `TR` und/oder `EX`
+verwenden.
 
 ### Rechtlicher Hinweis
-Die Wandbilder sind Screenshots von bis.gov und ofac.treasury.gov. Inhalte
-von US-Bundesbehörden sind in der Regel gemeinfrei; die **Dienstsiegel**
-darauf sind es nicht in gleicher Weise. Für einen internen Schulungskurs
-über genau diese Behörden ist die illustrative Verwendung üblich – bitte
-trotzdem einmal mit eurer Rechtsabteilung abklopfen.
+Die Bilder sind Screenshots von bis.gov und ofac.treasury.gov. Inhalte von
+US-Bundesbehörden sind in der Regel gemeinfrei; die **Dienstsiegel** darauf
+sind es nicht in gleicher Weise. Für einen internen Schulungskurs über genau
+diese Behörden ist die illustrative Verwendung üblich – bitte trotzdem
+einmal mit eurer Rechtsabteilung abklopfen.
 
 ## Dramaturgie der Stationen: erst Gemälde, dann Lernziel
 Jede Station hat zwei Haltepunkte:

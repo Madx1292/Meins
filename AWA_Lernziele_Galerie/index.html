@@ -200,6 +200,49 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele .drop.c{animation-delay:2.4s}
 @keyframes awa-drop{0%,100%{transform:translateY(-3px);opacity:.5}45%,62%{transform:translateY(3px);opacity:1}}
 
+/* ===== Vorspann: Schnittfolge, dann der Titel ===== */
+#awa-lernziele .awa-tr{position:absolute;inset:0;z-index:20;overflow:hidden;border-radius:inherit;
+  display:grid;place-items:center;background:#eef5f7;cursor:pointer;
+  transition:opacity .75s var(--ease),visibility 0s .75s}
+#awa-lernziele .awa-tr.off{opacity:0;visibility:hidden;pointer-events:none}
+#awa-lernziele .awa-trf{position:absolute;inset:0;overflow:hidden;background:#e7eff2;
+  filter:saturate(.94) contrast(.97);transition:opacity .5s var(--ease)}
+#awa-lernziele .awa-trp{position:absolute;background-repeat:no-repeat}
+#awa-lernziele .awa-trp.fit{box-shadow:0 26px 60px -24px #0c26308c,0 0 0 1px #ffffff}
+#awa-lernziele .awa-trf.ken{animation:awa-ken var(--d,600ms) linear both}
+@keyframes awa-ken{from{transform:scale(1.085)}to{transform:scale(1)}}
+#awa-lernziele .awa-trv{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 80% at 50% 46%,#0c263000 40%,#0c26304a 100%),
+             linear-gradient(180deg,#0c263000 56%,#0c263073 100%);
+  transition:opacity .5s var(--ease)}
+#awa-lernziele .awa-trg{position:absolute;inset:0;background:#f8fbfc;opacity:0;
+  transition:opacity .6s var(--ease)}
+#awa-lernziele .awa-tr.title .awa-trf,#awa-lernziele .awa-tr.title .awa-trv{opacity:0}
+#awa-lernziele .awa-tr.title .awa-trg{opacity:.93}
+#awa-lernziele .awa-trk{position:absolute;left:24px;bottom:24px;z-index:3;color:#fff;
+  font-size:12.5px;letter-spacing:.26em;text-shadow:0 1px 3px #0c2630d9,0 2px 14px #0c2630b3;opacity:0}
+#awa-lernziele .awa-trk.on{animation:awa-trk var(--d,600ms) var(--ease) both}
+#awa-lernziele .awa-trk.dark{color:var(--deep);text-shadow:none}
+@keyframes awa-trk{0%{opacity:0;transform:translateY(7px)}22%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+#awa-lernziele .awa-trc{position:relative;z-index:4;text-align:center;padding:0 28px;
+  opacity:0;transform:translateY(16px) scale(.985);
+  transition:opacity .8s var(--soft),transform 1s var(--soft)}
+#awa-lernziele .awa-tr.title .awa-trc{opacity:1;transform:none}
+#awa-lernziele .awa-trc>span{display:block;margin-bottom:14px;color:var(--petrol);
+  font-size:12.5px;letter-spacing:.3em;opacity:0;transition:opacity .6s .25s var(--ease)}
+#awa-lernziele .awa-tr.title .awa-trc>span{opacity:1}
+#awa-lernziele .awa-trc h2{margin:0;color:var(--head);font-weight:500;line-height:1.04;
+  letter-spacing:-.018em;font-size:clamp(27px,5.4vw,58px)}
+#awa-lernziele .awa-trc i{display:block;width:0;height:2px;margin:18px auto 0;
+  background:linear-gradient(90deg,#fec70b00,var(--gold) 35%,var(--petrol) 65%,#13808c00);
+  transition:width 1s .45s var(--soft)}
+#awa-lernziele .awa-tr.title .awa-trc i{width:min(180px,46%)}
+#awa-lernziele .awa-trc p{margin:17px 0 0;color:var(--muted);font-size:clamp(14px,1.85vw,18.5px);
+  opacity:0;transform:translateY(7px);
+  transition:opacity .75s .95s var(--ease),transform .8s .95s var(--soft)}
+#awa-lernziele .awa-tr.title .awa-trc p{opacity:1;transform:none}
+#awa-lernziele .awa-trs{position:absolute;z-index:5;right:16px;bottom:15px}
+
 /* ===== Atmosphäre ===== */
 #awa-lernziele .awa-haze{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 26% 30% at 50% 46%,#ffffffcc,#ffffff00 72%),
@@ -392,6 +435,7 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele [data-l="S"] .awa-out h2{font-size:21px}
 #awa-lernziele [data-l="S"] .awa-out p{font-size:14.5px;margin-bottom:13px}
 #awa-lernziele [data-l="S"] .awa-list{padding:16px 13px}
+#awa-lernziele [data-l="S"] .awa-trk{left:16px;bottom:58px;font-size:11px;letter-spacing:.2em}
 #awa-lernziele [data-l="S"] .awa-out h2{margin:6px 0 4px}
 #awa-lernziele [data-l="S"] .awa-minis{gap:7px;margin-bottom:13px}
 #awa-lernziele [data-l="S"] .awa-mini{padding:9px 6px;gap:5px;font-size:12.5px}
@@ -425,6 +469,19 @@ html,body{margin:0;padding:0;background:#FFFFFF}
     </div>
     <div class="awa-haze" aria-hidden="true"></div>
     <div class="awa-beam" id="awa-beam" aria-hidden="true"></div>
+    <div class="awa-tr" id="awa-tr" aria-hidden="true">
+      <div class="awa-trf" id="awa-trf"><div class="awa-trp" id="awa-trp"></div></div>
+      <div class="awa-trv"></div>
+      <div class="awa-trg"></div>
+      <span class="awa-trk" id="awa-trk"></span>
+      <div class="awa-trc">
+        <span>EIN KURS DER AWA</span>
+        <h2>US-Exportkontrolle</h2>
+        <i></i>
+        <p>Nach diesem Kurs bist du in der Lage …</p>
+      </div>
+      <button type="button" class="awa-glass awa-trs" id="awa-trs">Überspringen</button>
+    </div>
     <div class="awa-ui">
       <div class="awa-brand" aria-hidden="true"><i></i><span>US-EXPORTKONTROLLE</span></div>
       <div class="awa-top"><button type="button" class="awa-glass" id="awa-all"></button></div>
@@ -434,8 +491,8 @@ html,body{margin:0;padding:0;background:#FFFFFF}
       </div>
       <div class="awa-intro" id="awa-intro">
         <span class="awa-eyebrow">VIER LERNZIELE</span>
-        <h2>Ein Rundgang durch den Kurs</h2>
-        <p>Vier Stationen zeigen, was du danach kannst.</p>
+        <h2>Geh den Gang entlang</h2>
+        <p>Jedes Bild öffnet sich, wenn du näher kommst.</p>
         <span class="awa-hint" id="awa-hint"></span>
       </div>
       <div class="awa-tip" id="awa-tip" aria-hidden="true"></div>
@@ -572,7 +629,17 @@ var IMG={
    'leise' = blasse Projektion auf den Wänden, ohne Schild, nicht zum Lesen (Standard)
    'aus'   = gar keine Bilder, der Gang bleibt leer
    'voll'  = Originalfarben mit Wandschild                                          */
-var DEKOR='leise';
+var DEKOR='aus';
+
+/* Vorspann: schnelle Schnitte, d = Standzeit in Millisekunden */
+var TR=[
+ {k:'ofac',c:[0,0,1,1],           d:620,t:'OFAC',fx:.22},
+ {k:'ear', c:[0,0,1,1],           d:560,t:'BIS',fx:.30},
+ {k:'post',c:[0,0,1,.48],         d:500,t:'EXPORT ENFORCEMENT',f:1},
+ {k:'ear', c:[.005,.32,.215,.52], d:460,t:'COMMERCE CONTROL LIST',f:1},
+ {k:'ofac',c:[.645,.38,.29,.62],  d:420,t:'SANCTIONS LISTS',f:1},
+ {k:'ear', c:[.225,.30,.635,.48], d:400,t:'15 CFR 730\u2013774'}
+];
 
 /* c = Ausschnitt [x, y, Breite, Höhe] als Anteil des Bildes
    ar = Höhe/Breite des Ausschnitts, hf = Höhe als Anteil der Raumhöhe
@@ -624,7 +691,7 @@ function seal(n){
 }
 function pad(n){return n<10?'0'+n:''+n;}
 
-var root=$('awa-lernziele'),stage=$('awa-st'),scene=$('awa-sc'),hall=$('awa-hall'),world=$('awa-wd'),ray=$('awa-ray'),tipEl=$('awa-tip'),walls=$('awa-walls');
+var root=$('awa-lernziele'),stage=$('awa-st'),scene=$('awa-sc'),hall=$('awa-hall'),world=$('awa-wd'),ray=$('awa-ray'),tipEl=$('awa-tip'),walls=$('awa-walls'),trEl=$('awa-tr'),trf=$('awa-trf'),trp=$('awa-trp'),trk=$('awa-trk');
 var nextB=$('awa-next'),prevB=$('awa-prev'),allB=$('awa-all'),listEl=$('awa-list');
 var capEl=$('awa-cap'),outEl=$('awa-out'),introEl=$('awa-intro');
 
@@ -929,6 +996,7 @@ function snapSoon(ms){clearTimeout(snapT);snapT=setTimeout(function(){tgt=stops[
 
 /* ===== Eingaben ===== */
 stage.addEventListener('wheel',function(e){
+ if(trOn){trEnd();return;}
  if(listEl.classList.contains('on'))return;
  var d=Math.abs(e.deltaY)>=Math.abs(e.deltaX)?e.deltaY:e.deltaX;
  d*=e.deltaMode===1?16:(e.deltaMode===2?400:1);
@@ -937,6 +1005,7 @@ stage.addEventListener('wheel',function(e){
 },{passive:false});
 var drag=null;
 stage.addEventListener('pointerdown',function(e){
+ if(trOn)return;
  if(e.target.closest&&e.target.closest('button,.awa-list,.awa-out'))return;
  drag={x:e.clientX,y:e.clientY,t:tgt,ms:performance.now(),on:false,id:e.pointerId,el:e.target};
 });
@@ -967,6 +1036,7 @@ stage.addEventListener('pointerup',endDrag);
 stage.addEventListener('pointercancel',endDrag);
 stage.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse'){tpx=0;tpy=0;kick();}});
 stage.addEventListener('keydown',function(e){
+ if(trOn){trEnd();return;}
  if(listEl.classList.contains('on')){if(e.key==='Escape')closeList();return;}
  if(e.target!==stage)return;
  var t=nearest(tgt);
@@ -990,6 +1060,60 @@ $('awa-read').addEventListener('click',openList);
 $('awa-close').addEventListener('click',closeList);
 $('awa-again').addEventListener('click',function(){goTo(0);});
 listEl.addEventListener('wheel',function(e){e.stopPropagation();},{passive:true});
+
+/* ===== Vorspann ===== */
+var trT=[],trOn=false,trUsed=false;
+function trBg(x,bw,bh){
+ var im=IMG[x.k];if(!im)return;
+ var cw=im.w*x.c[2],ch=im.h*x.c[3];
+ /* f:1 = Ausschnitt ganz zeigen (Hochformat), sonst formatfüllend */
+ var s=x.f?Math.min(bw/cw,bh/ch)*.84:Math.max(bw/cw,bh/ch);
+ var fx=x.fx===undefined?.5:x.fx,pw=cw*s,ph=ch*s;
+ trp.className='awa-trp'+(x.f?' fit':'');
+ trp.style.cssText='width:'+pw.toFixed(0)+'px;height:'+ph.toFixed(0)+'px;left:'+
+  ((bw-pw)*fx).toFixed(0)+'px;top:'+((bh-ph)*.5).toFixed(0)+'px;background-image:url('+im.u+
+  ');background-size:'+(im.w*s).toFixed(0)+'px '+(im.h*s).toFixed(0)+'px;background-position:'+
+  (-x.c[0]*im.w*s).toFixed(0)+'px '+(-x.c[1]*im.h*s).toFixed(0)+'px';
+}
+function trEnd(){
+ trT.forEach(clearTimeout);trT=[];trOn=false;
+ trEl.classList.add('off');
+ setTimeout(function(){trEl.style.display='none';},800);
+}
+function trRun(){
+ if(trUsed)return;trUsed=true;
+ if(reduce||!IMG||!TR.length){trEl.style.display='none';return;}
+ trOn=true;
+ var i=0,bw=stage.clientWidth,bh=stage.clientHeight;
+ function cut(){
+  if(i>=TR.length){
+   trEl.classList.add('title');
+   trT.push(setTimeout(trEnd,2900));
+   return;
+  }
+  var x=TR[i++];
+  trBg(x,bw,bh);
+  trf.style.setProperty('--d',x.d+'ms');
+  trk.style.setProperty('--d',x.d+'ms');
+  trk.textContent=x.t;
+  trk.classList.toggle('dark',!!x.f);
+  trf.classList.remove('ken');trk.classList.remove('on');
+  void trf.offsetWidth;
+  trf.classList.add('ken');trk.classList.add('on');
+  trT.push(setTimeout(cut,x.d));
+ }
+ cut();
+}
+$('awa-trs').addEventListener('click',function(e){e.stopPropagation();trEnd();});
+trEl.addEventListener('click',function(){if(trOn)trEnd();});
+if(reduce)trEl.style.display='none';
+else if(window.IntersectionObserver){
+ var io=new IntersectionObserver(function(es){
+  for(var n=0;n<es.length;n++)if(es[n].isIntersecting&&es[n].intersectionRatio>=.3){
+   io.disconnect();trRun();break;}
+ },{threshold:[0,.3,.6]});
+ io.observe(root);
+}else setTimeout(trRun,250);
 
 /* ===== Rise: Blockhöhe melden ===== */
 function notify(){if(window.parent!==window){var h=document.documentElement.scrollHeight;
