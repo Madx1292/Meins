@@ -7,7 +7,52 @@ Eigenständige `index.html` zum Hochladen als Code-Block in Rise 360.
 `AWA_Lernziele_01c_Kurs_Galerie_Rise.zip` (im Wurzelverzeichnis) enthält
 `index.html` + `OFL.txt` und wird in Rise 360 als Code-Block hochgeladen.
 
-## Dramaturgie: erst Gemälde, dann Lernziel
+## Dramaturgie: erst der Gang, dann die Lernziele
+Der Rundgang hat zwei Teile.
+
+**Auftakt** – man fährt wie in einer Kamerafahrt durch den Gang. Links und
+rechts hängen Exponate aus der Welt des Kurses, jedes mit einem Wandschild:
+Vereinigte Staaten, BIS, OFAC, EAR. Zwischen den späteren Lernzielen hängen
+weitere: Commerce Control List, Country Groups, Reexport. Keine Haltepunkte
+mit Inhalt, nur Atmosphäre und Kontext.
+
+**Lernziele** – danach beginnen die vier Stationen (siehe unten).
+
+### Exponate austauschen
+Alle Exponate stehen im Skript in einem Array `EX`:
+
+```js
+{p:1, s:1, t:'BIS', u:'Genehmigungen für Dual-Use-Güter', c:agency(...)}
+```
+
+- `p:0…3` = Platz im Auftakt, `m:0…2` = Platz zwischen Lernziel 1/2, 2/3, 3/4
+- `s:-1` linke Wand, `s:1` rechte Wand
+- `t` / `u` = Wandschild (Titel, Unterzeile)
+- `c` = die eingebaute Grafik
+
+**Echtes Bild statt Grafik:** `c` weglassen und stattdessen
+`img:'img/bis.png'` setzen, die Datei neben die `index.html` legen und mit
+ins ZIP packen. Das Bild füllt den Rahmen (`object-fit: cover`), gutes
+Seitenverhältnis ist etwa 4:3.
+
+### Was hier bewusst NICHT drin ist
+Die mitgelieferten Exponate sind **Platzhalter**, keine Nachbildungen:
+- **Keine Behördensiegel.** BIS und OFAC stehen als Schrifttafeln mit dem
+  ausgeschriebenen Namen da. Die echten Siegel nachzuzeichnen wäre das
+  Nachbauen eines Hoheitszeichens – wenn ihr die Logos verwenden dürft,
+  legt die Dateien als `img:` dazu.
+- **Keine Screenshots der CCL oder der Country Groups.** Gezeigt wird nur
+  die öffentliche *Struktur*: die zehn CCL-Kategorien 0–9 mit den
+  Produktgruppen A–E und die Bezeichnungen der Country Groups
+  (A:1, B, D:1, E:1 …) ohne Länderzuordnung. Erfundene ECCN oder erfundene
+  Länderlisten hätten in einem Compliance-Kurs nichts zu suchen.
+- Die **US-Flagge** ist gezeichnet (gemeinfreies Design), in gedämpften
+  Tönen, damit sie neben Petrol und Gold nicht schreit.
+
+Fachlich gegenlesen: die Kategorientexte der CCL und die Kurzbeschreibungen
+der Country Groups.
+
+## Dramaturgie der Stationen: erst Gemälde, dann Lernziel
 Jede Station hat zwei Haltepunkte:
 
 1. **Geschlossen** – das Bild hängt ruhig im Gang. Zu sehen sind nur die große,
