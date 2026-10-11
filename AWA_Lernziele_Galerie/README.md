@@ -14,16 +14,20 @@ Der Block beginnt wie ein Filmvorspann:
    mit einem Wort unten links: OFAC · BIS · EXPORT ENFORCEMENT ·
    COMMERCE CONTROL LIST · SANCTIONS LISTS · 15 CFR 730–774. Die Standzeiten
    werden kürzer (620 → 400 ms), das zieht an.
-2. **Titelkarte** – alles klart auf, **US-Exportkontrolle** steht allein und
-   groß auf hellem Grund, darunter eine Gold-Petrol-Linie und
-   „Nach diesem Kurs bist du in der Lage …".
-3. **Übergang** – der Vorspann blendet ab, man steht am Anfang des Gangs.
+2. **Titelkarte** – **US-Exportkontrolle** fährt aus der Unschärfe heran,
+   ein Lichtstreifen läuft darüber, darunter eine Gold-Petrol-Linie und
+   „In diesem Kurs lernst du …".
+3. **Knopf „Lernziele entdecken"** – der Vorspann bleibt stehen, bis man
+   ihn drückt. Erst dann blendet er ab und der Gang beginnt.
 
-Dauer rund 6,5 Sekunden. Unten rechts gibt es jederzeit **„Überspringen"**,
-und jedes Scrollen, Tippen oder Tastendrücken bricht ebenfalls sofort ab.
-Der Vorspann startet erst, wenn der Block im Bild ist (IntersectionObserver),
-nicht schon beim Laden der Rise-Seite. Bei `prefers-reduced-motion` entfällt
-er ganz.
+Während der Schnitte gibt es rechts unten **„Überspringen"**; Scrollen,
+Tippen oder eine Taste brechen ebenfalls ab. Der Vorspann startet erst,
+wenn der Block im Bild ist (IntersectionObserver), nicht schon beim Laden
+der Rise-Seite. Bei `prefers-reduced-motion` entfällt die Schnittfolge und
+die Titelkarte steht sofort da.
+
+**Noch einmal ansehen:** der runde Knopf mit dem Abspielsymbol oben rechts
+startet den Vorspann neu und setzt den Rundgang auf den Anfang zurück.
 
 Die Schnitte stehen im Array `TR`:
 
@@ -36,32 +40,22 @@ Die Schnitte stehen im Array `TR`:
 - `fx` waagerechter Bildausschnitt beim formatfüllenden Schnitt (0 = links,
   .5 = Mitte, 1 = rechts) – wichtig auf schmalen Blöcken
 - `f:1` zeigt den Ausschnitt ganz, gerahmt auf hellem Grund, statt
-  formatfüllend. Für hochformatige Ausschnitte wie das Heft oder die
-  Sidebar.
+  formatfüllend. Für hochformatige Ausschnitte wie das Heft oder die Sidebar.
 
 ## Der Gang selbst bleibt leer
-Im Gang hängen **keine** Bilder mehr – er gehört allein den Lernzielen.
-Die Wandbilder sind weiterhin eingebaut, aber abgeschaltet:
-
-```js
-var DEKOR='aus';
-```
-
-- `'aus'` (Standard) – leerer Gang, nur die Lernziele
-- `'leise'` – die Seiten als sehr blasse, fast einfarbige Projektion auf den
-  Wänden, ohne Rahmen und Schild
-- `'voll'` – Originalfarben mit Wandschild
-
-Platziert werden sie im Array `EX` (`p` = Platz im Auftakt, `m` = Platz
-zwischen zwei Lernzielen, `s` = Wandseite, `c` = Ausschnitt, `ar` =
-Höhe/Breite des Ausschnitts, `hf` = Höhe als Anteil der Raumhöhe).
+Im Gang hängen **keine** Bilder – er gehört allein den Lernzielen
+(`var DEKOR='aus';`). Die Wandbilder sind weiterhin eingebaut und über
+`'leise'` oder `'voll'` zuschaltbar; platziert werden sie im Array `EX`.
 
 ## Bilder austauschen
 Die Bilddaten stehen als Base64-WebP im Objekt `IMG` (`ear`, `ofac`, `post`)
 direkt in der index.html – keine externen Dateien, nichts kann beim Upload
-verloren gehen. Ein neues Bild: als WebP (etwa 1300 px breit, Qualität 80)
-in Base64 umwandeln, in `IMG` eintragen, dann in `TR` und/oder `EX`
-verwenden.
+verloren gehen. Sie liegen in **voller Auflösung** (1873 bzw. 1872 px breit,
+Qualität 88), damit die Schnitte auf großen Bildschirmen scharf bleiben.
+
+Ein neues Bild: als WebP in Base64 umwandeln, in `IMG` eintragen, dann in
+`TR` und/oder `EX` verwenden. Quellbilder sollten mindestens 1400 px breit
+sein; alles darunter wird im formatfüllenden Schnitt sichtbar weich.
 
 ### Rechtlicher Hinweis
 Die Bilder sind Screenshots von bis.gov und ofac.treasury.gov. Inhalte von
@@ -69,6 +63,15 @@ US-Bundesbehörden sind in der Regel gemeinfrei; die **Dienstsiegel** darauf
 sind es nicht in gleicher Weise. Für einen internen Schulungskurs über genau
 diese Behörden ist die illustrative Verwendung üblich – bitte trotzdem
 einmal mit eurer Rechtsabteilung abklopfen.
+
+## Sprache und Satzzeichen
+- Bildunterschrift je Station: Rahmenzeile „DU LERNST …", darunter der
+  Lernzieltext mit **Punkt** am Ende.
+- Dialog „Alle Lernziele": Einleitung „In diesem Kurs lernst du …", die
+  Lernziele 1–3 mit **Semikolon**, das vierte mit **Punkt** – wie in der
+  Kursvorlage.
+- Die vier Lernzieltexte stehen wortgleich zur Vorlage im Array `G` und
+  werden nirgends gekürzt.
 
 ## Dramaturgie der Stationen: erst Gemälde, dann Lernziel
 Jede Station hat zwei Haltepunkte:
