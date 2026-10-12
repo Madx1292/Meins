@@ -39,7 +39,7 @@ body{margin:0}
   clip:rect(0,0,0,0);clip-path:inset(50%);white-space:nowrap}
 
 /* ---- einmaliger warmer Lichtstrahl über den Kopfbereich ---- */
-#awa-vertretung .awa-beam{position:absolute;left:-30%;top:0;width:46%;height:190px;z-index:0;
+#awa-vertretung .awa-beam{position:absolute;left:-30%;top:0;width:46%;height:248px;z-index:0;
   pointer-events:none;background:linear-gradient(100deg,#fff0 0%,#fff7e0a8 42%,#ffffffd6 56%,#fff0 100%);
   filter:blur(16px);transform:translateX(0);animation:awa-beam 2.1s .25s var(--soft) 1 both}
 @keyframes awa-beam{from{transform:translateX(0);opacity:0}
@@ -52,11 +52,10 @@ body{margin:0}
   color:var(--petrol);font-weight:500}
 #awa-vertretung .awa-h{margin:5px 0 0;font-size:clamp(19px,2.3vw,25px);font-weight:500;
   letter-spacing:-.015em;color:var(--head);line-height:1.2}
-#awa-vertretung .awa-h b{font-weight:500;position:relative;white-space:nowrap}
-#awa-vertretung .awa-h b::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;
-  border-radius:2px;background:linear-gradient(90deg,#fec70b00,var(--gold) 28%,#f0b400 72%,#fec70b00);
-  transform:scaleX(0);transform-origin:left;transition:transform .9s .5s var(--soft)}
-#awa-vertretung.ready .awa-h b::after{transform:scaleX(1)}
+#awa-vertretung .awa-h i{display:block;width:0;height:2px;margin:9px 0 0;border-radius:2px;
+  background:linear-gradient(90deg,var(--gold),#f0b400 42%,#fec70b00);
+  transition:width 1.1s .55s var(--soft)}
+#awa-vertretung.ready .awa-h i{width:118px}
 
 /* ---- Knöpfe ---- */
 #awa-vertretung .awa-btn{position:relative;display:inline-flex;align-items:center;gap:8px;
@@ -78,220 +77,78 @@ body{margin:0}
 #awa-vertretung .awa-ghost::after{background:linear-gradient(100deg,#fff0,#13808c1f,#fff0)}
 </style>
 <style>
-/* ===== Bühne ===== */
-#awa-vertretung .awa-stage{position:relative;z-index:1;margin:0 0 15px;
-  transition:height .45s var(--soft)}
-#awa-vertretung .awa-sc{position:absolute;inset:0;opacity:0;visibility:hidden;
-  transition:opacity .5s var(--ease),visibility 0s .5s,transform .6s var(--soft);
-  transform:translateY(8px)}
-#awa-vertretung .awa-sc.on{opacity:1;visibility:visible;transform:none;transition:opacity .55s var(--ease),transform .6s var(--soft)}
-#awa-vertretung .awa-sc [data-at]{opacity:0;transform:translateY(7px);
-  transition:opacity .5s var(--d,0ms) var(--ease),transform .6s var(--d,0ms) var(--soft)}
-#awa-vertretung .awa-sc [data-at].in{opacity:1;transform:none}
+/* ===== die vier Zeilen ===== */
+#awa-vertretung .awa-list{list-style:none;margin:22px 0 0;padding:0;position:relative;z-index:2}
+#awa-vertretung .awa-row{display:block;position:relative}
+#awa-vertretung .awa-rb{position:relative;display:grid;align-items:start;width:100%;
+  background:linear-gradient(95deg,#ffffff00,#ffffff00);transition:background .55s var(--ease);
+  grid-template-columns:58px 1fr;gap:0 4px;padding:13px 10px 13px 19px;border:0;background:none;
+  cursor:pointer;text-align:left;font:inherit;color:inherit;overflow:hidden;border-radius:10px}
+#awa-vertretung .awa-rb::after{content:"";position:absolute;top:0;bottom:0;left:-55%;width:42%;
+  pointer-events:none;background:linear-gradient(100deg,#fff0,#fff6d98f 48%,#fff0);
+  transform:skewX(-16deg);opacity:0}
+#awa-vertretung .awa-row.on .awa-rb{background:linear-gradient(95deg,#ffffffe6 6%,#ffffff8c 58%,#ffffff00)}
+#awa-vertretung .awa-row.on .awa-rb::after{animation:awa-sweep 1.25s var(--soft) 1}
+@keyframes awa-sweep{0%{left:-55%;opacity:1}100%{left:122%;opacity:0}}
 
-/* ===== Szene 0: der geschlossene Vorgang ===== */
-#awa-vertretung .awa-dos{position:relative;margin:26px auto 24px;
-  width:min(330px,88%);padding:22px 24px 20px;border-radius:14px;background:#fff;
-  box-shadow:0 1px 0 #fff inset,0 18px 40px -26px #0c546966,0 0 0 1px var(--line);overflow:hidden}
-#awa-vertretung .awa-dos::after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:48%;
-  background:linear-gradient(100deg,#fff0,#fff8dc9e,#fff0);transform:skewX(-16deg);
-  animation:awa-swipe 2.6s 1.1s var(--soft) 1 both}
-@keyframes awa-swipe{to{left:130%}}
-#awa-vertretung .awa-dos h3{margin:0 0 3px;font-size:16.5px;font-weight:500;color:var(--head)}
-#awa-vertretung .awa-dos p{margin:0;font-size:13.5px;color:var(--muted)}
-#awa-vertretung .awa-dots{display:flex;gap:7px;margin:15px 0 0}
-#awa-vertretung .awa-dots i{width:7px;height:7px;border-radius:50%;background:var(--line2);
-  animation:awa-pulse 3.4s var(--soft) infinite}
-#awa-vertretung .awa-dots i:nth-child(2){animation-delay:.28s}
-#awa-vertretung .awa-dots i:nth-child(3){animation-delay:.56s}
-#awa-vertretung .awa-dots i:nth-child(4){animation-delay:.84s}
-@keyframes awa-pulse{0%,74%,100%{background:var(--line2)}10%,24%{background:var(--petrol)}}
+/* Schiene mit Punkt */
+#awa-vertretung .awa-rail{position:absolute;left:0;top:0;bottom:0;width:15px;pointer-events:none}
+#awa-vertretung .awa-rail::before{content:"";position:absolute;left:7px;top:0;bottom:0;width:1px;
+  background:var(--line2)}
+#awa-vertretung .awa-row:first-child .awa-rail::before{top:24px}
+#awa-vertretung .awa-row:last-child .awa-rail::before{bottom:auto;height:24px}
+#awa-vertretung .awa-rf{position:absolute;left:7px;top:0;bottom:0;width:1px;transform-origin:top;
+  transform:scaleY(var(--rp,0));background:linear-gradient(180deg,var(--petrol),#1a93a0)}
+#awa-vertretung .awa-row:first-child .awa-rf{top:24px}
+#awa-vertretung .awa-dot{position:absolute;left:7px;top:24px;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;
+  border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px var(--line2);
+  transition:box-shadow .5s var(--ease),transform .55s var(--soft)}
+#awa-vertretung .awa-row.done .awa-dot{box-shadow:0 0 0 1.5px var(--petrol)}
+#awa-vertretung .awa-row.on .awa-dot{background:var(--petrol);transform:scale(1.25);
+  box-shadow:0 0 0 1.5px var(--petrol),0 0 0 5px #13808c1f}
+#awa-vertretung .awa-list.idle .awa-row:first-child .awa-dot{animation:awa-wait 3.6s var(--soft) infinite}
+@keyframes awa-wait{0%,70%,100%{box-shadow:0 0 0 1.5px var(--line2),0 0 0 0 #13808c00}
+  18%{box-shadow:0 0 0 1.5px var(--petrol),0 0 0 6px #13808c00}}
 
-/* ===== gemeinsame Bausteine ===== */
-#awa-vertretung .awa-node{position:relative;display:flex;flex-direction:column;gap:2px;
-  padding:11px 13px 10px;border-radius:11px;background:#fff;text-align:center;
-  box-shadow:0 1px 0 #fff inset,0 10px 22px -18px #0c546980,0 0 0 1px var(--line);
-  font-size:14px;font-weight:500;color:var(--ink);transition:box-shadow .45s var(--ease),color .45s var(--ease)}
-#awa-vertretung .awa-node em{font-style:normal;font-size:10.5px;letter-spacing:.17em;
-  color:var(--sky);font-weight:500;transition:color .45s var(--ease)}
-#awa-vertretung .awa-node.lit{box-shadow:0 1px 0 #fff inset,0 12px 24px -18px #0c546999,0 0 0 1px var(--petrol)}
-#awa-vertretung .awa-node.lit em{color:var(--petrol)}
-#awa-vertretung .awa-node.auth{background:linear-gradient(176deg,#f4fafb,#fff);color:var(--deep)}
-#awa-vertretung .awa-cap{margin:0;font-size:13.5px;color:var(--muted);text-align:center;
-  transition:opacity .3s var(--ease)}
-#awa-vertretung .awa-cap b{font-weight:500;color:var(--deep)}
+/* Ziffer */
+#awa-vertretung .awa-no{font-weight:500;font-size:13px;letter-spacing:.08em;line-height:1.55;
+  color:#a6c5c9;transform-origin:left top;
+  transition:font-size .6s var(--soft),color .55s var(--ease),letter-spacing .6s var(--soft)}
+#awa-vertretung .awa-row.done .awa-no{color:var(--sky)}
+#awa-vertretung .awa-row.on .awa-no{font-size:clamp(23px,2.8vw,29px);line-height:.72;letter-spacing:-.01em;
+  color:transparent;background:linear-gradient(160deg,#1a93a0,var(--deep) 62%,#0c5469);
+  -webkit-background-clip:text;background-clip:text}
 
-/* ===== Szene 1 ===== */
-#awa-vertretung .awa-sw{position:relative;display:flex;gap:0;width:max-content;margin:0 auto 20px;
-  padding:3px;border-radius:999px;background:#fff;box-shadow:0 0 0 1px var(--line),0 6px 16px -14px #0c546999}
-#awa-vertretung .awa-sw span{position:relative;z-index:1;padding:7px 15px;border-radius:999px;
-  font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap;transition:color .4s var(--ease)}
-#awa-vertretung .awa-sw span.act{color:#fff}
-#awa-vertretung .awa-sw .awa-swp{position:absolute;z-index:0;top:3px;bottom:3px;left:3px;border-radius:999px;
-  background:linear-gradient(176deg,#1a93a0,var(--deep));width:var(--w,120px);
-  transform:translateX(var(--x,0px));transition:transform .62s var(--soft),width .62s var(--soft)}
-#awa-vertretung .awa-rail{position:relative;display:grid;align-items:center;
-  grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;padding:16px 16px 14px;border-radius:14px}
-#awa-vertretung .awa-frame{position:absolute;inset:0;border-radius:14px;pointer-events:none;
-  box-shadow:0 0 0 1px var(--petrol);opacity:0;transform:scale(.97);
-  transition:opacity .5s var(--ease),transform .6s var(--soft)}
-#awa-vertretung .awa-rail.bound .awa-frame{opacity:.55;transform:none}
-#awa-vertretung .awa-frame span{position:absolute;left:14px;top:-9px;padding:0 7px;background:#f6fafb;
-  font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--petrol);font-weight:500}
-#awa-vertretung .awa-arr{display:block;width:26px;height:1px;background:var(--line2);position:relative}
-#awa-vertretung .awa-arr::after{content:"";position:absolute;right:0;top:-3px;width:6px;height:6px;
-  border-top:1px solid var(--line2);border-right:1px solid var(--line2);transform:rotate(45deg)}
-#awa-vertretung .awa-bwrap{position:absolute;left:0;bottom:2px}
-#awa-vertretung .awa-badge{display:inline-flex;align-items:center;gap:7px;
-  padding:6px 12px 6px 9px;border-radius:999px;background:#fff;white-space:nowrap;
-  font-size:12.5px;font-weight:500;color:var(--deep);
-  box-shadow:0 0 0 1px var(--gold),0 8px 18px -14px #0c5469a8;
-  transform:translate(calc(var(--bx,0px) - 50%),0);
-  transition:transform .72s var(--soft)}
-#awa-vertretung .awa-badge i{width:7px;height:7px;border-radius:50%;flex:none;
-  background:linear-gradient(176deg,#ffe27a,var(--gold))}
-#awa-vertretung .awa-s1wrap{position:relative;padding-bottom:50px}
+/* Zeile */
+#awa-vertretung .awa-tx{font-size:14.5px;line-height:1.55;color:#88a2a8;letter-spacing:.035em;
+  transition:font-size .6s var(--soft),color .55s var(--ease),letter-spacing .6s var(--soft)}
+#awa-vertretung .awa-row.done .awa-tx{color:var(--muted)}
+#awa-vertretung .awa-row.on .awa-tx{font-size:clamp(16.5px,2.05vw,21px);line-height:1.42;
+  color:var(--ink);letter-spacing:-.008em}
+#awa-vertretung .awa-lead{color:inherit;transition:color .55s var(--ease)}
+#awa-vertretung .awa-row.on .awa-lead{color:var(--head);font-weight:500}
+#awa-vertretung .awa-sep{padding:0 .28em;color:var(--line2);transition:color .55s var(--ease)}
+#awa-vertretung .awa-row.on .awa-sep{color:var(--sky)}
 
-/* ===== Szene 2 ===== */
-#awa-vertretung .awa-sheets{display:grid;grid-template-columns:1fr 54px 1fr;align-items:start}
-#awa-vertretung .awa-sheet{padding:12px 14px 10px;border-radius:12px;background:#fff;
-  box-shadow:0 1px 0 #fff inset,0 12px 26px -22px #0c546999,0 0 0 1px var(--line)}
-#awa-vertretung .awa-sheet h4{margin:0 0 8px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;
-  color:var(--petrol);font-weight:500}
-#awa-vertretung .awa-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
-  height:29px;border-top:1px solid var(--line);font-size:13px;transition:background .4s var(--ease)}
-#awa-vertretung .awa-row .l{color:var(--muted);font-size:12px;white-space:nowrap}
-#awa-vertretung .awa-row .v{font-weight:500;color:var(--ink);text-align:right;transition:color .4s var(--ease)}
-#awa-vertretung .awa-row .v.gap{color:var(--sky);font-weight:400;letter-spacing:.2em}
-#awa-vertretung .awa-row.hit .v{color:var(--deep)}
-#awa-vertretung .awa-row.hit{background:linear-gradient(90deg,#fec70b00,#fec70b17)}
-#awa-vertretung .awa-sheet:first-child .awa-row.hit{background:linear-gradient(270deg,#fec70b00,#fec70b17)}
-#awa-vertretung .awa-gut{position:relative;align-self:stretch}
-#awa-vertretung .awa-mkr{position:absolute;left:50%;top:var(--t,0px);transform:translate(-50%,-50%) scale(.6);
-  width:24px;height:24px;border-radius:50%;background:#fff;opacity:0;
-  display:grid;place-items:center;font-size:12px;font-weight:500;color:var(--deep);
-  box-shadow:0 0 0 1px var(--gold),0 6px 14px -10px #0c5469a8;
-  transition:opacity .4s var(--ease),transform .5s var(--soft)}
-#awa-vertretung .awa-mkr.in{opacity:1;transform:translate(-50%,-50%) scale(1)}
-#awa-vertretung .awa-mkr::before{content:"";position:absolute;left:50%;top:50%;width:46px;height:46px;
-  margin:-23px 0 0 -23px;border-radius:50%;box-shadow:0 0 0 1px var(--gold);opacity:0}
-#awa-vertretung .awa-mkr.in::before{animation:awa-ring 1.1s .1s var(--soft) 1}
-@keyframes awa-ring{from{opacity:.7;transform:scale(.45)}to{opacity:0;transform:scale(1)}}
-#awa-vertretung .awa-finds{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:13px 0 0}
-#awa-vertretung .awa-find{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
-  background:#fff;font-size:12.5px;font-weight:500;color:var(--deep);
-  box-shadow:0 0 0 1px var(--line2),0 6px 14px -12px #0c5469a8;
-  opacity:0;transform:translateY(6px) scale(.97);
-  transition:opacity .45s var(--ease),transform .5s var(--soft),box-shadow .45s var(--ease)}
-#awa-vertretung .awa-find.in{opacity:1;transform:none;box-shadow:0 0 0 1px var(--gold),0 8px 16px -12px #0c5469a8}
-#awa-vertretung .awa-find i{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+/* Schlüsselwort: feine Goldlinie zieht sich darunter */
+#awa-vertretung .awa-m{position:relative;white-space:nowrap;display:inline-block;
+  transition:color .5s var(--ease)}
+#awa-vertretung .awa-m::after{content:"";position:absolute;left:0;right:0;bottom:-.12em;height:2px;
+  border-radius:2px;background:linear-gradient(90deg,#c4d8dc,#dce5e700);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .62s var(--soft),background .8s var(--ease)}
+#awa-vertretung .awa-row.on .awa-m::after{background:linear-gradient(90deg,var(--gold),#f0b400 65%,#fec70b00)}
+#awa-vertretung .awa-m.lit{color:var(--deep)}
+#awa-vertretung .awa-row.on .awa-m.lit{color:var(--head);font-weight:500}
+#awa-vertretung .awa-m.lit::after{transform:scaleX(1)}
+#awa-vertretung .awa-row.on .awa-m.lit{animation:awa-land .62s var(--soft) 1}
+@keyframes awa-land{0%{transform:translateY(0)}34%{transform:translateY(-3px)}100%{transform:none}}
 
-/* ===== Szene 3 ===== */
-#awa-vertretung .awa-docs{display:flex;flex-direction:column;gap:9px}
-#awa-vertretung .awa-doc{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;
-  background:#fff;box-shadow:0 1px 0 #fff inset,0 10px 22px -20px #0c546999,0 0 0 1px var(--line)}
-#awa-vertretung .awa-dn{flex:0 0 112px;font-size:13.5px;font-weight:500;color:var(--ink);
-  display:flex;align-items:center;gap:8px}
-#awa-vertretung .awa-dn svg{width:15px;height:15px;color:var(--petrol);flex:none}
-#awa-vertretung .awa-crit{display:flex;flex:1 1 auto;gap:7px;min-width:0}
-#awa-vertretung .awa-cl{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:5px;
-  height:30px;padding:0 6px;border-radius:8px;background:#f7fafb;font-size:12px;color:var(--sky);
-  box-shadow:0 0 0 1px var(--line);white-space:nowrap;overflow:hidden;
-  transition:color .4s var(--ease),box-shadow .4s var(--ease),background .4s var(--ease)}
-#awa-vertretung .awa-cl u{text-decoration:none;overflow:hidden;text-overflow:ellipsis}
-#awa-vertretung .awa-cl s{text-decoration:none;width:13px;height:13px;flex:none;display:grid;place-items:center;
-  opacity:0;transform:scale(.4);transition:opacity .35s var(--ease),transform .45s var(--soft)}
-#awa-vertretung .awa-cl s svg{width:13px;height:13px}
-#awa-vertretung .awa-cl.ok{color:var(--deep);background:#fff;box-shadow:0 0 0 1px var(--petrol)}
-#awa-vertretung .awa-cl.ok s{opacity:1;transform:none;color:var(--petrol)}
-#awa-vertretung .awa-cl.open{color:var(--deep);background:#fff;box-shadow:0 0 0 1px var(--gold)}
-#awa-vertretung .awa-cl.open s{opacity:1;transform:none;color:#c89a00}
-
-/* ===== Szene 4 ===== */
-#awa-vertretung .awa-ph{position:absolute;inset:0;opacity:0;visibility:hidden;
-  transition:opacity .45s var(--ease),visibility 0s .45s}
-#awa-vertretung .awa-ph.on{opacity:1;visibility:visible;transition:opacity .5s var(--ease)}
-#awa-vertretung .awa-sig{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 0 18px}
-#awa-vertretung .awa-sig>span{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;
-  background:#fff;font-size:12.5px;font-weight:500;color:var(--deep);
-  box-shadow:0 0 0 1px var(--gold),0 8px 16px -13px #0c5469a8}
-#awa-vertretung .awa-sig b{font-weight:500;color:var(--muted)}
-#awa-vertretung .awa-sig .old{color:var(--sky);text-decoration:line-through}
-#awa-vertretung .awa-fork{display:flex;flex-direction:column;gap:8px;width:min(460px,96%);margin:0 auto}
-#awa-vertretung .awa-opt{position:relative;display:flex;align-items:center;gap:10px;padding:10px 13px;
-  border-radius:11px;background:#fff;font-size:13.5px;color:var(--ink);
-  box-shadow:0 1px 0 #fff inset,0 10px 22px -20px #0c546999,0 0 0 1px var(--line);
-  transition:opacity .5s var(--ease),box-shadow .5s var(--ease),color .5s var(--ease),transform .5s var(--soft)}
-#awa-vertretung .awa-opt i{width:8px;height:8px;border-radius:50%;background:var(--line2);flex:none;
-  transition:background .4s var(--ease),box-shadow .4s var(--ease)}
-#awa-vertretung .awa-fork.done .awa-opt{opacity:.38}
-#awa-vertretung .awa-fork.done .awa-opt.pick{opacity:1;color:var(--deep);
-  box-shadow:0 1px 0 #fff inset,0 12px 24px -18px #0c546999,0 0 0 1px var(--petrol)}
-#awa-vertretung .awa-fork.done .awa-opt.pick i{background:var(--petrol);box-shadow:0 0 0 3px #13808c26}
-#awa-vertretung .awa-opt em{margin-left:auto;font-style:normal;font-size:10.5px;white-space:nowrap;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--petrol);font-weight:500;opacity:0;transition:opacity .5s .2s var(--ease)}
-#awa-vertretung .awa-fork.done .awa-opt.pick em{opacity:1}
-#awa-vertretung .awa-rec{width:min(430px,100%);margin:0 auto;padding:14px 16px 13px;border-radius:13px;
-  background:#fff;box-shadow:0 1px 0 #fff inset,0 16px 34px -26px #0c546999,0 0 0 1px var(--line)}
-#awa-vertretung .awa-rec h4{margin:0 0 9px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;
-  color:var(--petrol);font-weight:500}
-#awa-vertretung .awa-rl{display:flex;align-items:baseline;gap:12px;height:30px;border-top:1px solid var(--line);
-  font-size:13px}
-#awa-vertretung .awa-rl .k{flex:0 0 108px;color:var(--muted);font-size:12px}
-#awa-vertretung .awa-rl .w{position:relative;flex:1 1 auto;color:var(--ink);font-weight:500;overflow:hidden;
-  white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path .62s var(--soft)}
-#awa-vertretung .awa-rl.in .w{clip-path:inset(0 0 0 0)}
-#awa-vertretung .awa-rule{height:2px;margin:11px 0 0;border-radius:2px;transform:scaleX(0);transform-origin:left;
-  background:linear-gradient(90deg,var(--gold),#f0b400 60%,#fec70b00);transition:transform .7s var(--soft)}
-#awa-vertretung .awa-rec.sealed .awa-rule{transform:scaleX(1)}
-#awa-vertretung .awa-hand{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin:8px 0 0;
-  font-size:12px;color:var(--petrol);font-weight:500;opacity:0;transform:translateX(-6px);
-  transition:opacity .5s .25s var(--ease),transform .55s .25s var(--soft)}
-#awa-vertretung .awa-rec.sealed .awa-hand{opacity:1;transform:none}
-#awa-vertretung .awa-hand svg{width:14px;height:14px}
-
-/* ===== Lernziele ===== */
-#awa-vertretung .awa-goals{list-style:none;margin:0;padding:0;position:relative;z-index:2}
-#awa-vertretung .awa-goals li+li{border-top:1px solid var(--line)}
-#awa-vertretung .awa-gb{position:relative;display:flex;align-items:baseline;gap:13px;width:100%;
-  padding:9px 10px 9px 2px;border:0;background:none;cursor:pointer;text-align:left;
-  font:inherit;color:inherit;border-radius:9px;transition:background .3s var(--ease)}
-#awa-vertretung .awa-gb:hover{background:#13808c0a}
-#awa-vertretung .awa-no{flex:none;font-size:12.5px;font-weight:500;letter-spacing:.1em;color:var(--sky);
-  width:22px;transition:color .5s var(--ease)}
-#awa-vertretung li.on .awa-no,#awa-vertretung li.done .awa-no{color:var(--petrol)}
-#awa-vertretung .awa-gt{flex:none;font-size:15px;font-weight:500;color:#9ab2b7;position:relative;
-  transition:color .55s var(--ease)}
-#awa-vertretung li.on .awa-gt,#awa-vertretung li.done .awa-gt{color:var(--head)}
-#awa-vertretung .awa-gt::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,var(--gold),#f0b40000);transform:scaleX(0);transform-origin:left;
-  transition:transform .65s var(--soft)}
-#awa-vertretung li.on .awa-gt::after,#awa-vertretung li.done .awa-gt::after{transform:scaleX(1)}
-#awa-vertretung .awa-chips{display:flex;flex-wrap:wrap;gap:6px}
-#awa-vertretung .awa-chips b{font-weight:400;font-size:12.5px;padding:3px 10px;border-radius:999px;
-  color:#a7bcc0;box-shadow:0 0 0 1px var(--line);background:#ffffff8c;white-space:nowrap;
-  transition:color .45s var(--ease),box-shadow .45s var(--ease),background .45s var(--ease),transform .5s var(--soft)}
-#awa-vertretung .awa-chips b.lit{color:var(--deep);background:#fff;box-shadow:0 0 0 1px var(--petrol);
-  animation:awa-chip .55s var(--soft) 1}
-@keyframes awa-chip{0%{transform:translateY(0) scale(1)}38%{transform:translateY(-2px) scale(1.045)}100%{transform:none}}
-
-/* ===== Tonspur ===== */
-#awa-vertretung .awa-foot{position:relative;z-index:2;display:flex;align-items:center;gap:14px;margin:16px 0 0}
-#awa-vertretung .awa-track{position:relative;flex:1 1 auto;height:18px;cursor:pointer}
-#awa-vertretung .awa-track::before{content:"";position:absolute;left:0;right:0;top:8px;height:2px;
-  border-radius:2px;background:var(--line)}
-#awa-vertretung .awa-fill{position:absolute;left:0;top:8px;height:2px;border-radius:2px;width:var(--p,0%);
-  background:linear-gradient(90deg,var(--petrol),#1a93a0)}
-#awa-vertretung .awa-mk{position:absolute;top:1px;left:var(--x,0);width:16px;height:16px;margin-left:-8px;
-  padding:0;border:0;border-radius:50%;background:none;cursor:pointer}
-#awa-vertretung .awa-mk::after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;
-  margin:-3.5px 0 0 -3.5px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px var(--line2);
-  transition:box-shadow .4s var(--ease),transform .4s var(--soft)}
-#awa-vertretung .awa-mk:hover::after{transform:scale(1.25)}
-#awa-vertretung .awa-mk.done::after{box-shadow:0 0 0 1.5px var(--petrol)}
-#awa-vertretung .awa-mk.now::after{background:var(--petrol);box-shadow:0 0 0 1.5px var(--petrol),0 0 0 4px #13808c26}
-#awa-vertretung .awa-time{flex:none;font-size:12px;color:var(--sky);font-variant-numeric:tabular-nums}
-#awa-vertretung .awa-txt{position:relative;z-index:2;margin:14px 0 0;font-size:13px;color:var(--muted)}
+/* ===== Fuß ===== */
+#awa-vertretung .awa-foot{position:relative;z-index:2;display:flex;align-items:center;
+  justify-content:flex-end;gap:10px;margin:14px 0 0;font-size:12px;color:var(--sky)}
+#awa-vertretung .awa-time{font-variant-numeric:tabular-nums}
+#awa-vertretung .awa-txt{position:relative;z-index:2;margin:10px 0 0;font-size:13px;color:var(--muted)}
 #awa-vertretung .awa-txt summary{cursor:pointer;color:var(--petrol);font-weight:500;font-size:12.5px;
   list-style:none;display:inline-flex;align-items:center;gap:6px}
 #awa-vertretung .awa-txt summary::-webkit-details-marker{display:none}
@@ -304,23 +161,10 @@ body{margin:0}
 #awa-vertretung[data-l="S"]{padding:20px 16px 16px;border-radius:14px}
 #awa-vertretung[data-l="S"] .awa-top{flex-direction:column;align-items:stretch;gap:14px}
 #awa-vertretung[data-l="S"] .awa-btn{width:100%;justify-content:center}
-#awa-vertretung[data-l="S"] .awa-rail{grid-template-columns:1fr;gap:8px;padding:14px 12px 12px}
-#awa-vertretung[data-l="S"] .awa-arr{width:1px;height:16px;margin:0 auto}
-#awa-vertretung[data-l="S"] .awa-arr::after{right:-3px;top:auto;bottom:0;transform:rotate(135deg)}
-#awa-vertretung[data-l="S"] .awa-sw{width:100%;flex-direction:column;gap:2px;border-radius:14px}
-#awa-vertretung[data-l="S"] .awa-sw span{text-align:center}
-#awa-vertretung[data-l="S"] .awa-sw .awa-swp{border-radius:11px}
-#awa-vertretung[data-l="S"] .awa-sheets{grid-template-columns:1fr;gap:10px}
-#awa-vertretung[data-l="S"] .awa-gut{display:none}
-#awa-vertretung[data-l="S"] .awa-doc{flex-direction:column;align-items:stretch;gap:8px}
-#awa-vertretung[data-l="S"] .awa-dn{flex:none}
-#awa-vertretung[data-l="S"] .awa-crit{flex-wrap:wrap}
-#awa-vertretung[data-l="S"] .awa-cl{flex:1 1 calc(50% - 4px)}
-#awa-vertretung[data-l="S"] .awa-rl{height:auto;padding:7px 0;flex-direction:column;gap:1px}
-#awa-vertretung[data-l="S"] .awa-rl .k{flex:none}
-#awa-vertretung[data-l="S"] .awa-gb{flex-wrap:wrap;gap:8px 11px}
-#awa-vertretung[data-l="S"] .awa-chips{flex-basis:100%;padding-left:35px}
-#awa-vertretung[data-l="M"] .awa-dn{flex:0 0 96px}
+#awa-vertretung[data-l="S"] .awa-rb{grid-template-columns:40px 1fr;padding:11px 4px 11px 19px}
+#awa-vertretung[data-l="S"] .awa-row.on .awa-no{font-size:21px}
+#awa-vertretung[data-l="S"] .awa-row.on .awa-tx{font-size:16.5px}
+#awa-vertretung[data-l="M"] .awa-rb{grid-template-columns:48px 1fr}
 
 @media (prefers-reduced-motion:reduce){
   #awa-vertretung *,#awa-vertretung *::before,#awa-vertretung *::after{
@@ -336,142 +180,14 @@ body{margin:0}
   <div class="awa-top">
     <div>
       <p class="awa-kick">Lernziele</p>
-      <h2 class="awa-h">Ein Vorgang. <b>Vier Stationen.</b></h2>
+      <h2 class="awa-h">Nach diesem Kurs &hellip;<i></i></h2>
     </div>
     <button type="button" class="awa-btn" id="awa-play"></button>
   </div>
 
-  <div class="awa-stage" id="awa-stage" aria-hidden="true">
+  <ol class="awa-list idle" id="awa-list"></ol>
 
-    <!-- 0 · der geschlossene Vorgang -->
-    <div class="awa-sc on" data-s="0">
-      <div class="awa-dos">
-        <h3>Vorgang 24-0187</h3>
-        <p>Einfuhr · Vertretung noch offen</p>
-        <div class="awa-dots"><i></i><i></i><i></i><i></i></div>
-      </div>
-    </div>
-
-    <!-- 1 · Rollen und Vertretung -->
-    <div class="awa-sc" data-s="1">
-      <div class="awa-s1wrap">
-        <div class="awa-sw" data-at="1" id="awa-sw">
-          <span class="awa-swp" id="awa-swp"></span>
-          <span class="act">direkte Vertretung</span><span>indirekte Vertretung</span>
-        </div>
-        <div class="awa-rail" id="awa-rail" data-at="1" data-k="3" data-ks="bound">
-          <span class="awa-frame"><span>konkreter Fall</span></span>
-          <div class="awa-node" data-k="2" data-ks="lit" style="--d:0ms"><em>ANMELDER</em>Nordhafen GmbH</div>
-          <i class="awa-arr"></i>
-          <div class="awa-node" data-k="2" data-ks="lit" style="--d:130ms"><em>ZOLLVERTRETER</em>Spedition Mehlhorn</div>
-          <i class="awa-arr"></i>
-          <div class="awa-node auth" data-k="2" data-ks="lit" style="--d:260ms"><em>ANMELDESTELLE</em>Zollamt</div>
-        </div>
-        <span class="awa-bwrap" data-at="1"><span class="awa-badge" id="awa-badge"><i></i>Zollschuldner</span></span>
-      </div>
-      <p class="awa-cap" data-at="1" id="awa-cap1">im Namen und für Rechnung des <b>Anmelders</b></p>
-    </div>
-
-    <!-- 2 · Daten und Unterlagen prüfen -->
-    <div class="awa-sc" data-s="2">
-      <div class="awa-sheets" id="awa-sheets">
-        <div class="awa-sheet" data-at="1">
-          <h4>Auftragsdaten</h4>
-          <div class="awa-row"><span class="l">Empfänger</span><span class="v">Nordhafen GmbH</span></div>
-          <div class="awa-row" data-k="2" data-off="3" data-ks="hit"><span class="l">Menge</span><span class="v">420 Kartons</span></div>
-          <div class="awa-row" data-k="4" data-ks="hit"><span class="l">Vollmacht für</span><span class="v">Nordhafen GmbH</span></div>
-          <div class="awa-row" data-k="3" data-off="4" data-ks="hit"><span class="l">Vertretungsart</span><span class="v">indirekt</span></div>
-        </div>
-        <div class="awa-gut" id="awa-gut">
-          <span class="awa-mkr" data-k="2" data-ks="in" data-row="1">≠</span>
-          <span class="awa-mkr" data-k="3" data-ks="in" data-row="3">!</span>
-          <span class="awa-mkr" data-k="4" data-ks="in" data-row="2">?</span>
-        </div>
-        <div class="awa-sheet" data-at="1">
-          <h4>Unterlagen</h4>
-          <div class="awa-row"><span class="l">Empfänger</span><span class="v">Nordhafen GmbH</span></div>
-          <div class="awa-row" data-k="2" data-off="3" data-ks="hit"><span class="l">Menge</span><span class="v">380 Kartons</span></div>
-          <div class="awa-row" data-k="4" data-ks="hit"><span class="l">Vollmacht für</span><span class="v">Nordhafen Logistik</span></div>
-          <div class="awa-row" data-k="3" data-off="4" data-ks="hit"><span class="l">Vertretungsart</span><span class="v gap">—</span></div>
-        </div>
-      </div>
-      <div class="awa-finds">
-        <span class="awa-find" data-k="2" data-ks="in"><i></i>Widerspruch</span>
-        <span class="awa-find" data-k="3" data-ks="in"><i></i>Informationslücke</span>
-        <span class="awa-find" data-k="4" data-ks="in"><i></i>Zuordnungsproblem</span>
-      </div>
-    </div>
-
-    <!-- 3 · Unterlagen beurteilen -->
-    <div class="awa-sc" data-s="3">
-      <div class="awa-docs">
-        <div class="awa-doc" data-at="1">
-          <span class="awa-dn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/></svg>Vollmacht</span>
-          <span class="awa-crit" data-at="4">
-            <span class="awa-cl" data-k="5" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>geeignet</u></span>
-            <span class="awa-cl" data-k="6" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>gültig</u></span>
-            <span class="awa-cl" data-k="7" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>zugeordnet</u></span>
-            <span class="awa-cl" data-k="8" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>verfügbar</u></span>
-          </span>
-        </div>
-        <div class="awa-doc" data-at="2">
-          <span class="awa-dn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/></svg>Genehmigung</span>
-          <span class="awa-crit" data-at="4">
-            <span class="awa-cl" data-k="5" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>geeignet</u></span>
-            <span class="awa-cl" data-k="6" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>gültig</u></span>
-            <span class="awa-cl" data-k="7" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>zugeordnet</u></span>
-            <span class="awa-cl" data-k="8" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>verfügbar</u></span>
-          </span>
-        </div>
-        <div class="awa-doc" data-at="3">
-          <span class="awa-dn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v5h5"/></svg>Nachweis</span>
-          <span class="awa-crit" data-at="4">
-            <span class="awa-cl" data-k="5" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>geeignet</u></span>
-            <span class="awa-cl" data-k="6" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>gültig</u></span>
-            <span class="awa-cl" data-k="7" data-ks="ok"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></s><u>zugeordnet</u></span>
-            <span class="awa-cl" data-k="8" data-ks="open"><s><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6"/><path d="M12 17h.01"/></svg></s><u>verfügbar</u></span>
-          </span>
-        </div>
-      </div>
-      <p class="awa-cap" data-at="4" style="margin-top:14px">drei Belege, vier Fragen &ndash; <b>eine bleibt offen</b></p>
-    </div>
-
-    <!-- 4 · nächster Schritt und Vermerk -->
-    <div class="awa-sc" data-s="4">
-      <div class="awa-ph" data-k="1" data-off="5" data-ks="on">
-        <div class="awa-sig">
-          <span data-at="1"><i style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:block"></i>Nachweis <b>nicht verfügbar</b></span>
-          <span data-at="2"><i style="width:7px;height:7px;border-radius:50%;background:var(--gold);display:block"></i>Menge <span class="old">420</span> &rarr; <b>380</b></span>
-        </div>
-        <div class="awa-fork" data-at="3" data-k="4" data-ks="done">
-          <span class="awa-opt"><i></i>Rückfrage an den Auftraggeber</span>
-          <span class="awa-opt pick"><i></i>Nachweis nachfordern<em>zulässiger nächster Schritt</em></span>
-          <span class="awa-opt"><i></i>Vorgang anhalten</span>
-        </div>
-      </div>
-      <div class="awa-ph" data-k="5" data-ks="on">
-        <div class="awa-rec" data-k="9" data-ks="sealed">
-          <h4>Vermerk zum Vorgang 24-0187</h4>
-          <div class="awa-rl" data-k="5" data-ks="in"><span class="k">Prüfgrundlage</span><span class="w">Auftrag + Unterlagen, Stand 12.03.</span></div>
-          <div class="awa-rl" data-k="6" data-ks="in"><span class="k">Entscheidung</span><span class="w">Nachweis nachfordern</span></div>
-          <div class="awa-rl" data-k="7" data-ks="in"><span class="k">Status</span><span class="w">offen · Frist 14.03.</span></div>
-          <div class="awa-rl" data-k="8" data-ks="in"><span class="k">Übergabe</span><span class="w">an die Zollabteilung</span></div>
-          <div class="awa-rule"></div>
-          <div class="awa-hand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg> übergeben</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <p class="awa-kick" style="margin:0 0 2px;color:#9ab2b7">Nach diesem Kurs &hellip;</p>
-  <ol class="awa-goals" id="awa-goals"></ol>
-
-  <div class="awa-foot">
-    <div class="awa-track" id="awa-track" role="group" aria-label="Tonspur">
-      <span class="awa-fill" id="awa-fill"></span>
-    </div>
-    <span class="awa-time" id="awa-time">0:00 / 0:39</span>
-  </div>
+  <div class="awa-foot"><span class="awa-time" id="awa-time">0:00 / 0:39</span></div>
 
   <details class="awa-txt">
     <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>Gesprochenen Text anzeigen</summary>
@@ -494,51 +210,34 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pad(n){return n<10?'0'+n:''+n;}
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-var stage=$('awa-stage'),au=$('awa-au'),btn=$('awa-play'),sw=$('awa-sw'),swp=$('awa-swp'),
-    rail=$('awa-rail'),badge=$('awa-badge'),cap1=$('awa-cap1'),track=$('awa-track'),
-    fill=$('awa-fill'),timeEl=$('awa-time');
-var scenes=[].slice.call(stage.querySelectorAll('.awa-sc'));
+var au=$('awa-au'),btn=$('awa-play'),list=$('awa-list'),timeEl=$('awa-time');
 var DUR=38.95;
 
-/* ===== Inhalt ===== */
-var GOAL=[
- {t:0.00, n:'Rollen zuordnen',       c:['direkte Vertretung','indirekte Vertretung']},
- {t:11.24,n:'Daten prüfen',          c:['Widersprüche','Informationslücken','Zuordnungsprobleme']},
- {t:18.50,n:'Unterlagen beurteilen', c:['geeignet','gültig','zugeordnet','verfügbar']},
- {t:28.45,n:'Nächster Schritt',      c:['Prüfgrundlage','Entscheidung','Status','Übergabe']}
+/* ===== Die vier Zeilen, Wort für Wort wie geliefert =====
+   m = Schlüsselwort (leuchtet auf, wenn es gesprochen wird)
+   lead = führende Wendung vor dem Gedankenstrich
+   d = Gedankenstrich, s = Mittelpunkt */
+var L=[
+ {t:0.30, p:[{m:'Rollen zuordnen',lead:1},{d:1},{m:'direkte'},{s:1},{m:'indirekte Vertretung'}]},
+ {t:11.24,p:[{m:'Widersprüche'},{s:1},{m:'Informationslücken'},{s:1},{m:'Zuordnungsprobleme'}]},
+ {t:18.50,p:[{m:'geeignet'},{s:1},{m:'gültig'},{s:1},{m:'zugeordnet'},{s:1},{m:'verfügbar'}]},
+ {t:28.45,p:[{m:'nächster Schritt',lead:1},{d:1},{m:'Prüfgrundlage'},{s:1},{m:'Entscheidung'},
+             {s:1},{m:'Status'},{s:1},{m:'Übergabe'}]}
 ];
 
-/* Marken auf der Tonspur: an den gemessenen Sprechpausen der Aufnahme.
-   sc = Szene, st = Schritt in der Szene, sw = Schalterstellung,
-   g = aktives Lernziel, ch = [Lernziel, Schlagwort] */
+/* Einsätze, ausgerichtet an den gemessenen Sprechpausen der Aufnahme.
+   g = Zeile wird groß, m = [Zeile, Schlüsselwort] leuchtet auf */
 var CUE=[
- {t:0.30, sc:1, st:1, g:0, sw:0},
- {t:1.85, ch:[0,0]},
- {t:2.75, sw:1, ch:[0,1]},
- {t:4.42, st:2},
- {t:6.73, st:3},
- {t:11.24,sc:2, st:1, g:1},
- {t:13.50,st:2, ch:[1,0]},
- {t:14.76,st:3, ch:[1,1]},
- {t:16.05,st:4, ch:[1,2]},
- {t:18.50,sc:3, st:1, g:2},
- {t:19.90,st:2},
- {t:21.20,st:3},
- {t:22.94,st:4},
- {t:23.11,st:5, ch:[2,0]},
- {t:24.10,st:6, ch:[2,1]},
- {t:24.85,st:7, ch:[2,2]},
- {t:25.80,st:8, ch:[2,3]},
- {t:28.45,sc:4, st:1, g:3},
- {t:30.07,st:2},
- {t:31.35,st:3},
- {t:33.00,st:4},
- {t:34.07,st:5, ch:[3,0]},
- {t:35.72,st:6, ch:[3,1]},
- {t:36.58,st:7, ch:[3,2]},
- {t:37.54,st:8, ch:[3,3]},
- {t:38.30,st:9}
+ {t:0.30, g:0},
+ {t:1.85, m:[0,1]}, {t:2.75, m:[0,2]}, {t:4.42, m:[0,0]},
+ {t:11.24,g:1},
+ {t:13.50,m:[1,0]}, {t:14.76,m:[1,1]}, {t:16.05,m:[1,2]},
+ {t:18.50,g:2},
+ {t:23.11,m:[2,0]}, {t:24.10,m:[2,1]}, {t:24.85,m:[2,2]}, {t:25.80,m:[2,3]},
+ {t:28.45,g:3},
+ {t:32.20,m:[3,0]},
+ {t:34.07,m:[3,1]}, {t:35.72,m:[3,2]}, {t:36.58,m:[3,3]}, {t:37.54,m:[3,4]},
+ {t:38.80,g:-1}
 ];
 
 var ICO={
@@ -547,94 +246,54 @@ var ICO={
  again:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>'
 };
 
-/* ===== Lernziele ===== */
-var goals=$('awa-goals');
-goals.innerHTML=GOAL.map(function(g,i){
- return '<li data-g="'+i+'"><button type="button" class="awa-gb" data-i="'+i+'">'+
+/* ===== Aufbau ===== */
+list.innerHTML=L.map(function(g,i){
+ var k=-1;
+ var tx=g.p.map(function(t){
+  if(t.d)return '<span class="awa-sep">&mdash;</span>';
+  if(t.s)return '<span class="awa-sep">&middot;</span>';
+  k++;return '<span class="awa-m'+(t.lead?' awa-lead':'')+'" data-m="'+k+'">'+esc(t.m)+'</span>';
+ }).join('');
+ return '<li class="awa-row" data-i="'+i+'">'+
+  '<span class="awa-rail"><i class="awa-rf"></i><b class="awa-dot"></b></span>'+
+  '<button type="button" class="awa-rb" data-i="'+i+'">'+
   '<span class="awa-no">'+pad(i+1)+'</span>'+
-  '<span class="awa-gt">'+esc(g.n)+'</span>'+
-  '<span class="awa-chips">'+g.c.map(function(c){return '<b>'+esc(c)+'</b>';}).join('')+'</span>'+
-  '</button></li>';
+  '<span class="awa-tx">'+tx+'</span></button></li>';
 }).join('');
-var lis=[].slice.call(goals.children);
-var chipsOf=lis.map(function(li){return [].slice.call(li.querySelectorAll('.awa-chips b'));});
-GOAL.forEach(function(g,i){
- var b=document.createElement('button');
- b.type='button';b.className='awa-mk';b.setAttribute('data-i',i);
- b.style.setProperty('--x',(g.t/DUR*100).toFixed(2)+'%');
- b.innerHTML='<span class="awa-sr">Lernziel '+(i+1)+': '+esc(g.n)+'</span>';
- track.appendChild(b);
-});
-var marks=[].slice.call(track.querySelectorAll('.awa-mk'));
+var rows=[].slice.call(list.children);
+var marks=rows.map(function(r){return [].slice.call(r.querySelectorAll('.awa-m'));});
+var fills=rows.map(function(r){return r.querySelector('.awa-rf');});
 
-/* ===== Szenen ===== */
-function clearScene(s){
- [].forEach.call(s.querySelectorAll('[data-at]'),function(e){e.classList.remove('in');});
- [].forEach.call(s.querySelectorAll('[data-k]'),function(e){
-   e.classList.remove(e.getAttribute('data-ks')||'k');});
-}
-function applyScene(i,step){
- var s=scenes[i];if(!s)return;
- [].forEach.call(s.querySelectorAll('[data-at]'),function(e){
-   e.classList.toggle('in',+e.getAttribute('data-at')<=step);});
- [].forEach.call(s.querySelectorAll('[data-k]'),function(e){
-   var k=+e.getAttribute('data-k'),off=e.getAttribute('data-off');
-   e.classList.toggle(e.getAttribute('data-ks')||'k',step>=k&&(off===null||step<+off));});
-}
-var swNow=-1;
-function swSet(i){
- var sp=[].slice.call(sw.querySelectorAll('span')).filter(function(e){
-   return !e.classList.contains('awa-swp');});
- sp.forEach(function(e,n){e.classList.toggle('act',n===i);});
- var b=sw.getBoundingClientRect(),r=sp[i].getBoundingClientRect();
- if(b.width){
-  swp.style.setProperty('--w',r.width.toFixed(1)+'px');
-  swp.style.setProperty('--x',(r.left-b.left-3).toFixed(1)+'px');
- }
- var nodes=rail.querySelectorAll('.awa-node'),wrap=badge.closest('.awa-s1wrap');
- var nr=nodes[i].getBoundingClientRect(),wr=wrap.getBoundingClientRect();
- if(wr.width)badge.style.setProperty('--bx',(nr.left+nr.width/2-wr.left).toFixed(1)+'px');
- cap1.innerHTML=i===0?'im Namen und für Rechnung des <b>Anmelders</b>'
-                     :'im eigenen Namen, für fremde Rechnung &ndash; <b>Zollvertreter</b>';
- swNow=i;
-}
-
-var shown=-1,SH=[];
+/* ===== Zustand ===== */
+var gNow=-2,applied=-1;
 function render(idx){
- var sc=0,st=0,swi=0,g=-1,lit={},i,c;
+ var g=-1,lit={},i,c;
  for(i=0;i<idx;i++){c=CUE[i];
-  if(c.sc!==undefined){sc=c.sc;st=0;}
-  if(c.st!==undefined)st=c.st;
-  if(c.sw!==undefined)swi=c.sw;
   if(c.g!==undefined)g=c.g;
-  if(c.ch)lit[c.ch[0]+'-'+c.ch[1]]=1;
- }
- if(sc!==shown){
-  var prev=shown;shown=sc;
-  scenes.forEach(function(s,n){s.classList.toggle('on',n===sc);});
-  if(SH[sc])stage.style.height=SH[sc]+'px';
-  if(prev>=0)setTimeout(function(){if(shown!==prev)clearScene(scenes[prev]);},520);
- }
- applyScene(sc,st);
- if(sc===1&&swi!==swNow)swSet(swi);
- lis.forEach(function(li,n){
-  li.classList.toggle('on',n===g);
-  li.classList.toggle('done',g>n);
-  chipsOf[n].forEach(function(b,m){b.classList.toggle('lit',!!lit[n+'-'+m]);});
+  if(c.m)lit[c.m[0]+'-'+c.m[1]]=1;}
+ rows.forEach(function(r,n){
+  r.classList.toggle('on',n===g);
+  r.classList.toggle('done',g<0?idx>0:g>n);
+  marks[n].forEach(function(e,m){e.classList.toggle('lit',!!lit[n+'-'+m]);});
  });
- marks.forEach(function(m,n){
-  m.classList.toggle('now',n===g);m.classList.toggle('done',g>n);});
+ gNow=g;
+}
+function rails(t){
+ rows.forEach(function(r,n){
+  var a=L[n].t,b=n+1<L.length?L[n+1].t:DUR,p;
+  p=t<=a?0:t>=b?1:(t-a)/(b-a);
+  fills[n].style.setProperty('--rp',p.toFixed(3));
+ });
 }
 
-/* ===== Zeit ===== */
-var playing=false,silent=false,vt=0,vlast=0,applied=-1,raf=0;
+/* ===== Ton und Uhr ===== */
+var playing=false,silent=false,vt=0,vlast=0,raf=0;
 au.addEventListener('error',function(){silent=true;});
 function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+pad(s%60);}
 function tick(){
  var idx=0;while(idx<CUE.length&&CUE[idx].t<=vt+1e-6)idx++;
- if(idx!==applied){if(idx<applied){scenes.forEach(clearScene);shown=-1;swNow=-1;}
-  render(idx);applied=idx;}
- fill.style.setProperty('--p',(Math.min(vt,DUR)/DUR*100).toFixed(2)+'%');
+ if(idx!==applied){render(idx);applied=idx;}
+ rails(vt);
  timeEl.textContent=fmt(vt)+' / '+fmt(DUR);
 }
 function frame(ts){
@@ -653,67 +312,34 @@ function setBtn(){
 }
 function seek(t){
  t=Math.max(0,Math.min(DUR,t));
- if(t<vt){scenes.forEach(clearScene);shown=-1;swNow=-1;applied=-1;}
+ if(t<vt)applied=-1;
  vt=t;if(!silent){try{au.currentTime=t;}catch(e){}}
  tick();
 }
 function start(t){
+ list.classList.remove('idle');
  if(t!==undefined)seek(t);
  if(vt>=DUR-.05)seek(0);
  playing=true;setBtn();
- if(!silent){var p=au.play();
-  if(p&&p.catch)p.catch(function(){silent=true;});}
+ if(!silent){var p=au.play();if(p&&p.catch)p.catch(function(){silent=true;});}
  run();
 }
 function stop(){playing=false;if(!silent)au.pause();setBtn();}
 btn.addEventListener('click',function(){playing?stop():start();});
-goals.addEventListener('click',function(e){
- var b=e.target.closest('.awa-gb');if(!b)return;start(GOAL[+b.getAttribute('data-i')].t);});
-track.addEventListener('click',function(e){
- var m=e.target.closest('.awa-mk');
- if(m){start(GOAL[+m.getAttribute('data-i')].t);return;}
- var r=track.getBoundingClientRect();
- start((e.clientX-r.left)/r.width*DUR);});
+list.addEventListener('click',function(e){
+ var b=e.target.closest('.awa-rb');if(!b)return;start(L[+b.getAttribute('data-i')].t);});
 au.addEventListener('ended',function(){vt=DUR;playing=false;tick();setBtn();});
 
-/* ===== Maße ===== */
-function natural(s){
- var save=s.getAttribute('style')||'',h=0,ph=s.querySelectorAll('.awa-ph');
- s.setAttribute('style','position:relative;visibility:hidden;opacity:0;transform:none;transition:none;inset:auto');
- if(ph.length){[].forEach.call(ph,function(p){
-   var ps=p.getAttribute('style')||'';
-   p.setAttribute('style','position:relative;visibility:hidden;opacity:0;transition:none;inset:auto');
-   h=Math.max(h,p.offsetHeight);p.setAttribute('style',ps);});
- }else h=s.offsetHeight;
- s.setAttribute('style',save);return h;
-}
-function markers(){
- var gut=$('awa-gut'),rows=document.querySelectorAll('#awa-sheets .awa-sheet .awa-row');
- if(!gut||!rows.length)return;
- var gr=gut.getBoundingClientRect();if(!gr.height)return;
- [].forEach.call(gut.querySelectorAll('.awa-mkr'),function(m){
-  var r=rows[+m.getAttribute('data-row')];if(!r)return;
-  var rr=r.getBoundingClientRect();
-  m.style.setProperty('--t',(rr.top+rr.height/2-gr.top).toFixed(1)+'px');});
-}
-var lw=-1;
+/* ===== Breite und Höhe ===== */
+var lw=-1,th=0,lh=0;
 function layout(){
  var w=R.clientWidth,l=w<=560?'S':w<=820?'M':'L';
  if(l!==R.getAttribute('data-l'))R.setAttribute('data-l',l);
- SH=scenes.map(function(s){return Math.max(140,natural(s));});
- stage.style.height=SH[Math.max(0,shown)]+'px';
- markers();
- if(swNow>=0)swSet(swNow);else swSet(0);
  notify();
 }
-var th=0;
-function onSize(){var w=R.clientWidth;if(w===lw)return;lw=w;
- clearTimeout(th);th=setTimeout(layout,60);}
+function onSize(){var w=R.clientWidth;if(w===lw)return;lw=w;clearTimeout(th);th=setTimeout(layout,60);}
 if(window.ResizeObserver)new ResizeObserver(onSize).observe(R);
 addEventListener('resize',onSize);
-
-/* ===== Höhe an Rise melden ===== */
-var lh=0;
 function notify(){
  var h=Math.ceil(document.documentElement.getBoundingClientRect().height);
  if(h===lh)return;lh=h;
@@ -722,10 +348,7 @@ function notify(){
 }
 setInterval(notify,900);
 
-/* ===== Start ===== */
-lw=R.clientWidth;layout();
-swSet(0);
-setBtn();tick();
+lw=R.clientWidth;layout();setBtn();tick();
 R.classList.add('ready');
 if(reduce)R.querySelector('.awa-beam').style.display='none';
 })();
