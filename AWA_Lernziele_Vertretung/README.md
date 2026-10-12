@@ -1,7 +1,8 @@
 # Lernziele „Vertretung im Zollverfahren" (Rise-360-Code-Block)
 
-Vertonter Lernziel-Block. Auf dem Bildschirm stehen **nur die vier gelieferten
-Zeilen** – wortgleich, nichts hinzugefügt. Eine Sprecherin liest die Lernziele,
+Vertonter Lernziel-Block. Auf dem Bildschirm stehen **nur die vier
+gelieferten Zeilen**. Zeile 3 trägt die Vorlage „Dokumentation", damit sie auch
+ohne Ton ableitbar bleibt; Zeile 4 steht ohne Vorlage. Eine Sprecherin liest die Lernziele,
 und während sie spricht, tritt die passende Zeile nach vorn und die Begriffe
 leuchten einzeln auf, genau in dem Moment, in dem sie gesprochen werden.
 
@@ -9,17 +10,22 @@ Eigenständige `index.html` (430 KB, Ton eingebettet) zum Hochladen als Code-Blo
 in Rise 360. Auslieferung: `AWA_Lernziele_Vertretung_Rise.zip` (index.html + OFL.txt).
 
 ## Was zu sehen ist
-- Vier Zeilen untereinander, links eine feine Schiene mit vier Punkten.
+Links läuft eine **Route** mit vier Stationen, auf der ein neutrales Paket
+unterwegs ist. Es hält an einer Station, solange deren Lernziel gelesen wird,
+und fährt erst gegen Ende des Abschnitts weiter – so, wie ein Bote ausliefert.
+Hinter ihm bleibt der zurückgelegte Weg als petrolfarbene Linie stehen.
+
 - Die **aktive Zeile** wächst, ihre Ziffer wird groß, ein warmer Lichtstreifen
-  läuft einmal darüber, der Grund hellt sich leicht auf.
+  läuft einmal darüber, der Grund hellt sich leicht auf, die Sperrung der
+  Buchstaben läuft zusammen.
 - Jedes **Schlüsselwort** bekommt im Augenblick des Sprechens eine feine
   Goldlinie und hebt sich kurz an.
 - Gelesene Zeilen bleiben stehen, ihre Begriffe behalten eine stille graue Linie.
   **Gold liegt immer nur auf der Zeile, die gerade gesprochen wird.**
-- Die Schiene füllt sich petrol mit – sie ist zugleich die Tonspur.
 - Am Ende stehen alle vier Zeilen gleich ruhig nebeneinander: das fertige Bild.
 
-Kein Bildmaterial, keine erfundenen Beispiele, keine zusätzlichen Überschriften.
+Kein Bildmaterial, keine erfundenen Beispiele, keine Figuren – das Paket ist ein
+reines Strichsymbol.
 
 ## Die Tonspur gibt den Takt vor
 Die Aufnahme ist 38,9 s lang. Die Einsätze sind **an den gemessenen Sprechpausen**
@@ -34,9 +40,9 @@ der Datei ausgerichtet, nicht geschätzt.
 | 11,24 | „Du prüfst Auftragsdaten …" | Zeile 2 tritt vor |
 | 13,50 / 14,76 / 16,05 | die drei Funde | *Widersprüche* · *Informationslücken* · *Zuordnungsprobleme* |
 | 18,50 | „Du beurteilst, ob …" | Zeile 3 tritt vor |
+| 19,20 | „Vollmachten, Genehmigungen und Nachweise" | *Dokumentation* |
 | 23,11 / 24,10 / 24,85 / 25,80 | die vier Fragen | *geeignet* · *gültig* · *zugeordnet* · *verfügbar* |
 | 28,45 | „Und wenn Angaben fehlen …" | Zeile 4 tritt vor |
-| 32,20 | „den zulässigen nächsten Schritt" | *nächster Schritt* |
 | 34,07 / 35,72 / 36,58 / 37,54 | der Vermerk | *Prüfgrundlage* · *Entscheidung* · *Status* · *Übergabe* |
 | 38,80 | | alle vier Zeilen stehen gleich ruhig |
 
@@ -55,7 +61,7 @@ Die Pausen findet man mit
 - Die vier Zeilen stehen von Anfang an lesbar da, nur ruhiger.
 - Ein Klick auf eine Zeile springt zu diesem Lernziel.
 - Lässt der Browser den Ton nicht zu, läuft es auf einer eigenen Uhr weiter.
-- Der gesprochene Text steht vollständig unter „Gesprochenen Text anzeigen".
+- Der gesprochene Text steht vollständig unter „Transkript".
 - `prefers-reduced-motion`: die Einsätze schalten hart statt zu überblenden.
 
 Autoplay gibt es nicht: Browser blockieren Ton ohne Klick, und in Rise wäre eine
