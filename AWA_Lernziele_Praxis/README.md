@@ -3,7 +3,7 @@
 Immersiver Galerie-Rundgang durch die **fünf** Lernziele des Kurses. Gleiche
 Architektur wie der Block zur US-Exportkontrolle, inhaltlich neu aufgesetzt.
 
-Eigenständige `index.html` (535 KB, Bilder eingebettet) zum Hochladen als
+Eigenständige `index.html` (587 KB, Bilder eingebettet) zum Hochladen als
 Code-Block in Rise 360. Auslieferung: `AWA_Lernziele_Praxis_Rise.zip`
 (index.html + OFL.txt).
 
@@ -20,6 +20,12 @@ Code-Block in Rise 360. Auslieferung: `AWA_Lernziele_Praxis_Rise.zip`
 Die **Lernzieltexte stehen Zeichen für Zeichen wie in der Kursvorlage**, nur ohne
 Schlusspunkt – den setzt der Code. Maschinell geprüft. Die golden unterstrichene
 Stelle wird per `String.replace` gesucht; sie muss deshalb wörtlich im Text stehen.
+
+Die Hervorhebung ist eine echte **Unterstreichung** (`text-decoration` mit
+`text-decoration-skip-ink: auto`), keine Hintergrundlinie. Sie spart die
+Unterlängen aus – läuft also nicht durch das „g" in „Leitfragen" oder das „ß" in
+„Verstößen" – und bricht mit der Zeile korrekt um. Das gilt auf der Tafel wie im
+Dialog „Alle Lernziele".
 
 Kartennamen, Schlagworte und Motive sind neu entworfen und ergänzen die Vorlage,
 ohne ihr etwas hinzuzudichten.
@@ -58,7 +64,7 @@ Schatten. Am Ende bleibt der Stapel schwach sichtbar hinter der Titelkarte stehe
 Die Ausschnitte stehen im Array `TR`, eine Zeile je Ausschnitt:
 
 ```js
-{k:'zweck', c:[0,0,1,1], d:760, t:'WARUM EXPORTKONTROLLE', w:.58, x:-.18, y:-.19, r:-3.6}
+{k:'zweck', c:[0,0,1,1], d:760, t:'WARUM EXPORTKONTROLLE', w:.62, x:-.17, y:-.20, r:-3.4}
 ```
 
 - `k` Schlüssel aus `IMG`, `c` Bildausschnitt `[x, y, Breite, Höhe]` als Anteil
@@ -82,13 +88,24 @@ Fünf Seiten, alle amtlich, alle deutsch, selbst erfasst am 14.10.2026:
 | `gueter` | BAFA – Güterlisten (Anhänge EU-Dual-Use-VO, Ausfuhrliste) | GÜTERLISTEN |
 | `hilfen` | BAFA – Arbeitshilfen (Merkblätter, HADDEX) | MERKBLÄTTER UND HADDEX |
 
+**Jeder Ausschnitt zeigt Kopf und Logo seiner Seite** – also den Bundesadler mit
+„Bundesamt für Wirtschaft und Ausfuhrkontrolle" beziehungsweise die Europaflagge
+mit „EUR-Lex / Access to European Union law", darunter das blaue Band
+„Außenwirtschaft", den Seitentitel und die ersten Absätze. Die Seiten sind
+deshalb vom Seitenanfang (Scrollposition 0) bei 1440 × 1000 px in doppelter
+Auflösung erfasst und nur nach unten beschnitten, nicht seitlich. Wer neu
+zuschneidet, muss den Kopf im Bild behalten – sonst ist nicht mehr erkennbar,
+von welcher Behörde der Ausschnitt stammt.
+
 Der Bogen führt vom Warum über die EU-Verordnung und das deutsche Recht zu den
 Listen und endet beim Arbeitsmaterial – also dort, wo die Lerner im Alltag
 landen.
 
-**Die Ausschnitte zeigen bewusst nur Text.** Beide BAFA-Seiten tragen
-lizenzierte Stockfotos (Fotolia); die Ausschnitte sind so gesetzt, dass davon
-nichts im Bild ist. Wird neu zugeschnitten, bitte darauf achten.
+**Die Ausschnitte zeigen bewusst nur Kopf, Navigation und Text.** Die
+BAFA-Seiten tragen lizenzierte Stockfotos (Fotolia). Die Fotos und die dazu
+gehörenden Bildnachweise („Quelle: © …") sind vor der Aufnahme aus der Seite
+entfernt worden; im Bild ist davon nichts zu sehen. Wird neu erfasst, bitte
+wieder so vorgehen – ein stehen gelassener Bildnachweis ohne Bild wäre falsch.
 
 **Lizenz:** EUR-Lex ist zur Weiterverwendung freigegeben (Beschluss
 2011/833/EU), Quellenangabe genügt. Für bafa.de gelten die Nutzungsbedingungen
@@ -127,7 +144,10 @@ durchgespielt: keine Konsolenfehler, kein horizontales Scrollen, im Ruhezustand
 genau ein Transform-Wert über 40 Bilder (kein Wackeln). Alle fünf Stationen
 öffnen sich, Fortschritt läuft 01 → 05, Punkteleiste hat sieben Punkte,
 Überblick zeigt fünf Mini-Karten, Dialog „Alle Lernziele" listet alle fünf
-Lernzieltexte wortgleich.
+Lernzieltexte wortgleich. Die goldene Unterstreichung wurde zusätzlich bei
+dreifacher Vergrößerung an den kritischen Stellen angesehen („mögliche Folgen
+von Verstößen", „Leitfragen WAS, WOHIN, WER und WOFÜR", „angemessen zu
+reagieren"): die Linie läuft durch keine Unterlänge.
 
 Zusätzlich inhaltlich gegengelesen: Treue zur Vorlage, Rechtschreibung und
 Zeichensetzung, Hausstil, und gezielt die Stellen, die noch von vier Lernzielen
