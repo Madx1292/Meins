@@ -3,7 +3,7 @@
 Immersiver Galerie-Rundgang durch die **fünf** Lernziele des Kurses. Gleiche
 Architektur wie der Block zur US-Exportkontrolle, inhaltlich neu aufgesetzt.
 
-Eigenständige `index.html` (1,1 MB, Bilder eingebettet) zum Hochladen als
+Eigenständige `index.html` (535 KB, Bilder eingebettet) zum Hochladen als
 Code-Block in Rise 360. Auslieferung: `AWA_Lernziele_Praxis_Rise.zip`
 (index.html + OFL.txt).
 
@@ -58,7 +58,7 @@ Schatten. Am Ende bleibt der Stapel schwach sichtbar hinter der Titelkarte stehe
 Die Ausschnitte stehen im Array `TR`, eine Zeile je Ausschnitt:
 
 ```js
-{k:'ear', c:[0,0,1,.56], d:700, t:'US-AUSFUHRVORSCHRIFTEN', w:.62, x:-.20, y:-.20, r:-4.0}
+{k:'zweck', c:[0,0,1,1], d:760, t:'WARUM EXPORTKONTROLLE', w:.58, x:-.18, y:-.19, r:-3.6}
 ```
 
 - `k` Schlüssel aus `IMG`, `c` Bildausschnitt `[x, y, Breite, Höhe]` als Anteil
@@ -71,20 +71,43 @@ Ausschnitte dürfen über den Rand hinausragen – angeschnitten ist gewollt. Au
 schmalen Blöcken greifen sie automatisch weiter (Faktor 1,62 bei S, 1,18 bei M)
 und rücken enger zusammen, sonst schwimmen sie verloren in der Fläche.
 
-### Die Bilder sind Platzhalter
-Die fünf Ausschnitte stammen noch aus dem US-Kurs, drei davon sind
-US-Behördenseiten. Für einen Kurs zur betrieblichen Praxis gehört dort anderes
-Material hin – am besten das, mit dem wirklich gearbeitet wird:
+### Die Ausschnitte
+Fünf Seiten, alle amtlich, alle deutsch, selbst erfasst am 14.10.2026:
 
-- BAFA-Seiten (Antragsportal, Merkblätter, Ausfuhrliste)
-- Verordnung (EU) 2021/821 auf EUR-Lex
-- Meldungen aus der Wirtschaftspresse über Verstöße und Bußgelder
-- eine Arbeitsanweisung mit Zuständigkeiten und Eskalationsweg (anonymisiert)
-- eine Red-Flag-Liste
+| Ausschnitt | Quelle | Wort |
+|---|---|---|
+| `zweck`  | BAFA – Allgemeine Einführung in die Exportkontrolle | WARUM EXPORTKONTROLLE |
+| `vo`     | EUR-Lex – Verordnung (EU) 2021/821 (EU-Dual-Use-VO) | EU-DUAL-USE-VERORDNUNG |
+| `recht`  | BAFA – Rechtsgrundlagen (AWG, AWV, Dual-Use-VO) | AWG UND AWV |
+| `gueter` | BAFA – Güterlisten (Anhänge EU-Dual-Use-VO, Ausfuhrliste) | GÜTERLISTEN |
+| `hilfen` | BAFA – Arbeitshilfen (Merkblätter, HADDEX) | MERKBLÄTTER UND HADDEX |
 
-Querformat eignet sich am besten: die Ausschnitte wirken als breite Streifen.
-Mindestens 1400 px breit, sonst werden sie beim Vergrößern weich. Bildrechte
-wie bisher abklopfen; eigene Unterlagen vorher anonymisieren.
+Der Bogen führt vom Warum über die EU-Verordnung und das deutsche Recht zu den
+Listen und endet beim Arbeitsmaterial – also dort, wo die Lerner im Alltag
+landen.
+
+**Die Ausschnitte zeigen bewusst nur Text.** Beide BAFA-Seiten tragen
+lizenzierte Stockfotos (Fotolia); die Ausschnitte sind so gesetzt, dass davon
+nichts im Bild ist. Wird neu zugeschnitten, bitte darauf achten.
+
+**Lizenz:** EUR-Lex ist zur Weiterverwendung freigegeben (Beschluss
+2011/833/EU), Quellenangabe genügt. Für bafa.de gelten die Nutzungsbedingungen
+im Impressum – für interne Schulung üblicherweise unproblematisch, einmal
+hinschauen schadet nicht.
+
+### Was noch fehlt
+Ein Ausschnitt zu **Verstößen und ihren Folgen** – Lernziel 1 nennt sie
+ausdrücklich. Gesucht wurde bei Zoll, Generalbundesanwalt und Europol:
+
+- zoll.de führt in der Presse die Rubriken Rauschgift, Schwarzarbeit,
+  Produktpiraterie, Bargeld und Jahresbilanzen – **keine zur Außenwirtschaft**
+- der Generalbundesanwalt veröffentlicht derzeit zu Terrorismus, Spionage und
+  Völkerstrafrecht, nicht zur Ausfuhrkontrolle
+- die Pressemitteilungssuche des Zolls weist automatisierte Zugriffe ab
+
+Ein Verlagsartikel wäre die naheliegende Lücke-Füllung, ist aber ein
+geschütztes Werk. Sauberer: eine amtliche Mitteilung heraussuchen, sobald eine
+passende vorliegt, und als sechsten Ausschnitt in `TR` ergänzen.
 
 ## Inhalt ändern
 - `G` – die fünf Lernziele (Name, Icon, Akzentfarben, Schlagworte, Text,
