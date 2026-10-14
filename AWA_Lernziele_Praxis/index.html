@@ -975,7 +975,7 @@ function build(){
  buildWorld();
  camZ=clamp(camZ,0,maxZ);tgt=clamp(tgt,0,maxZ);
  lastIdx=-1;lastNear=null;lastNm='';
- for(i=1;i<=4;i++)if(seen[i]&&dots[i])dots[i].classList.add('seen');
+ for(i=1;i<=NG;i++)if(seen[i]&&dots[i])dots[i].classList.add('seen');
  render();ui();
 }
 
@@ -1131,7 +1131,7 @@ dots.forEach(function(b,i){b.addEventListener('click',function(){goTo(RAIL[i]);}
  b.addEventListener('click',function(){goTo(RAIL[+b.getAttribute('data-i')]);});
 });
 function openList(){listEl.classList.add('on');
- for(var i=1;i<=4;i++){seen[i]=true;if(dots[i])dots[i].classList.add('seen');}
+ for(var i=1;i<=NG;i++){seen[i]=true;if(dots[i])dots[i].classList.add('seen');}
  $('awa-close').focus({preventScroll:true});}
 function closeList(){listEl.classList.remove('on');stage.focus({preventScroll:true});}
 allB.addEventListener('click',openList);
