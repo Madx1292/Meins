@@ -209,12 +209,22 @@ html,body{margin:0;padding:0;background:#FFFFFF}
 #awa-lernziele .awa-tr.off{opacity:0;visibility:hidden;pointer-events:none}
 #awa-lernziele .awa-trf{position:absolute;inset:0;overflow:hidden;background:#f2f8f9;
   transition:opacity .5s var(--ease)}
-#awa-lernziele .awa-trp{position:absolute;background-repeat:no-repeat}
-#awa-lernziele .awa-trp.fit{box-shadow:0 26px 60px -24px #0c26308c,0 0 0 1px #ffffff}
-#awa-lernziele .awa-trf.ken{animation:awa-ken var(--d,600ms) linear both}
-@keyframes awa-ken{from{transform:scale(1)}to{transform:scale(1.045)}}
-#awa-lernziele .awa-trf.ken.slow{animation:awa-kens var(--d,600ms) cubic-bezier(.3,0,.5,1) both}
-@keyframes awa-kens{from{transform:scale(1.022) translate(.65%,0)}to{transform:scale(1.062) translate(-.65%,0)}}
+#awa-lernziele .awa-trp{position:absolute;inset:0}
+/* Pressespiegel: Ausschnitte fallen leicht gedreht und angeschnitten uebereinander */
+#awa-lernziele .awa-cut{position:absolute;left:50%;top:50%;box-sizing:content-box;
+  background-repeat:no-repeat;border:6px solid #fff;border-radius:2px;
+  background-clip:padding-box;opacity:0;
+  box-shadow:0 24px 42px -26px #0c2630b8,0 2px 6px -3px #0c263066,0 0 0 1px #0c26301a;
+  transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px)) rotate(var(--r,0deg))}
+#awa-lernziele .awa-cut.in{animation:awa-cut .5s var(--soft) both}
+@keyframes awa-cut{
+  0%{opacity:0;transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px))
+     rotate(calc(var(--r,0deg) - 8deg)) scale(1.13)}
+  55%{opacity:1}
+  100%{opacity:1;transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px))
+     rotate(var(--r,0deg)) scale(1)}}
+#awa-lernziele .awa-trf.ken{animation:awa-ken var(--d,600ms) cubic-bezier(.33,0,.5,1) both}
+@keyframes awa-ken{from{transform:scale(1.012)}to{transform:scale(.978)}}
 /* Zwei Kranspreader werden freigestellt wieder eingesetzt und heben bzw. senken sich */
 #awa-lernziele .awa-cz{position:absolute;background-repeat:no-repeat;background-size:100% 100%}
 #awa-lernziele .awa-cz.a{left:52.47%;top:59.49%;width:5.34%;height:4.15%;
@@ -228,8 +238,9 @@ html,body{margin:0;padding:0;background:#FFFFFF}
   transition:opacity .5s var(--ease)}
 #awa-lernziele .awa-trg{position:absolute;inset:0;background:#f8fbfc;opacity:0;
   transition:opacity .6s var(--ease)}
-#awa-lernziele .awa-tr.title .awa-trf,#awa-lernziele .awa-tr.title .awa-trv{opacity:0}
-#awa-lernziele .awa-tr.title .awa-trg{opacity:.93}
+#awa-lernziele .awa-tr.title .awa-trv{opacity:0}
+#awa-lernziele .awa-tr.title .awa-trf{opacity:.5}
+#awa-lernziele .awa-tr.title .awa-trg{opacity:.9}
 #awa-lernziele .awa-trk{position:absolute;left:22px;bottom:22px;z-index:3;
   padding:6px 13px;border-radius:7px;background:#0C2630ee;color:#fff;
   font-size:12px;letter-spacing:.24em;opacity:0;
@@ -711,12 +722,14 @@ var DEKOR='aus';
 
 /* Vorspann: schnelle Schnitte, d = Standzeit in Millisekunden */
 var TR=[
- {k:'port', c:[0,0,1,1],   d:1500,t:'WARE VERLÄSST DAS HAUS', fy:.66,hz:1,slow:1},
- {k:'ear',  c:[0,0,1,1],   d:620, t:'US-AUSFUHRVORSCHRIFTEN', fx:.30},
- {k:'eccn', c:[0,0,1,1],   d:540, t:'US-GÜTERLISTE',          fy:.42},
- {k:'dpl',  c:[0,0,1,1],   d:480, t:'US-SANKTIONSLISTE',      fy:0},
- {k:'bosch',c:[0,0,1,1],   d:430, t:'AUCH IN DEUTSCHLAND',   fy:.60},
- {k:'post', c:[0,0,1,.48], d:660, t:'VERSTÖSSE HABEN FOLGEN', f:1}
+/* Pressespiegel. w = Breite als Anteil der Bühne, x/y = Versatz aus der Mitte,
+   r = Drehung. Ausschnitte dürfen über den Rand hinausragen – sie sollen
+   angeschnitten wirken wie Zeitungsausschnitte auf einem Tisch. */
+ {k:'ear',  c:[0,0,1,.56],   d:700, t:'US-AUSFUHRVORSCHRIFTEN', w:.62, x:-.20, y:-.20, r:-4.0},
+ {k:'eccn', c:[0,.10,1,.52], d:600, t:'US-GÜTERLISTE',          w:.56, x:.22,  y:-.11, r:4.6},
+ {k:'dpl',  c:[0,0,1,.42],   d:540, t:'US-SANKTIONSLISTE',      w:.58, x:-.17, y:.14,  r:-2.6},
+ {k:'bosch',c:[0,.16,1,.40], d:500, t:'AUCH IN DEUTSCHLAND',    w:.60, x:.15,  y:.21,  r:5.5},
+ {k:'post', c:[0,0,1,.48],   d:820, t:'VERSTÖSSE HABEN FOLGEN', w:.26, x:-.33, y:.06,  r:-7.0}
 ];
 
 /* c = Ausschnitt [x, y, Breite, Höhe] als Anteil des Bildes
@@ -1153,21 +1166,26 @@ var cz=(function(){
  });
  return a;
 })();
-function trBg(x,bw,bh){
- var im=IMG[x.k];if(!im)return;
+/* Ein Zeitungsausschnitt: leicht gedreht, am Rand angeschnitten, mit Papierkante */
+function trCut(x,bw,bh,n){
+ var im=IMG[x.k];if(!im)return null;
  var cw=im.w*x.c[2],ch=im.h*x.c[3];
- /* f:1 = Ausschnitt ganz zeigen (Hochformat), sonst formatfüllend */
- var s=x.f?Math.min(bw/cw,bh/ch)*.84:Math.max(bw/cw,bh/ch);
- var fx=x.fx===undefined?.5:x.fx,fy=x.fy===undefined?.5:x.fy,pw=cw*s,ph=ch*s;
- trp.className='awa-trp'+(x.f?' fit':'');
- trp.style.cssText='width:'+pw.toFixed(0)+'px;height:'+ph.toFixed(0)+'px;left:'+
-  ((bw-pw)*fx).toFixed(0)+'px;top:'+((bh-ph)*fy).toFixed(0)+'px;background-image:url('+im.u+
-  ');background-size:'+(im.w*s).toFixed(0)+'px '+(im.h*s).toFixed(0)+'px;background-position:'+
-  (-x.c[0]*im.w*s).toFixed(0)+'px '+(-x.c[1]*im.h*s).toFixed(0)+'px';
- /* Die Kranspreader sitzen als eigene Ebene auf dem Bild und laufen neu an,
-    sobald sie wieder eingehängt werden. */
- while(trp.firstChild)trp.removeChild(trp.firstChild);
- if(x.hz&&!reduce)cz.forEach(function(e){trp.appendChild(e);});
+ /* Auf schmalen Blöcken greifen die Ausschnitte weiter und rücken enger zusammen,
+    sonst schwimmen sie verloren in der Fläche. */
+ var L=stage.getAttribute('data-l'),fw=L==='S'?1.62:(L==='M'?1.18:1),fo=L==='S'?.5:(L==='M'?.82:1);
+ var w=bw*(x.w===undefined?.56:x.w)*fw,h=w*ch/cw,mx=bh*.84;
+ if(h>mx){h=mx;w=h*cw/ch;}
+ var sc=w/cw;
+ var e=document.createElement('div');
+ e.className='awa-cut';
+ e.style.cssText='z-index:'+(10+n)+';width:'+w.toFixed(0)+'px;height:'+h.toFixed(0)+'px;'+
+  '--x:'+(bw*(x.x||0)*fo).toFixed(0)+'px;--y:'+(bh*(x.y||0)*(L==='S'?.82:1)).toFixed(0)+'px;'+
+  '--r:'+(x.r||0)+'deg;background-image:url('+im.u+');'+
+  'background-size:'+(im.w*sc).toFixed(0)+'px '+(im.h*sc).toFixed(0)+'px;'+
+  'background-position:'+(-x.c[0]*im.w*sc).toFixed(0)+'px '+(-x.c[1]*im.h*sc).toFixed(0)+'px';
+ /* Die Kranspreader sitzen als eigene Ebene auf ihrem Ausschnitt */
+ if(x.hz&&!reduce)cz.forEach(function(q){e.appendChild(q);});
+ return e;
 }
 function trEnd(){
  trT.forEach(clearTimeout);trT=[];trOn=false;
@@ -1183,20 +1201,24 @@ function trRun(again){
  void trEl.offsetWidth;
  trOn=true;
  if(again){tgt=0;camZ=0;kick();}
- if(reduce){trEl.classList.add('title');return;}
- var i=0,bw=stage.clientWidth,bh=stage.clientHeight;
+ while(trp.firstChild)trp.removeChild(trp.firstChild);
+ var i=0,bw=stage.clientWidth,bh=stage.clientHeight,e;
+ if(reduce){
+  for(;i<TR.length;i++){e=trCut(TR[i],bw,bh,i);if(e){e.style.opacity='1';trp.appendChild(e);}}
+  trEl.classList.add('title');return;
+ }
+ var ges=0;TR.forEach(function(x){ges+=x.d;});
+ trf.classList.remove('ken');void trf.offsetWidth;
+ trf.style.setProperty('--d',ges+'ms');trf.classList.add('ken');
  function cut(){
   if(i>=TR.length){trEl.classList.add('title');return;}
-  var x=TR[i++];
-  trBg(x,bw,bh);
-  trf.style.setProperty('--d',x.d+'ms');
+  var x=TR[i];
+  e=trCut(x,bw,bh,i);
+  if(e){trp.appendChild(e);void e.offsetWidth;e.classList.add('in');}
   trk.style.setProperty('--d',x.d+'ms');
   trk.textContent=x.t;
-  trk.classList.toggle('dark',!!x.f);
-  trf.classList.remove('ken','slow');trk.classList.remove('on');
-  void trf.offsetWidth;
-  trf.classList.add('ken');trk.classList.add('on');
-  if(x.slow)trf.classList.add('slow');
+  trk.classList.remove('on');void trk.offsetWidth;trk.classList.add('on');
+  i++;
   trT.push(setTimeout(cut,x.d));
  }
  cut();

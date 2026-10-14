@@ -48,33 +48,43 @@ nur gleich lang bleiben, alles andere ergibt sich.
 - Der Fokusring war Gold auf Weiß (rund 1,7:1 Kontrast, zu wenig). Jetzt Petrol
   mit weichem Hof.
 
-## Vorspann: bitte entscheiden
-Die Schnittfolge stammt aus dem US-Kurs. Sechs Schnitte, 4,2 s:
+## Vorspann: Pressespiegel
+Der Vorspann ist kein Vollbild-Schnitt mehr, sondern ein **Pressespiegel**:
+Ausschnitte fallen nacheinander leicht gedreht auf eine helle Fläche, schieben
+sich übereinander und ragen über den Rand hinaus – wie Zeitungsausschnitte auf
+einem Tisch. Jeder Ausschnitt hat eine weiße Papierkante und einen weichen
+Schatten. Am Ende bleibt der Stapel schwach sichtbar hinter der Titelkarte stehen.
 
-| Bild | Wort |
-|------|------|
-| Containerhafen | WARE VERLÄSST DAS HAUS |
-| bis.gov | US-AUSFUHRVORSCHRIFTEN |
-| Güterlisten-Position | US-GÜTERLISTE |
-| Denied Persons List | US-SANKTIONSLISTE |
-| Pressemitteilung Robert Bosch | AUCH IN DEUTSCHLAND |
-| BIS-Heft | VERSTÖSSE HABEN FOLGEN |
+Die Ausschnitte stehen im Array `TR`, eine Zeile je Ausschnitt:
 
-**Drei der sechs Bilder sind US-Behördenseiten.** Für einen Kurs zur
-betrieblichen Praxis ist das ein Übergang, keine Lösung: Wer den Vorspann sieht,
-hält den Kurs in der ersten Sekunde für einen US-Kurs, und die vier Leitfragen
-haben in diesem Material gar kein Bild. Deshalb tragen die Beschriftungen
-ausdrücklich „US-".
+```js
+{k:'ear', c:[0,0,1,.56], d:700, t:'US-AUSFUHRVORSCHRIFTEN', w:.62, x:-.20, y:-.20, r:-4.0}
+```
 
-Besser wäre ein Vorspann aus dem Papier, mit dem wirklich gearbeitet wird:
-Verordnung (EU) 2021/821, Ausfuhrliste, BAFA, eine Arbeitsanweisung mit
-Zuständigkeiten und Eskalationsweg, eine Auftragsbestätigung mit Angabe zur
-Endverwendung, eine Red-Flag-Liste. Eigene Unterlagen vorher anonymisieren,
-Bildrechte wie bisher abklopfen.
+- `k` Schlüssel aus `IMG`, `c` Bildausschnitt `[x, y, Breite, Höhe]` als Anteil
+- `d` Standzeit in Millisekunden, `t` das Wort unten links
+- `w` Breite als Anteil der Bühnenbreite
+- `x` / `y` Versatz aus der Mitte, als Anteil von Bühnenbreite bzw. -höhe
+- `r` Drehung in Grad
 
-Die Schnitte stehen im Array `TR`, eine Zeile je Schnitt. Zeilen löschen
-verkürzt den Vorspann; `IMG` enthält weiterhin alle acht Bilder des US-Kurses,
-also auch `ofac` und `amat`.
+Ausschnitte dürfen über den Rand hinausragen – angeschnitten ist gewollt. Auf
+schmalen Blöcken greifen sie automatisch weiter (Faktor 1,62 bei S, 1,18 bei M)
+und rücken enger zusammen, sonst schwimmen sie verloren in der Fläche.
+
+### Die Bilder sind Platzhalter
+Die fünf Ausschnitte stammen noch aus dem US-Kurs, drei davon sind
+US-Behördenseiten. Für einen Kurs zur betrieblichen Praxis gehört dort anderes
+Material hin – am besten das, mit dem wirklich gearbeitet wird:
+
+- BAFA-Seiten (Antragsportal, Merkblätter, Ausfuhrliste)
+- Verordnung (EU) 2021/821 auf EUR-Lex
+- Meldungen aus der Wirtschaftspresse über Verstöße und Bußgelder
+- eine Arbeitsanweisung mit Zuständigkeiten und Eskalationsweg (anonymisiert)
+- eine Red-Flag-Liste
+
+Querformat eignet sich am besten: die Ausschnitte wirken als breite Streifen.
+Mindestens 1400 px breit, sonst werden sie beim Vergrößern weich. Bildrechte
+wie bisher abklopfen; eigene Unterlagen vorher anonymisieren.
 
 ## Inhalt ändern
 - `G` – die fünf Lernziele (Name, Icon, Akzentfarben, Schlagworte, Text,
