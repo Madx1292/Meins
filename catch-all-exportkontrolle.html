@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch-All-Check – Exportkontrolle</title>
+<style>
+  /* ===== AWA Corporate Farben ===== */
+  :root{
+    --awa-dark:    #0C2630;   /* dunkelstes Petrol */
+    --awa-deep:    #384654;   /* Schiefer */
+    --awa-teal:    #205266;   /* Petrol */
+    --awa-teal-2:  #457C8E;   /* mittleres Petrol */
+    --awa-teal-3:  #668E98;   /* helles Petrol */
+    --awa-yellow:  #F5C600;   /* Akzent Gelb */
+    --awa-yellow-2:#FBEDB5;   /* helles Gelb */
+    --awa-bg:      #F9F9FA;   /* Hintergrund */
+    --awa-white:   #FFFFFF;
+
+    --ok:   #2e7d5b;
+    --ok-bg:#e6f4ee;
+    --bad:  #b23a48;
+    --bad-bg:#fbeaec;
+
+    --h-size: 24px;
+    --body-size: 17px;
+    --radius: 18px;
+    --shadow: 0 10px 30px rgba(12,38,48,.10);
+    --shadow-sm: 0 4px 14px rgba(12,38,48,.08);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{ background:transparent; }
+
+  .awa-app{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--body-size);
+    line-height: 1.45;
+    color: var(--awa-deep);
+    /* heller, moderner Verlauf statt Farbmasse */
+    background:
+      radial-gradient(1200px 500px at 110% -10%, rgba(245,198,0,.12), transparent 55%),
+      radial-gradient(900px 500px at -10% 120%, rgba(32,82,102,.10), transparent 55%),
+      linear-gradient(160deg, #ffffff 0%, var(--awa-bg) 100%);
+    border-radius: var(--radius);
+    padding: 22px clamp(16px,3vw,30px);
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  /* ===== Kopf ===== */
+  .awa-head{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    gap:16px; flex-wrap:wrap; margin-bottom:14px;
+  }
+  .awa-head h1{
+    font-size: var(--h-size);
+    font-weight: 700;
+    color: var(--awa-dark);
+    letter-spacing:.2px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .awa-head h1 .dot{
+    width:12px; height:12px; border-radius:50%;
+    background: linear-gradient(135deg, var(--awa-yellow), #e0b400);
+    box-shadow: 0 0 0 4px rgba(245,198,0,.18);
+  }
+  .awa-intro{
+    margin-top:6px; color:var(--awa-teal); max-width:620px; font-size:15.5px;
+  }
+
+  /* Score / Fortschritt */
+  .awa-stats{
+    display:flex; align-items:center; gap:10px;
+  }
+  .awa-chip{
+    background: var(--awa-white);
+    border:1px solid rgba(32,82,102,.14);
+    box-shadow: var(--shadow-sm);
+    border-radius: 999px;
+    padding:8px 14px;
+    font-weight:600; font-size:15px; color:var(--awa-teal);
+    white-space:nowrap;
+  }
+  .awa-chip b{ color:var(--awa-dark); }
+
+  .awa-progress{
+    height:8px; border-radius:999px; background:rgba(32,82,102,.12);
+    overflow:hidden; margin:4px 0 18px;
+  }
+  .awa-progress > i{
+    display:block; height:100%; width:0%;
+    background: linear-gradient(90deg, var(--awa-teal-2), var(--awa-teal));
+    transition: width .4s ease;
+  }
+
+  /* ===== Fallkarte ===== */
+  .awa-card{
+    background: var(--awa-white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border:1px solid rgba(32,82,102,.08);
+    overflow:hidden;
+  }
+  .awa-card-top{
+    padding:16px 20px;
+    background: linear-gradient(120deg, rgba(32,82,102,.07), rgba(102,142,152,.05));
+    border-bottom:1px solid rgba(32,82,102,.08);
+    display:flex; align-items:center; gap:12px;
+  }
+  .awa-badge{
+    font-size:12.5px; font-weight:700; letter-spacing:.4px; text-transform:uppercase;
+    color:var(--awa-teal); background:rgba(32,82,102,.10);
+    padding:5px 11px; border-radius:999px;
+  }
+  .awa-card-top h2{
+    font-size:18px; color:var(--awa-dark); font-weight:700;
+  }
+
+  .awa-facts{
+    display:grid; grid-template-columns: repeat(2, 1fr);
+    gap:0; 
+  }
+  .awa-fact{
+    padding:14px 20px; border-bottom:1px solid rgba(32,82,102,.07);
+  }
+  .awa-fact:nth-child(odd){ border-right:1px solid rgba(32,82,102,.07); }
+  .awa-fact .k{
+    font-size:13px; text-transform:uppercase; letter-spacing:.4px;
+    color:var(--awa-teal-3); font-weight:700; margin-bottom:3px;
+  }
+  .awa-fact .v{ color:var(--awa-deep); font-weight:500; }
+
+  /* ===== Buttons ===== */
+  .awa-actions{
+    display:flex; gap:12px; padding:16px 20px; flex-wrap:wrap;
+  }
+  .awa-btn{
+    flex:1 1 200px;
+    border:0; cursor:pointer;
+    font-family:inherit; font-size:16px; font-weight:700;
+    padding:14px 18px; border-radius:14px;
+    transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+    display:flex; align-items:center; justify-content:center; gap:9px;
+  }
+  .awa-btn:active{ transform: translateY(1px); }
+  .awa-btn:disabled{ opacity:.55; cursor:default; }
+
+  .awa-btn.ok{
+    color:#fff;
+    background: linear-gradient(135deg, var(--awa-teal-2), var(--awa-teal));
+    box-shadow: 0 8px 18px rgba(32,82,102,.28);
+  }
+  .awa-btn.ok:hover:not(:disabled){ filter:brightness(1.06); }
+  .awa-btn.stop{
+    color:var(--awa-dark);
+    background: linear-gradient(135deg, var(--awa-yellow), #e9bd00);
+    box-shadow: 0 8px 18px rgba(245,198,0,.32);
+  }
+  .awa-btn.stop:hover:not(:disabled){ filter:brightness(1.04); }
+
+  /* ===== Feedback ===== */
+  .awa-feedback{
+    margin:0 20px 18px; border-radius:14px; padding:14px 16px;
+    font-size:15.5px; display:none; border:1px solid transparent;
+    animation: pop .25s ease;
+  }
+  .awa-feedback.show{ display:block; }
+  .awa-feedback.good{ background:var(--ok-bg); border-color:rgba(46,125,91,.25); color:var(--ok); }
+  .awa-feedback.bad { background:var(--bad-bg); border-color:rgba(178,58,72,.25); color:var(--bad); }
+  .awa-feedback .fb-head{ font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+  .awa-feedback .fb-body{ color:var(--awa-deep); }
+  .awa-feedback .fb-body b{ color:var(--awa-dark); }
+
+  .awa-next-wrap{ padding:0 20px 20px; display:none; }
+  .awa-next-wrap.show{ display:block; }
+  .awa-next{
+    width:100%; border:0; cursor:pointer; font-family:inherit;
+    font-size:16px; font-weight:700; color:#fff;
+    padding:13px; border-radius:14px;
+    background: linear-gradient(135deg, var(--awa-deep), var(--awa-dark));
+    box-shadow: var(--shadow-sm);
+    transition: filter .2s ease, transform .12s ease;
+  }
+  .awa-next:hover{ filter:brightness(1.1); }
+  .awa-next:active{ transform: translateY(1px); }
+
+  /* ===== Abschluss ===== */
+  .awa-result{
+    text-align:center; padding:30px 24px; display:none;
+  }
+  .awa-result.show{ display:block; animation: pop .3s ease; }
+  .awa-result .ring{
+    width:120px; height:120px; margin:0 auto 16px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px; font-weight:800; color:var(--awa-dark);
+    background:
+      radial-gradient(circle at 50% 50%, #fff 54%, transparent 55%),
+      conic-gradient(var(--awa-yellow) var(--deg,0deg), rgba(32,82,102,.12) 0);
+    box-shadow: var(--shadow-sm);
+  }
+  .awa-result h2{ font-size:var(--h-size); color:var(--awa-dark); margin-bottom:6px; }
+  .awa-result p{ color:var(--awa-teal); max-width:560px; margin:0 auto 18px; }
+  .awa-result .msg{
+    background:var(--awa-yellow-2); color:var(--awa-dark);
+    border-radius:14px; padding:14px 18px; font-weight:600;
+    max-width:560px; margin:0 auto 20px; font-size:15.5px;
+  }
+
+  @keyframes pop{ from{ opacity:0; transform: translateY(6px);} to{opacity:1; transform:none;} }
+
+  @media (max-width:560px){
+    .awa-facts{ grid-template-columns: 1fr; }
+    .awa-fact:nth-child(odd){ border-right:0; }
+    .awa-head h1{ font-size:21px; }
+  }
+</style>
+</head>
+<body>
+<div class="awa-app" id="awaApp">
+
+  <!-- Kopf -->
+  <div class="awa-head">
+    <div>
+      <h1><span class="dot"></span>Catch-All-Check: Freigeben oder prüfen?</h1>
+      <p class="awa-intro">
+        Auch <b>nicht gelistete Güter</b> können genehmigungspflichtig sein, wenn die
+        Endverwendung oder der Empfänger kritisch ist (Art. 4 &amp; 5 Dual-Use-VO).
+        Entscheide pro Fall: freigeben oder Genehmigung einholen.
+      </p>
+    </div>
+    <div class="awa-stats">
+      <span class="awa-chip">Fall <b id="caseNum">1</b>/<span id="caseTotal">5</span></span>
+      <span class="awa-chip">Punkte <b id="score">0</b></span>
+    </div>
+  </div>
+
+  <div class="awa-progress"><i id="progressBar"></i></div>
+
+  <!-- Spielbereich -->
+  <div id="gameArea">
+    <div class="awa-card">
+      <div class="awa-card-top">
+        <span class="awa-badge">Export-Akte</span>
+        <h2 id="caseTitle">—</h2>
+      </div>
+
+      <div class="awa-facts">
+        <div class="awa-fact"><div class="k">Gut (Status)</div><div class="v" id="fGood">—</div></div>
+        <div class="awa-fact"><div class="k">Empfänger</div><div class="v" id="fRecv">—</div></div>
+        <div class="awa-fact"><div class="k">Bestimmungsland</div><div class="v" id="fLand">—</div></div>
+        <div class="awa-fact"><div class="k">Verwendungszweck</div><div class="v" id="fUse">—</div></div>
+      </div>
+
+      <div class="awa-actions">
+        <button class="awa-btn ok"   id="btnOk"   onclick="decide('ok')">✅ Freigeben</button>
+        <button class="awa-btn stop" id="btnStop" onclick="decide('stop')">⛔ Genehmigung einholen</button>
+      </div>
+
+      <div class="awa-feedback" id="feedback">
+        <div class="fb-head" id="fbHead"></div>
+        <div class="fb-body" id="fbBody"></div>
+      </div>
+
+      <div class="awa-next-wrap" id="nextWrap">
+        <button class="awa-next" onclick="nextCase()" id="nextBtn">Nächster Fall →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Abschluss -->
+  <div class="awa-result" id="result">
+    <div class="ring" id="ring"><span id="ringText">0/5</span></div>
+    <h2 id="resTitle">Geschafft!</h2>
+    <p id="resSub"></p>
+    <div class="msg">
+      Merke: <b>Keine Listung ≠ keine Genehmigungspflicht.</b> Bei Hinweisen auf
+      kritische Endverwendung oder kritische Empfänger gilt das Catch-All-Prinzip –
+      erst prüfen, dann exportieren.
+    </div>
+    <button class="awa-next" style="max-width:260px;margin:0 auto;" onclick="restart()">↻ Nochmal spielen</button>
+  </div>
+
+</div>
+
+<script>
+  const CASES = [
+    {
+      title: "Industrie-Steuerungselektronik",
+      good: "Standard-Steuerplatine – nicht gelistet",
+      recv: "Ziviler Maschinenbauer (Serienproduktion)",
+      land: "Frankreich (EU)",
+      use:  "Steuerung von Verpackungsanlagen in der Lebensmittelindustrie",
+      answer: "ok",
+      why: "Kein Hinweis auf kritische Endverwendung oder kritischen Empfänger. Zivile Nutzung in der EU – <b>keine</b> Catch-All-Genehmigungspflicht."
+    },
+    {
+      title: "Hochleistungs-Vakuumpumpe",
+      good: "Vakuumpumpe – nicht in den Güterlisten geführt",
+      recv: "Unbekanntes Handelsunternehmen ohne klaren Zweck",
+      land: "Drittland mit Proliferationsrisiko",
+      use:  "Erkennbarer Bezug zu einer Urananreicherungsanlage",
+      answer: "stop",
+      why: "Bezug zur Herstellung/Verbreitung von Kernwaffen (Nuklearbereich). Das greift <b>Art. 4 Dual-Use-VO</b> – trotz fehlender Listung <b>genehmigungspflichtig</b>."
+    },
+    {
+      title: "Datenanalyse-Software",
+      good: "Software zur Massen-Datenauswertung – nicht gelistet",
+      recv: "Staatliche Sicherheitsbehörde",
+      land: "Land unter Embargo / mit Menschenrechtsrisiko",
+      use:  "Überwachung und Auswertung von Telekommunikation der Bevölkerung",
+      answer: "stop",
+      why: "Es handelt sich um <b>Cyber-Überwachungstechnologie</b> mit Bezug zu Repression. Das fällt unter <b>Art. 5 Dual-Use-VO</b> – <b>Genehmigung erforderlich</b>."
+    },
+    {
+      title: "Laborzentrifuge (Standard)",
+      good: "Tischzentrifuge – nicht gelistet",
+      recv: "Universitätsklinikum, öffentlich bekannt",
+      land: "Niederlande (EU)",
+      use:  "Medizinische Blutproben-Aufbereitung in der Forschung",
+      answer: "ok",
+      why: "Transparenter, ziviler Empfänger und Zweck in der EU. Keine Anhaltspunkte für Art. 4 oder 5 – <b>Freigabe</b> vertretbar."
+    },
+    {
+      title: "Spezialchemikalie (Dual-Use-nah)",
+      good: "Chemischer Grundstoff – knapp unterhalb der Listungsschwelle",
+      recv: "Vermittler ohne nachvollziehbaren Endverwender",
+      land: "Region mit militärischem Endverbleib-Risiko",
+      use:  "Verdacht auf Eignung für chemische Kampfstoffe",
+      answer: "stop",
+      why: "Konkreter Verdacht auf Verwendung für <b>chemische Waffen</b> (ABC-Bezug) und intransparenter Empfänger. <b>Art. 4</b> greift – <b>prüfen & Genehmigung einholen</b>."
+    }
+  ];
+
+  let idx = 0, score = 0, answered = false;
+
+  const $ = id => document.getElementById(id);
+
+  function render(){
+    const c = CASES[idx];
+    $('caseNum').textContent  = idx + 1;
+    $('caseTotal').textContent = CASES.length;
+    $('caseTitle').textContent = c.title;
+    $('fGood').textContent = c.good;
+    $('fRecv').textContent = c.recv;
+    $('fLand').textContent = c.land;
+    $('fUse').textContent  = c.use;
+
+    $('score').textContent = score;
+    $('progressBar').style.width = (idx / CASES.length * 100) + '%';
+
+    $('feedback').className = 'awa-feedback';
+    $('nextWrap').className = 'awa-next-wrap';
+    $('btnOk').disabled = false;
+    $('btnStop').disabled = false;
+    answered = false;
+  }
+
+  function decide(choice){
+    if(answered) return;
+    answered = true;
+    const c = CASES[idx];
+    const correct = choice === c.answer;
+    if(correct) score++;
+
+    $('btnOk').disabled = true;
+    $('btnStop').disabled = true;
+    $('score').textContent = score;
+
+    const fb = $('feedback');
+    fb.className = 'awa-feedback show ' + (correct ? 'good' : 'bad');
+    $('fbHead').innerHTML = correct
+      ? '✔ Richtig entschieden'
+      : '✘ Nicht ganz – richtig wäre: ' + (c.answer === 'stop' ? 'Genehmigung einholen' : 'Freigeben');
+    $('fbBody').innerHTML = c.why;
+
+    $('nextWrap').className = 'awa-next-wrap show';
+    $('nextBtn').textContent = (idx + 1 < CASES.length) ? 'Nächster Fall →' : 'Ergebnis ansehen →';
+    $('progressBar').style.width = ((idx + 1) / CASES.length * 100) + '%';
+  }
+
+  function nextCase(){
+    if(idx + 1 < CASES.length){
+      idx++;
+      render();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult(){
+    $('gameArea').style.display = 'none';
+    const res = $('result');
+    res.className = 'awa-result show';
+    const pct = Math.round(score / CASES.length * 100);
+    $('ring').style.setProperty('--deg', (pct * 3.6) + 'deg');
+    $('ringText').textContent = score + '/' + CASES.length;
+    if(pct === 100){
+      $('resTitle').textContent = 'Perfekt! 🎯';
+      $('resSub').textContent = 'Du hast das Catch-All-Prinzip sicher angewendet.';
+    } else if(pct >= 60){
+      $('resTitle').textContent = 'Gut gemacht!';
+      $('resSub').textContent = 'Solide Entscheidungen – wiederhole die Fälle, um ganz sicher zu werden.';
+    } else {
+      $('resTitle').textContent = 'Fast geschafft';
+      $('resSub').textContent = 'Schau dir die Begründungen noch einmal an und versuche es erneut.';
+    }
+  }
+
+  function restart(){
+    idx = 0; score = 0;
+    $('gameArea').style.display = '';
+    $('result').className = 'awa-result';
+    render();
+  }
+
+  render();
+</script>
+</body>
+</html>
