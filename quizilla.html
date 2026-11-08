@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zoll-Zilla – Die Schicht von Herrn Krüger</title>
+<title>Quizilla – Die Schicht von Herrn Krüger</title>
 <style>
   /* ===== AWA Corporate Farben ===== */
   :root{
@@ -38,7 +38,7 @@
       linear-gradient(160deg,#fff 0%,var(--awa-bg) 100%);
     border-radius:var(--radius);
     padding:18px clamp(14px,2.5vw,26px);
-    max-width:900px; margin:0 auto;
+    max-width:940px; margin:0 auto;
     user-select:none; -webkit-user-select:none;
   }
 
@@ -53,9 +53,9 @@
   .zz-chip b{ color:var(--awa-dark); }
   .zz-chip.nerves b{ color:var(--bad); }
 
-  /* Spielfeld */
+  /* Spielfeld – höher, damit nichts abgeschnitten wird */
   .zz-stage{
-    position:relative; width:100%; height:420px;
+    position:relative; width:100%; height:520px;
     background:
       linear-gradient(180deg, rgba(32,82,102,.05), rgba(32,82,102,.02)),
       var(--awa-white);
@@ -63,8 +63,8 @@
     border:1px solid rgba(32,82,102,.10); overflow:hidden;
   }
 
-  /* Förderband */
-  .belt{ position:absolute; left:0; right:0; top:150px; height:118px;
+  /* Förderband – in der Mitte, mit mehr Platz oben/unten */
+  .belt{ position:absolute; left:0; right:0; top:210px; height:140px;
     background:
       repeating-linear-gradient(90deg, var(--awa-deep) 0 36px, var(--awa-teal) 36px 40px);
     border-top:4px solid var(--awa-dark); border-bottom:4px solid var(--awa-dark);
@@ -73,65 +73,71 @@
   .belt.run{ animation:beltMove .6s linear infinite; }
   @keyframes beltMove{ from{ background-position:0 0; } to{ background-position:-40px 0; } }
 
-  .belt-label{ position:absolute; left:12px; top:155px; font-size:12px; font-weight:800;
+  .belt-label{ position:absolute; left:12px; top:216px; font-size:12px; font-weight:800;
     letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,.75); z-index:3; }
 
-  /* Prüfkiste (unten) + Durchlass (oben) Zonen */
-  .zone{ position:absolute; left:14px; right:14px; height:62px; border-radius:14px;
+  /* Zonen */
+  .zone{ position:absolute; left:14px; right:14px; height:66px; border-radius:14px;
     display:flex; align-items:center; gap:10px; padding:0 16px; font-weight:800; font-size:14.5px;
     letter-spacing:.3px; text-transform:uppercase; }
-  .zone-pass{ top:18px; color:var(--ok);
+  .zone-pass{ top:16px; color:var(--ok);
     background:linear-gradient(120deg, rgba(46,125,91,.12), rgba(46,125,91,.04));
     border:2px dashed rgba(46,125,91,.45); }
-  .zone-check{ bottom:18px; color:var(--awa-dark);
+  .zone-check{ bottom:16px; color:var(--awa-dark);
     background:linear-gradient(120deg, rgba(245,198,0,.20), rgba(245,198,0,.06));
     border:2px dashed rgba(245,198,0,.75); }
   .zone .big{ font-size:22px; }
 
-  /* Paket */
+  /* Paket – breiter & höher, Text bricht sauber um */
   .pkg{
-    position:absolute; width:150px; min-height:84px; border-radius:14px;
+    position:absolute; width:210px; border-radius:14px;
     background:linear-gradient(160deg, #fff, #eef3f5);
     border:2px solid var(--awa-teal-2); box-shadow:var(--shadow-sm);
-    padding:9px 11px; z-index:5; top:168px; cursor:default;
-    transition:box-shadow .15s ease;
+    padding:11px 13px; z-index:5; top:226px; cursor:pointer;
+    transition:box-shadow .15s ease, transform .15s ease;
   }
   .pkg.active{ border-color:var(--awa-yellow); box-shadow:0 0 0 4px rgba(245,198,0,.35), var(--shadow); z-index:7; }
-  .pkg .ptop{ display:flex; align-items:center; gap:7px; margin-bottom:5px; }
-  .pkg .picon{ font-size:19px; }
-  .pkg .pname{ font-size:13.5px; font-weight:800; color:var(--awa-dark); line-height:1.15; }
-  .pkg .prow{ font-size:11.5px; color:var(--awa-teal); display:flex; gap:5px; margin-top:2px; }
-  .pkg .prow .k{ color:var(--awa-teal-3); font-weight:700; }
-  .pkg.toTop{ transition:top .28s cubic-bezier(.4,1.4,.5,1), opacity .28s ease; }
-  .pkg.toBottom{ transition:top .28s cubic-bezier(.4,1.4,.5,1), opacity .28s ease; }
+  .pkg.paused{ border-color:var(--awa-teal); box-shadow:0 0 0 4px rgba(32,82,102,.30), var(--shadow); transform:scale(1.02); }
+  .pkg .ptop{ display:flex; align-items:flex-start; gap:8px; margin-bottom:7px; }
+  .pkg .picon{ font-size:20px; flex:0 0 auto; line-height:1.1; }
+  .pkg .pname{ font-size:14px; font-weight:800; color:var(--awa-dark); line-height:1.2; word-break:break-word; }
+  .pkg .prow{ font-size:12.5px; color:var(--awa-teal); display:flex; gap:6px; margin-top:4px; line-height:1.3; word-break:break-word; }
+  .pkg .prow .k{ color:var(--awa-teal-3); font-weight:700; flex:0 0 auto; }
+  .pkg .prow .v{ flex:1 1 auto; }
+  .pkg .pause-tag{ display:none; margin-top:8px; font-size:11.5px; font-weight:800; color:var(--awa-teal);
+    background:rgba(32,82,102,.10); padding:4px 8px; border-radius:8px; text-align:center; }
+  .pkg.paused .pause-tag{ display:block; }
+  .pkg.toTop{ transition:top .3s cubic-bezier(.4,1.4,.5,1), opacity .3s ease; }
+  .pkg.toBottom{ transition:top .3s cubic-bezier(.4,1.4,.5,1), opacity .3s ease; }
 
-  /* Krügers Greifer-Marker (zeigt aktives Paket) */
-  .hint-keys{ position:absolute; bottom:88px; left:50%; transform:translateX(-50%);
-    font-size:12.5px; color:var(--awa-teal); background:rgba(255,255,255,.85);
-    padding:5px 12px; border-radius:999px; box-shadow:var(--shadow-sm); z-index:6; white-space:nowrap; }
+  .hint-keys{ position:absolute; bottom:96px; left:50%; transform:translateX(-50%);
+    font-size:12.5px; color:var(--awa-teal); background:rgba(255,255,255,.9);
+    padding:6px 14px; border-radius:999px; box-shadow:var(--shadow-sm); z-index:6; white-space:nowrap; text-align:center; }
 
-  /* Floating Feedback */
+  /* Floating Feedback – passt immer ins Feld */
   .float{ position:absolute; z-index:9; font-weight:800; font-size:15px; pointer-events:none;
-    animation:floatUp 0.9s ease forwards; }
+    max-width:70%; text-align:center; left:50%; transform:translateX(-50%);
+    background:rgba(255,255,255,.92); padding:6px 12px; border-radius:10px; box-shadow:var(--shadow-sm);
+    animation:floatUp 1.1s ease forwards; }
   .float.good{ color:var(--ok); }
   .float.bad{ color:var(--bad); }
-  @keyframes floatUp{ 0%{opacity:0;transform:translateY(8px) scale(.9);} 20%{opacity:1;} 100%{opacity:0;transform:translateY(-34px) scale(1.05);} }
+  @keyframes floatUp{ 0%{opacity:0;transform:translate(-50%,8px) scale(.9);} 18%{opacity:1;} 100%{opacity:0;transform:translate(-50%,-30px) scale(1.04);} }
 
-  /* Overlays (Story/Start/Ende) */
+  /* Overlays */
   .zz-overlay{ position:absolute; inset:0; z-index:20; display:flex; align-items:center; justify-content:center;
-    padding:22px; text-align:center;
-    background:linear-gradient(160deg, rgba(12,38,48,.92), rgba(32,82,102,.92));
+    padding:22px; text-align:center; overflow-y:auto;
+    background:linear-gradient(160deg, rgba(12,38,48,.93), rgba(32,82,102,.93));
     backdrop-filter:blur(2px); border-radius:var(--radius); color:#fff; }
   .zz-overlay.hidden{ display:none; }
-  .zz-panel{ max-width:620px; }
-  .zz-panel .emoji{ font-size:46px; display:block; margin-bottom:8px; }
-  .zz-panel h2{ font-size:var(--h-size); font-weight:800; margin-bottom:10px; color:#fff; }
+  .zz-panel{ max-width:640px; width:100%; }
+  .zz-panel .emoji{ font-size:44px; display:block; margin-bottom:8px; }
+  .zz-panel h2{ font-size:var(--h-size); font-weight:800; margin-bottom:10px; color:#fff; line-height:1.25; }
   .zz-panel p{ font-size:16px; color:rgba(255,255,255,.92); margin-bottom:10px; }
   .zz-panel .dlg{ background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.2);
-    border-radius:14px; padding:14px 16px; text-align:left; margin:14px 0; font-size:15.5px; }
+    border-radius:14px; padding:14px 16px; text-align:left; margin:14px 0; font-size:15.5px; line-height:1.5; }
   .zz-panel .dlg .who{ font-weight:800; color:var(--awa-yellow); }
   .zz-panel .learn{ background:var(--awa-yellow); color:var(--awa-dark); border-radius:12px;
-    padding:11px 14px; font-weight:700; font-size:14.5px; text-align:left; margin:12px 0; }
+    padding:12px 15px; font-weight:700; font-size:14.5px; text-align:left; margin:12px 0; line-height:1.5; }
 
   .zz-btn{ border:0; cursor:pointer; font-family:inherit; font-weight:800; font-size:16px;
     color:var(--awa-dark); background:linear-gradient(135deg,var(--awa-yellow),#e9bd00);
@@ -139,22 +145,20 @@
     transition:filter .15s ease, transform .12s ease; }
   .zz-btn:hover{ filter:brightness(1.05); }
   .zz-btn:active{ transform:translateY(1px); }
-  .zz-btn.sec{ background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.3);
-    box-shadow:none; margin-left:8px; }
 
-  /* Touch-Steuerung */
+  /* Touch */
   .touch-ctrl{ display:none; gap:10px; margin-top:12px; }
   .touch-ctrl button{ flex:1; border:0; cursor:pointer; font-family:inherit; font-weight:800; font-size:15px;
     padding:14px; border-radius:14px; color:#fff; }
   .touch-ctrl .tpass{ background:linear-gradient(135deg,var(--awa-teal-2),var(--awa-teal)); }
   .touch-ctrl .tcheck{ background:linear-gradient(135deg,var(--awa-yellow),#e9bd00); color:var(--awa-dark); }
-  @media(hover:none) and (pointer:coarse){ .touch-ctrl{ display:flex; } .hint-keys{ display:none; } }
+  @media(hover:none) and (pointer:coarse){ .touch-ctrl{ display:flex; } }
 
-  .zz-foot{ margin-top:10px; font-size:13px; color:var(--awa-teal-3); text-align:center; }
+  .zz-foot{ margin-top:10px; font-size:13px; color:var(--awa-teal-3); text-align:center; line-height:1.4; }
 
   @media(max-width:560px){
-    .zz-stage{ height:380px; }
-    .pkg{ width:132px; }
+    .zz-stage{ height:560px; }
+    .pkg{ width:190px; }
     .zz-title{ font-size:20px; }
   }
 </style>
@@ -163,7 +167,7 @@
 <div class="zz" id="zz">
 
   <div class="zz-head">
-    <div class="zz-title"><span class="logo">📦</span>Zoll-Zilla</div>
+    <div class="zz-title"><span class="logo">📦</span>Quizilla</div>
     <div class="zz-hud">
       <span class="zz-chip">Tag <b id="hudLevel">1</b></span>
       <span class="zz-chip">Punkte <b id="hudScore">0</b></span>
@@ -174,19 +178,17 @@
 
   <div class="zz-stage" id="stage">
 
-    <!-- Zonen -->
     <div class="zone zone-pass"><span class="big">⬆️</span> Durchwinken (harmlos)</div>
     <div class="zone zone-check"><span class="big">⬇️</span> In die Prüfkiste (Catch-All!)</div>
 
-    <!-- Förderband -->
     <div class="belt" id="belt"></div>
     <div class="belt-label">Förderband 7</div>
 
-    <div class="hint-keys" id="hintKeys">⬆️ Durchwinken &nbsp;·&nbsp; ⬇️ Prüfen &nbsp;·&nbsp; (Pfeiltasten)</div>
+    <div class="hint-keys" id="hintKeys">👆 Paket anklicken = anhalten &amp; lesen &nbsp;·&nbsp; ⬆️ Durchwinken &nbsp;·&nbsp; ⬇️ Prüfen</div>
 
-    <!-- Pakete werden hier per JS eingefügt -->
+    <!-- Pakete per JS -->
 
-    <!-- Start-Overlay -->
+    <!-- Start -->
     <div class="zz-overlay" id="ovStart">
       <div class="zz-panel">
         <span class="emoji">🧔‍♂️</span>
@@ -196,12 +198,12 @@
           <span class="who">Praktikant Tobi:</span> „Herr Krüger, ist doch easy, oder? Alles durchwinken und Feierabend!"<br><br>
           <span class="who">Krüger:</span> „Tobi. Manche Sachen stehen auf <i>keiner</i> Liste – und müssen <i>trotzdem</i> geprüft werden. Das nennt sich <b>Catch-All</b>. Setz dich hin und lern was."
         </div>
-        <div class="learn">🎯 Deine Aufgabe: Harmlose Lieferungen <b>durchwinken (⬆️)</b>. Aber Pakete mit kritischem Empfänger, Land oder Verwendungszweck <b>in die Prüfkiste (⬇️)</b> – auch wenn das Gut auf keiner Güterliste steht!</div>
+        <div class="learn">🎯 Deine Aufgabe: Harmlose Lieferungen <b>durchwinken (⬆️)</b>. Pakete mit kritischem Empfänger, Land oder Zweck <b>in die Prüfkiste (⬇️)</b> – auch wenn das Gut auf keiner Güterliste steht!<br><br>💡 Zu schnell? <b>Klick ein Paket an, um es anzuhalten</b> und in Ruhe zu lesen.</div>
         <button class="zz-btn" onclick="ZZ.start()">Schicht beginnen ▶</button>
       </div>
     </div>
 
-    <!-- Story/Level-Overlay -->
+    <!-- Story -->
     <div class="zz-overlay hidden" id="ovStory">
       <div class="zz-panel">
         <span class="emoji" id="stEmoji">☕</span>
@@ -212,7 +214,7 @@
       </div>
     </div>
 
-    <!-- Ende-Overlay -->
+    <!-- Ende -->
     <div class="zz-overlay hidden" id="ovEnd">
       <div class="zz-panel">
         <span class="emoji" id="endEmoji">🏆</span>
@@ -225,13 +227,12 @@
 
   </div>
 
-  <!-- Touch-Steuerung -->
   <div class="touch-ctrl">
     <button class="tpass" ontouchstart="ZZ.act('pass')" onclick="ZZ.act('pass')">⬆️ Durchwinken</button>
     <button class="tcheck" ontouchstart="ZZ.act('check')" onclick="ZZ.act('check')">⬇️ Prüfen</button>
   </div>
 
-  <div class="zz-foot">Tipp: Lies Empfänger, Land &amp; Zweck – nicht jedes harmlose Gut ist harmlos.</div>
+  <div class="zz-foot">Tipp: Klick ein Paket an, um es anzuhalten. Lies Empfänger, Land &amp; Zweck – nicht jedes harmlose Gut ist harmlos.</div>
 
 </div>
 
@@ -239,10 +240,8 @@
 (function(){
   "use strict";
 
-  // ---- Fall-Pool: harmlos (safe) vs. Catch-All (critical) ----
-  // critical: muss in die Prüfkiste. reason = Lernbegründung (Art. 4 / Art. 5)
   const POOL = [
-    // --- HARMLOS ---
+    // HARMLOS
     { icon:"🔌", name:"Standard-Steuerplatine", recv:"Ziviler Maschinenbauer", land:"Frankreich (EU)", use:"Verpackungsanlage, Lebensmittel", critical:false },
     { icon:"🧪", name:"Laborzentrifuge", recv:"Universitätsklinikum", land:"Niederlande (EU)", use:"Blutproben-Aufbereitung", critical:false },
     { icon:"⚙️", name:"Ersatz-Zahnräder", recv:"Bekannter Serienkunde", land:"Österreich (EU)", use:"Wartung Druckmaschine", critical:false },
@@ -250,7 +249,7 @@
     { icon:"🔋", name:"Industrie-Akkupack", recv:"E-Bike-Hersteller", land:"Spanien (EU)", use:"Fahrradproduktion", critical:false },
     { icon:"🖨️", name:"3D-Drucker (Hobby)", recv:"Schul-Bildungsträger", land:"Belgien (EU)", use:"Unterricht, Werkraum", critical:false },
 
-    // --- CATCH-ALL / KRITISCH ---
+    // CATCH-ALL
     { icon:"🛢️", name:"Hochleistungs-Vakuumpumpe", recv:"Undurchsichtiger Zwischenhändler", land:"Drittland, Proliferationsrisiko", use:"Bezug zu Urananreicherung", critical:true,
       art:"Art. 4", reason:"Bezug zu Kernwaffen/Anreicherung → Art. 4 Dual-Use-VO greift, trotz fehlender Listung." },
     { icon:"💾", name:"Massen-Datenanalyse-Software", recv:"Staatliche Sicherheitsbehörde", land:"Land unter Embargo", use:"Überwachung der Telekommunikation", critical:true,
@@ -265,7 +264,6 @@
       art:"Art. 4", reason:"Verschleierter Endverbleib + militärnahe Nutzung → Art. 4, stoppen & prüfen." }
   ];
 
-  // ---- Story zwischen den Leveln ----
   const STORY = [
     { emoji:"☕", title:"Tag 1 geschafft", who1:"Tobi", l1:"„Wow, Sie haben echt ne Pumpe aussortiert, die auf keiner Liste stand!\"",
       who2:"Krüger", l2:"„Weil der Kunde sie an eine Anreicherungsanlage schicken wollte, Tobi. Catch-All, Art. 4.\"",
@@ -275,11 +273,10 @@
       learn:"🎯 Art. 5: Cyber-Überwachungstechnologie kann genehmigungspflichtig sein, wenn sie zur Repression eingesetzt werden könnte." }
   ];
 
-  // ---- State ----
-  const S = { level:0, score:0, combo:0, nerves:3, running:false, pkg:null, active:false, speed:0, loop:null, spawnAt:0, settled:false };
+  const S = { level:0, score:0, combo:0, nerves:3, running:false, pkg:null, active:false, speed:0,
+              loop:null, spawnAt:0, settled:false, handled:0, el:null, posX:0, paused:false };
   const $ = id => document.getElementById(id);
   const stage = $('stage');
-  const LEVELS = 3;
 
   function hud(){
     $('hudLevel').textContent = S.level + 1;
@@ -289,8 +286,7 @@
   }
 
   function pick(level){
-    // mehr kritische Fälle in späteren Leveln, aber immer gemischt
-    const critical = Math.random() < (0.45 + level*0.08);
+    const critical = Math.random() < (0.45 + level*0.07);
     const arr = POOL.filter(p => p.critical === critical);
     return arr[Math.floor(Math.random()*arr.length)];
   }
@@ -298,9 +294,7 @@
   function spawn(){
     if(!S.running) return;
     const c = pick(S.level);
-    S.pkg = c;
-    S.active = true;
-    S.settled = false;
+    S.pkg = c; S.active = true; S.settled = false; S.paused = false;
 
     const el = document.createElement('div');
     el.className = 'pkg active';
@@ -308,30 +302,39 @@
     el.style.left = (stage.clientWidth + 10) + 'px';
     el.innerHTML =
       '<div class="ptop"><span class="picon">'+c.icon+'</span><span class="pname">'+c.name+'</span></div>'+
-      '<div class="prow"><span class="k">An:</span> '+c.recv+'</div>'+
-      '<div class="prow"><span class="k">Land:</span> '+c.land+'</div>'+
-      '<div class="prow"><span class="k">Zweck:</span> '+c.use+'</div>';
+      '<div class="prow"><span class="k">An:</span><span class="v">'+c.recv+'</span></div>'+
+      '<div class="prow"><span class="k">Land:</span><span class="v">'+c.land+'</span></div>'+
+      '<div class="prow"><span class="k">Zweck:</span><span class="v">'+c.use+'</span></div>'+
+      '<div class="pause-tag">⏸ angehalten – ⬆️ durchwinken / ⬇️ prüfen</div>';
+    el.addEventListener('click', togglePause);
     stage.appendChild(el);
     S.el = el;
     S.posX = stage.clientWidth + 10;
   }
 
+  function togglePause(e){
+    if(e){ e.stopPropagation(); }
+    if(!S.active || S.settled) return;
+    S.paused = !S.paused;
+    if(S.el){
+      S.el.classList.toggle('paused', S.paused);
+      S.el.classList.toggle('active', !S.paused);
+    }
+    $('belt').classList.toggle('run', !S.paused);
+  }
+
   function tick(){
-    if(!S.running || !S.el || S.settled){ return; }
+    if(!S.running || !S.el || S.settled || S.paused){ return; }
     S.posX -= S.speed;
     S.el.style.left = S.posX + 'px';
-    // Paket rutscht komplett durch, ohne Entscheidung = Fehler
-    if(S.posX < -170){
-      miss();
-    }
+    if(S.posX < -220){ miss(); }
   }
 
   function startLoop(){
     stop();
     S.loop = setInterval(()=>{
       tick();
-      // nachspawnen
-      if(S.active === false && S.running){
+      if(S.active === false && S.running && !S.paused){
         S.spawnAt--;
         if(S.spawnAt <= 0){ spawn(); }
       }
@@ -339,70 +342,63 @@
   }
   function stop(){ if(S.loop){ clearInterval(S.loop); S.loop=null; } }
 
-  function floatMsg(text, good){
+  function floatMsg(text, good, lower){
     const f = document.createElement('div');
     f.className = 'float ' + (good?'good':'bad');
     f.textContent = text;
-    f.style.left = '50%'; f.style.top = good ? '90px' : '300px';
-    f.style.transform = 'translateX(-50%)';
+    f.style.top = lower ? '400px' : '96px';
     stage.appendChild(f);
-    setTimeout(()=>f.remove(), 900);
+    setTimeout(()=>f.remove(), 1100);
   }
 
   function settle(decision){
     if(!S.active || S.settled) return;
-    S.settled = true;
-    S.active = false;
+    S.settled = true; S.active = false; S.paused = false;
     const c = S.pkg;
     const correct = (decision==='check') === c.critical;
 
-    // Animation: nach oben (pass) / unten (check)
     if(S.el){
-      S.el.classList.remove('active');
+      S.el.classList.remove('active','paused');
       S.el.classList.add(decision==='check' ? 'toBottom' : 'toTop');
-      S.el.style.top = decision==='check' ? '320px' : '22px';
+      S.el.style.top = decision==='check' ? '430px' : '20px';
       S.el.style.opacity = '0';
       const el = S.el;
-      setTimeout(()=>el && el.remove(), 300);
+      setTimeout(()=>el && el.remove(), 320);
     }
 
     if(correct){
       S.combo++;
       const pts = 100 + S.combo*20;
       S.score += pts;
-      floatMsg('+'+pts+(S.combo>1?'  ('+S.combo+'× Combo!)':''), true);
+      floatMsg('✔ +'+pts+(S.combo>1?'  ('+S.combo+'× Combo!)':''), true);
     } else {
-      S.combo = 0;
-      S.nerves--;
-      const why = c.critical
-        ? 'Falsch! '+(c.art||'Catch-All')+': '+ (c.reason||'kritisch – gehört in die Prüfkiste.')
-        : 'Falsch! War harmlos – unnötig aufgehalten.';
-      floatMsg('❌ '+ (c.critical?'Durchgerutscht!':'Falscher Alarm!'), false);
-      setTimeout(()=>floatMsg(c.critical?('⚠️ '+(c.art||'Catch-All')) : '🙄 war ok', false), 120);
+      S.combo = 0; S.nerves--;
+      if(c.critical){
+        floatMsg('❌ Durchgerutscht! '+(c.art||'Catch-All'), false, true);
+      } else {
+        floatMsg('❌ Falscher Alarm – war harmlos', false, true);
+      }
     }
     hud();
 
-    if(S.nerves <= 0){ endGame(false); return; }
+    if(S.nerves <= 0){ setTimeout(()=>endGame(false), 350); return; }
 
-    // Fortschritt pro Level (ca. 6 Pakete je Tag)
-    S.handled = (S.handled||0) + 1;
+    S.handled++;
     if(S.handled >= 6){
       S.handled = 0;
-      levelDone();
+      setTimeout(levelDone, 350);
     } else {
-      S.spawnAt = 60; // ~1s Pause bis nächstes Paket
+      S.spawnAt = 75;
     }
   }
 
   function miss(){
-    // Paket durchgerutscht ohne Entscheidung = wie falsch
     if(S.settled) return;
-    settle(S.pkg && S.pkg.critical ? 'pass' : 'check'); // erzeugt immer Fehler
+    settle(S.pkg && S.pkg.critical ? 'pass' : 'check');
   }
 
   function levelDone(){
-    S.running = false;
-    stop();
+    S.running = false; stop();
     $('belt').classList.remove('run');
     if(S.level < STORY.length){
       const st = STORY[S.level];
@@ -425,8 +421,8 @@
     beginLevel(){
       hud();
       S.running = true;
-      S.speed = 1.1 + S.level*0.55;   // Tempo steigt pro Tag
-      S.active = false; S.spawnAt = 30;
+      S.speed = 0.55 + S.level*0.28;   // deutlich langsamer als vorher
+      S.active = false; S.spawnAt = 30; S.paused = false;
       $('belt').classList.add('run');
       startLoop();
     },
@@ -452,24 +448,25 @@
       $('endEmoji').textContent = '🏆';
       $('endTitle').textContent = 'Feierabend – und Rente gerettet!';
       $('endText').innerHTML = 'Du hast die Schicht überstanden mit <b>'+S.score+' Punkten</b>. Tobi ist beeindruckt.';
-      $('endLearn').innerHTML = '🎯 <b>Merke:</b> Keine Listung ≠ keine Genehmigungspflicht. Bei kritischer Endverwendung, kritischem Empfänger oder Land gilt das Catch-All-Prinzip (Art. 4 & 5) – erst prüfen, dann exportieren.';
+      $('endLearn').innerHTML = '🎯 <b>Merke:</b> Keine Listung ≠ keine Genehmigungspflicht. Bei kritischer Endverwendung, kritischem Empfänger oder Land gilt das Catch-All-Prinzip (Art. 4 &amp; 5) – erst prüfen, dann exportieren.';
     } else {
       $('endEmoji').textContent = '📞';
       $('endTitle').textContent = 'Der Zoll ruft an…';
       $('endText').innerHTML = 'Zu viele Fehlentscheidungen – Krügers Nerven sind am Ende. Punkte: <b>'+S.score+'</b>.';
-      $('endLearn').innerHTML = '🎯 <b>Tipp:</b> Nicht alles durchwinken! Achte auf Empfänger, Land und Verwendungszweck. Genau da versteckt sich der Catch-All-Fall.';
+      $('endLearn').innerHTML = '🎯 <b>Tipp:</b> Nicht alles durchwinken! Achte auf Empfänger, Land und Verwendungszweck. Genau da versteckt sich der Catch-All-Fall. Klick ein Paket an, um es anzuhalten.';
     }
     end.classList.remove('hidden');
   }
 
-  // ---- Steuerung: Tastatur ----
+  // Tastatur
   document.addEventListener('keydown', e=>{
     if(!S.running || !S.active) return;
     if(e.key==='ArrowUp'){ e.preventDefault(); settle('pass'); }
     else if(e.key==='ArrowDown'){ e.preventDefault(); settle('check'); }
+    else if(e.key===' '){ e.preventDefault(); togglePause(); }
   });
 
-  // ---- Steuerung: Wischen (Touch) auf dem Stage ----
+  // Touch-Wischen
   let tY=null;
   stage.addEventListener('touchstart', e=>{ tY = e.touches[0].clientY; }, {passive:true});
   stage.addEventListener('touchend', e=>{
